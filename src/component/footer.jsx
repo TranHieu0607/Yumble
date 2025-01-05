@@ -9,8 +9,7 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="space-y-4">
             <div className="flex items-center">
-              <span className="text-2xl font-bold text-blue-500">Court</span>
-              <span className="text-2xl font-bold text-white">site</span>
+              <span className="text-2xl font-bold text-blue-500">Yumble</span>
             </div>
             <p className="text-sm">
               Find and book sports venues easily. Play your favorite sports anytime, anywhere.
@@ -80,7 +79,7 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-12 pt-8 text-sm text-center">
-          <p>&copy; {new Date().getFullYear()} Courtsite. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Yumble. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -27,10 +27,10 @@ const About = () => {
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
             <p className="text-lg text-gray-600 mb-4">
-              At Courtsite, we're passionate about making sports accessible to everyone. Our platform connects sports enthusiasts with quality venues, making it easier than ever to stay active and enjoy your favorite sports.
+              
             </p>
             <p className="text-lg text-gray-600">
-              Whether you're looking for a badminton court, futsal field, or basketball court, we've got you covered with our extensive network of sports facilities across the country.
+              
             </p>
           </div>
           <div className="relative h-96">

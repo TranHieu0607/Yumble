@@ -22,8 +22,7 @@ const Header = () => {
           <div className="flex justify-between items-center h-16">
             {/* Logo và Brand */}
             <div className="flex items-center cursor-pointer" onClick={handleHome}>
-              <span className="text-2xl font-bold text-blue-600">Court</span>
-              <span className="text-2xl font-bold text-gray-800">site</span>
+              <span className="text-2xl font-bold text-blue-600">Yumble</span>
             </div>
 
             {/* Navigation Links */}

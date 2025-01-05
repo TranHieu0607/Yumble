@@ -28,8 +28,7 @@ const Login = () => {
         {/* Header */}
         <div className="text-center">
           <div className="flex justify-center">
-            <span className="text-3xl font-bold text-blue-600">Court</span>
-            <span className="text-3xl font-bold text-gray-900">site</span>
+            <span className="text-3xl font-bold text-blue-600">Yumble</span>
           </div>
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
             Welcome back
