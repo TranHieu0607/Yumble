@@ -15,36 +15,67 @@ const Header = () => {
     const handleAbout = () => {
       navigate('/about')
     }
+    const handleSearch = () => {
+      navigate('/search')
+    }
+
+    const handlePremium = () => {
+      navigate('/premium')
+    }
+    const handleRecipe = () => {
+      navigate('/recipe')
+    }
+    const handleAi = () => {
+      navigate('/ai')
+    }
+    const handleAdmin = () => {
+      navigate('/admin')
+    }
   
     return (
-      <header className="bg-white shadow-sm fixed w-full top-0 z-50">
+      <header className="bg-white shadow-sm w-full top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Logo và Brand */}
-            <div className="flex items-center cursor-pointer" onClick={handleHome}>
-              <span className="text-2xl font-bold text-blue-600">Yumble</span>
-            </div>
-
-            {/* Navigation Links */}
-            <nav className="hidden md:flex space-x-8">
-              <a href="#" className="text-gray-600 hover:text-blue-600">Venues</a>
-              <a href="#" className="text-gray-600 hover:text-blue-600">Sports</a>
+            <nav className="flex space-x-20">
+              <button
+              onClick={handleHome}
+              className="text-gray-600 hover:text-blue-600" >
+                Trang chủ
+              </button>
+              <button
+              onClick={handleAi}
+              className="text-gray-600 hover:text-blue-600" >
+                AI
+              </button>
+              <button
+              onClick={handleRecipe}
+              className="text-gray-600 hover:text-blue-600" >
+                Công thức
+              </button>
+              <button
+              onClick={handleSearch}
+              className="text-gray-600 hover:text-blue-600">
+                Tìm kiếm
+              </button>
+              <button
+              onClick={handlePremium}
+              className="text-gray-600 hover:text-blue-600">
+                Premium
+              </button>
+              <a href="#" className="text-gray-600 hover:text-blue-600">Phản hồi</a>
               <button 
-                onClick={handleAbout}
+                onClick={handleAdmin}
                 className="text-gray-600 hover:text-blue-600 focus:outline-none"
               >
-                About
+                Admin
               </button>
-              <a href="#" className="text-gray-600 hover:text-blue-600">Contact</a>
             </nav>
-
-            {/* Auth Buttons */}
             <div className="flex items-center space-x-4">
               <button 
                 onClick={handleLogin}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                Sign up
+                Đăng nhập
               </button>
             </div>
           </div>
