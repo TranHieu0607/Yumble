@@ -4,12 +4,12 @@ import overlayImage from '../../assets/logoyumble.png'
 
 const HomePage = () => {
   return (
-    <div>
+    <div className="relative">
       <div className='relative flex flex-col h-[712px] items-center justify-center bg-cover bg-center rounded-b-[40px] overflow-hidden' style={{ backgroundImage: `url(${backgroundImage})` }}>
         <div className='absolute inset-0 bg-black opacity-30'>
         </div>
         <img src={overlayImage} alt="Overlay" className=' w-1/3 mb-20' />
-        <div className="absolute bottom-10 left-20 z-10 text-left text-white max-w-7xl">
+        <div className="absolute bottom-10 left-20 z-[1] text-left text-white max-w-7xl">
           <p className="text-7xl font-bold leading-tight">
             Yumble biến việc ăn uống của bạn trở nên thú vị hơn!
           </p>

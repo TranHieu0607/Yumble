@@ -8,13 +8,28 @@ const Footer = () => {
         {/* Main Footer Content */}
         <div className="flex justify-center items-center">
           <div className="flex space-x-4">
-            <a href="#" className="flex items-center hover:text-black-500">
+            <a 
+              href="https://www.facebook.com/profile.php?id=61573046339972" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center hover:text-black-500"
+            >
               <FaFacebook className="mr-1" />  FACEBOOK
             </a>
-            <a href="#" className="flex items-center hover:text-black-500">
+            <a 
+              href="#" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center hover:text-black-500"
+            >
               <FaInstagram className="mr-1" />  INSTAGRAM
             </a>
-            <a href="#" className="flex items-center hover:text-black-500">
+            <a 
+              href="#" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center hover:text-black-500"
+            >
               <FaEnvelope className="mr-1" />  GMAIL
             </a>
           </div>
