@@ -1,15 +1,81 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaHeart, FaHistory, FaEdit } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaHeart, FaHistory, FaEdit, FaUpload, FaTimes } from 'react-icons/fa';
 import { Tab } from '@headlessui/react';
+import { updateUserProfile, updateUserAvatar, fetchUserProfile } from '../../store/userSlice';
 
 const UserProfile = () => {
+  const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.user);
   const { currentUser } = useSelector((state) => state.auth);
+
+  // State để quản lý chế độ chỉnh sửa và thông tin người dùng
+  const [isEditing, setIsEditing] = useState(false);
+  const [updatedData, setUpdatedData] = useState({
+    name: profile?.name || '',
+    phone: profile?.phone || '',
+    address: profile?.address || '',
+  });
+
+  // State để quản lý file hình đại diện
+  const [avatarFile, setAvatarFile] = useState(null);
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
   }
+
+  // Hàm để xử lý thay đổi trong các trường nhập liệu
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // Hàm để xử lý việc gửi thông tin đã chỉnh sửa
+  const handleEditProfile = () => {
+    const userId = profile?.id; // Lấy userId từ profile
+    dispatch(updateUserProfile({ userId, updatedData })); // Gọi action để cập nhật profile
+    setIsEditing(false); // Đóng form sau khi gửi
+  };
+
+  // Hàm để xử lý việc bắt đầu chỉnh sửa thông tin
+  const startEditing = () => {
+    setUpdatedData({
+      name: profile?.name || '',
+      phone: profile?.phone || '',
+      address: profile?.address || '',
+    });
+    setIsEditing(true);
+  };
+
+  // Hàm để xử lý việc cập nhật hình đại diện
+  const handleAvatarChange = (e) => {
+    setAvatarFile(e.target.files[0]); // Lưu file hình đại diện
+  };
+
+  const handleUploadAvatar = () => {
+    const userId = profile?.id; // Lấy userId từ profile
+    if (avatarFile) {
+        dispatch(updateUserAvatar({ userId, avatarFile }))
+            .then((result) => {
+                if (result.meta.requestStatus === 'fulfilled') {
+                    // Gọi lại để lấy profile mới
+                    dispatch(fetchUserProfile(userId)); // Cập nhật lại profile
+                }
+            })
+            .catch((error) => {
+                console.error('Error uploading avatar:', error);
+            });
+    }
+  };
+
+
+  const handleSaveChanges = () => {
+    handleEditProfile(); 
+    handleUploadAvatar(); 
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -34,7 +100,10 @@ const UserProfile = () => {
                 <h1 className="text-2xl font-bold text-gray-900">{profile?.name}</h1>
                 <p className="text-gray-600">{profile?.email}</p>
               </div>
-              <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              <button 
+                onClick={startEditing}
+                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
                 <FaEdit className="mr-2" />
                 Chỉnh sửa thông tin
               </button>
@@ -48,28 +117,62 @@ const UserProfile = () => {
           <div className="md:col-span-1">
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-lg font-semibold mb-4">Thông tin cá nhân</h2>
-              
-              <div className="space-y-4">
-                <div className="flex items-center text-gray-600">
-                  <FaUser className="w-5 h-5 mr-3" />
-                  <span>{profile?.name}</span>
-                </div>
-                
-                <div className="flex items-center text-gray-600">
-                  <FaEnvelope className="w-5 h-5 mr-3" />
-                  <span>{profile?.email}</span>
-                </div>
-                
-                <div className="flex items-center text-gray-600">
-                  <FaPhone className="w-5 h-5 mr-3" />
-                  <span>{profile?.phone || "Chưa cập nhật"}</span>
-                </div>
-                
-                <div className="flex items-center text-gray-600">
-                  <FaMapMarkerAlt className="w-5 h-5 mr-3" />
-                  <span>{profile?.address || "Chưa cập nhật"}</span>
-                </div>
+              {isEditing && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white rounded-lg p-6 shadow-lg w-96">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold">Chỉnh sửa thông tin</h2>
+                <button onClick={() => setIsEditing(false)} className="text-gray-500 hover:text-red-500">
+                  <FaTimes size={20} />
+                </button>
               </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Tên:</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={updatedData.name}
+                  onChange={handleChange}
+                  className="w-full border rounded p-2"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Số điện thoại:</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={updatedData.phone}
+                  onChange={handleChange}
+                  className="w-full border rounded p-2"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Địa chỉ:</label>
+                <input
+                  type="text"
+                  name="address"
+                  value={updatedData.address}
+                  onChange={handleChange}
+                  className="w-full border rounded p-2"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Ảnh đại diện:</label>
+                <input type="file" accept="image/*" onChange={handleAvatarChange} className="w-full border p-2" />
+              </div>
+              <button
+                onClick={handleSaveChanges}
+                className="w-full bg-blue-600 text-white rounded-lg px-4 py-2"
+              >
+                Lưu thay đổi
+              </button>
+            </div>
+          </div>
+        )}
+                <div>
+                  <p><FaPhone className="inline mr-2 text-gray-600" />{profile?.phone}</p>
+                  <p><FaMapMarkerAlt className="inline mr-2 text-gray-600" />{profile?.address}</p>
+                </div>
             </div>
           </div>
 

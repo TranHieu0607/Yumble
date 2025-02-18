@@ -24,7 +24,6 @@ const UserProfilePopup = ({ profile, onClose }) => {
         />
         <div>
           <p className="text-sm font-bold">{profile?.name}</p>
-          <p className="text-xs opacity-90">{profile?.email}</p>
         </div>
       </div>
 
