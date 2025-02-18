@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchFoods, addFoodToFavorites } from "../../store/food";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { removeFoodFromFavorites } from '../../store/favorite';
 
 const RecipePage = () => {
   const dispatch = useDispatch();
@@ -89,11 +90,27 @@ const RecipePage = () => {
       // Nếu món ăn chưa được yêu thích, thực hiện thêm
       try {
         await dispatch(addFoodToFavorites({ userId: currentUser, foodId })).unwrap();
+        // Cập nhật trạng thái yêu thích ngay lập tức
+        const updatedFavoriteFoods = [...favoriteFoods, { id: foodId }];
+        dispatch({ type: 'favorite/updateFavorites', payload: updatedFavoriteFoods });
       } catch (error) {
         alert("Có lỗi xảy ra khi thêm món ăn vào danh sách yêu thích.");
       }
     } else {
       alert("Bạn cần đăng nhập để thêm món ăn yêu thích.");
+    }
+  };
+
+  const handleRemoveFromFavorites = async (foodId) => {
+    if (currentUser) {
+      try {
+        await dispatch(removeFoodFromFavorites({ userId: currentUser, foodId }));
+        // Trạng thái sẽ được cập nhật tự động nhờ vào reducer
+      } catch (error) {
+        alert("Có lỗi xảy ra khi xóa món ăn khỏi danh sách yêu thích.");
+      }
+    } else {
+      alert("Bạn cần đăng nhập để xóa món ăn yêu thích.");
     }
   };
 
@@ -142,7 +159,7 @@ const RecipePage = () => {
                       />
                     </Link>
                     <button
-                      onClick={() => handleAddToFavorites(food.id)}
+                      onClick={() => isFavorite(food.id) ? handleRemoveFromFavorites(food.id) : handleAddToFavorites(food.id)}
                       className="absolute top-2 right-2 p-2 bg-white rounded-full shadow hover:bg-gray-200"
                     >
                       <svg

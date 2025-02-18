@@ -46,6 +46,28 @@ export const addFoodToFavorites = createAsyncThunk(
   }
 );
 
+// Thunk để xóa món ăn khỏi danh sách yêu thích
+export const removeFoodFromFavorites = createAsyncThunk(
+  'favorite/removeFoodFromFavorites',
+  async ({ userId, foodId }, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/users/${userId}/foods/${foodId}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      return foodId; // Trả về foodId để xóa khỏi state
+    } catch (error) {
+      console.error('Error removing food from favorites:', error.response?.data);
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
 const favoriteSlice = createSlice({
   name: 'favorite',
   initialState: {
@@ -70,6 +92,10 @@ const favoriteSlice = createSlice({
       })
       .addCase(addFoodToFavorites.fulfilled, (state, action) => {
         state.favoriteFoods.push(action.payload.data.food); // Thêm món ăn vào danh sách yêu thích
+      })
+      .addCase(removeFoodFromFavorites.fulfilled, (state, action) => {
+        // Xóa món ăn khỏi danh sách yêu thích
+        state.favoriteFoods = state.favoriteFoods.filter(food => food.id !== action.payload);
       });
   },
 });
