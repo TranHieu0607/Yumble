@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logoImage from "../../assets/logoyumble.png";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFoods } from "../../store/food";
+import { fetchFoods, addFoodToFavorites } from "../../store/food";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const RecipePage = () => {
   const dispatch = useDispatch();
   const { foods, loading, error } = useSelector((state) => state.food);
+  const currentUser = useSelector((state) => state.auth.userId);
+  const favoriteFoods = useSelector((state) => state.favorite.favoriteFoods);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 4;
@@ -80,6 +84,24 @@ const RecipePage = () => {
     return pageNumbers;
   };
 
+  const handleAddToFavorites = async (foodId) => {
+    if (currentUser) {
+      // Nếu món ăn chưa được yêu thích, thực hiện thêm
+      try {
+        await dispatch(addFoodToFavorites({ userId: currentUser, foodId })).unwrap();
+      } catch (error) {
+        alert("Có lỗi xảy ra khi thêm món ăn vào danh sách yêu thích.");
+      }
+    } else {
+      alert("Bạn cần đăng nhập để thêm món ăn yêu thích.");
+    }
+  };
+
+  // Kiểm tra xem món ăn đã được yêu thích hay chưa
+  const isFavorite = (foodId) => {
+    return favoriteFoods.some(food => food.id === foodId);
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="flex flex-col items-center mb-8">
@@ -111,26 +133,37 @@ const RecipePage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {currentFoods.map((food) => (
                 <div key={food.id} className="group">
-                  <Link to={`/recipe/${food.id}`}>
-                    <div className="relative overflow-hidden rounded-lg">
+                  <div className="relative overflow-hidden rounded-lg">
+                    <Link to={`/recipe/${food.id}`}>
                       <img
                         src={food.image}
                         alt={food.name}
                         className="w-full h-56 object-cover transform group-hover:scale-105 transition-transform duration-300"
                       />
-                    </div>
-                    <div className="mt-4">
-                      <div className="flex justify-center items-center text-sm text-[#689F38] mb-2">
-                        <span>{food.meal}</span>
-                      </div>
+                    </Link>
+                    <button
+                      onClick={() => handleAddToFavorites(food.id)}
+                      className="absolute top-2 right-2 p-2 bg-white rounded-full shadow hover:bg-gray-200"
+                    >
+                      <svg
+                        className={`w-6 h-6 ${isFavorite(food.id) ? 'text-red-500' : 'text-black'}`}
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                      </svg>
+                    </button>
+                  </div>
+                  <div className="mt-4">
+                    <Link to={`/recipe/${food.id}`}>
                       <h2 className="text-lg font-bold mb-2 group-hover:text-red-500 transition-colors">
                         {food.name}
                       </h2>
-                      <p className="mt-2 text-gray-600 text-sm line-clamp-2">
-                        {food.description}
-                      </p>
-                    </div>
-                  </Link>
+                    <p className="mt-2 text-gray-600 text-sm line-clamp-2">
+                      {food.description}
+                    </p>
+                    </Link>
+                  </div>
                 </div>
               ))}
             </div>

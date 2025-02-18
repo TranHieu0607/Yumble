@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaHeart, FaHistory, FaEdit, FaUpload, FaTimes } from 'react-icons/fa';
+import { FaPhone, FaMapMarkerAlt, FaHistory, FaEdit, FaTimes } from 'react-icons/fa';
 import { Tab } from '@headlessui/react';
 import { updateUserProfile, updateUserAvatar, fetchUserProfile } from '../../store/userSlice';
+import { fetchFavoriteFoods, addFoodToFavorites } from '../../store/favorite';
+import { Link } from "react-router-dom";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.user);
   const { currentUser } = useSelector((state) => state.auth);
+  const { favoriteFoods, loading, error } = useSelector((state) => state.favorite);
 
   // State để quản lý chế độ chỉnh sửa và thông tin người dùng
   const [isEditing, setIsEditing] = useState(false);
@@ -46,6 +49,7 @@ const UserProfile = () => {
       name: profile?.name || '',
       phone: profile?.phone || '',
       address: profile?.address || '',
+      avatar: profile?.avatar || '',
     });
     setIsEditing(true);
   };
@@ -71,10 +75,41 @@ const UserProfile = () => {
     }
   };
 
-
   const handleSaveChanges = () => {
     handleEditProfile(); 
     handleUploadAvatar(); 
+  };
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId'); // Lấy userId từ localStorage
+    if (userId) {
+      dispatch(fetchFavoriteFoods(userId)); // Gọi API để lấy món ăn yêu thích
+    }
+  }, [dispatch]);
+
+  console.log('Favorite Foods:', favoriteFoods); // Kiểm tra dữ liệu
+
+  const handleAddToFavorites = (foodId) => {
+    dispatch(addFoodToFavorites({ userId: currentUser, foodId })); // Gọi thunk để thêm món ăn vào yêu thích
+  };
+
+  console.log('Token:', localStorage.getItem('token'));
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4; // Hiển thị 3 món ăn yêu thích
+
+  // Tính toán các món ăn cho trang hiện tại
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentFavoriteFoods = favoriteFoods.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Tính tổng số trang
+  const totalPages = Math.ceil(favoriteFoods.length / itemsPerPage);
+
+  // Hàm chuyển trang
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -211,27 +246,48 @@ const UserProfile = () => {
               <Tab.Panels className="mt-6">
                 {/* Favorite Foods Panel */}
                 <Tab.Panel>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {profile?.favoriteFoods?.map((food) => (
-                      <div key={food.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
-                        <div className="relative h-48">
+                  <div className="mt-4">
+                    {loading && <p className="text-center">Loading...</p>}
+                    {error && <p className="text-red-500 text-center">Error: {error}</p>}
+                    <h2 className="text-xl font-bold mb-4 text-center">Món ăn yêu thích</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      {currentFavoriteFoods.map((food) => (
+                        <div key={food.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+                          <Link to={`/recipe/${food.id}`}>
                           <img
                             src={food.image}
                             alt={food.name}
-                            className="w-full h-full object-cover"
+                            className="w-full h-40 object-cover"
                           />
-                          <button className="absolute top-2 right-2 text-red-500">
-                            <FaHeart className="h-6 w-6" />
-                          </button>
+                          <div className="p-4">
+                            <h3 className="text-lg font-semibold text-gray-900">{food.name}</h3>
+                            <p className="mt-1 text-sm text-gray-500">{food.description}</p>
+                          </div>
+                          </Link>
                         </div>
-                        <div className="p-4">
-                          <h3 className="text-lg font-semibold text-gray-900">{food.name}</h3>
-                          <p className="mt-1 text-sm text-gray-500 line-clamp-2">
-                            {food.description}
-                          </p>
-                        </div>
+                      ))}
+                    </div>
+
+                    {/* Phân trang */}
+                    {totalPages > 1 && (
+                      <div className="flex justify-center items-center mt-8">
+                        <button
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                          className={`p-2 rounded-lg ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+                        >
+                          Previous
+                        </button>
+                        <span className="mx-2">{currentPage} / {totalPages}</span>
+                        <button
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === totalPages}
+                          className={`p-2 rounded-lg ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+                        >
+                          Next
+                        </button>
                       </div>
-                    ))}
+                    )}
                   </div>
                 </Tab.Panel>
 

@@ -43,6 +43,29 @@ export const fetchFoodById = createAsyncThunk(
   }
 );
 
+// Thunk để thêm món ăn vào danh sách yêu thích
+export const addFoodToFavorites = createAsyncThunk(
+  'food/addFoodToFavorites',
+  async ({ userId, foodId }, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/users/${userId}/foods`,
+        { foodId },
+        {
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      return response.data; // Đảm bảo trả về thông tin món ăn đã thêm
+    } catch (error) {
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
 const foodSlice = createSlice({
   name: 'food',
   initialState: {
