@@ -6,14 +6,8 @@ export const fetchFoods = createAsyncThunk(
   'food/fetchFoods',
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('token');
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/foods`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
+        `${import.meta.env.VITE_API_URL}/foods`
       );
       return response.data.data;
     } catch (error) {
@@ -27,14 +21,8 @@ export const fetchFoodById = createAsyncThunk(
   'food/fetchFoodById',
   async (id, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('token');
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/foods/${id}`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
+        `${import.meta.env.VITE_API_URL}/foods/${id}`
       );
       return response.data.data;
     } catch (error) {
