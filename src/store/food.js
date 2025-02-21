@@ -54,6 +54,51 @@ export const addFoodToFavorites = createAsyncThunk(
   }
 );
 
+// Thunk để lấy các bước nấu ăn của món
+export const fetchFoodStepsById = createAsyncThunk(
+  'food/fetchFoodStepsById',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/foods/${id}/steps`
+      );
+      return response.data.data; // Trả về dữ liệu các bước
+    } catch (error) {
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+// Thunk để lấy thông tin dinh dưỡng của món
+export const fetchFoodNutritionById = createAsyncThunk(
+  'food/fetchFoodNutritionById',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/foods/${id}/nutrition`
+      );
+      return response.data.data; // Trả về dữ liệu dinh dưỡng
+    } catch (error) {
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+// Thunk để lấy thông tin nguyên liệu của món
+export const fetchFoodIngredientsById = createAsyncThunk(
+  'food/fetchFoodIngredientsById',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/foods/${id}/ingredients`
+      );
+      return response.data.data; // Trả về dữ liệu nguyên liệu
+    } catch (error) {
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
 const foodSlice = createSlice({
   name: 'food',
   initialState: {

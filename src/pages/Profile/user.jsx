@@ -5,12 +5,14 @@ import { Tab } from '@headlessui/react';
 import { updateUserProfile, updateUserAvatar, fetchUserProfile } from '../../store/userSlice';
 import { fetchFavoriteFoods, addFoodToFavorites } from '../../store/favorite';
 import { Link } from "react-router-dom";
+import { fetchUserDietaries } from '../../store/dietary';
 
 const UserProfile = () => {
   const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.user);
   const { currentUser } = useSelector((state) => state.auth);
   const { favoriteFoods, loading, error } = useSelector((state) => state.favorite);
+  const { dietary, loading: dietaryLoading, error: dietaryError } = useSelector((state) => state.dietary);
 
   // State để quản lý chế độ chỉnh sửa và thông tin người dùng
   const [isEditing, setIsEditing] = useState(false);
@@ -62,16 +64,16 @@ const UserProfile = () => {
   const handleUploadAvatar = () => {
     const userId = profile?.id; // Lấy userId từ profile
     if (avatarFile) {
-        dispatch(updateUserAvatar({ userId, avatarFile }))
-            .then((result) => {
-                if (result.meta.requestStatus === 'fulfilled') {
-                    // Gọi lại để lấy profile mới
-                    dispatch(fetchUserProfile(userId)); // Cập nhật lại profile
-                }
-            })
-            .catch((error) => {
-                console.error('Error uploading avatar:', error);
-            });
+      dispatch(updateUserAvatar({ userId, avatarFile }))
+        .then((result) => {
+          if (result.meta.requestStatus === 'fulfilled') {
+            // Gọi lại để lấy profile mới
+            dispatch(fetchUserProfile(userId)); // Cập nhật lại profile
+          }
+        })
+        .catch((error) => {
+          console.error('Error uploading avatar:', error);
+        });
     }
   };
 
@@ -84,14 +86,12 @@ const UserProfile = () => {
     const userId = localStorage.getItem('userId'); // Lấy userId từ localStorage
     if (userId) {
       dispatch(fetchFavoriteFoods(userId)); // Gọi API để lấy món ăn yêu thích
+      dispatch(fetchUserDietaries(userId)); // Gọi thunk để lấy thông tin chế độ ăn
     }
   }, [dispatch]);
 
   console.log('Favorite Foods:', favoriteFoods); // Kiểm tra dữ liệu
 
-  const handleAddToFavorites = (foodId) => {
-    dispatch(addFoodToFavorites({ userId: currentUser, foodId })); // Gọi thunk để thêm món ăn vào yêu thích
-  };
 
   console.log('Token:', localStorage.getItem('token'));
 
@@ -153,61 +153,61 @@ const UserProfile = () => {
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-lg font-semibold mb-4">Thông tin cá nhân</h2>
               {isEditing && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg p-6 shadow-lg w-96">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">Chỉnh sửa thông tin</h2>
-                <button onClick={() => setIsEditing(false)} className="text-gray-500 hover:text-red-500">
-                  <FaTimes size={20} />
-                </button>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Tên:</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={updatedData.name}
-                  onChange={handleChange}
-                  className="w-full border rounded p-2"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Số điện thoại:</label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={updatedData.phone}
-                  onChange={handleChange}
-                  className="w-full border rounded p-2"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Địa chỉ:</label>
-                <input
-                  type="text"
-                  name="address"
-                  value={updatedData.address}
-                  onChange={handleChange}
-                  className="w-full border rounded p-2"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Ảnh đại diện:</label>
-                <input type="file" accept="image/*" onChange={handleAvatarChange} className="w-full border p-2" />
-              </div>
-              <button
-                onClick={handleSaveChanges}
-                className="w-full bg-blue-600 text-white rounded-lg px-4 py-2"
-              >
-                Lưu thay đổi
-              </button>
-            </div>
-          </div>
-        )}
-                <div>
-                  <p><FaPhone className="inline mr-2 text-gray-600" />{profile?.phone}</p>
-                  <p><FaMapMarkerAlt className="inline mr-2 text-gray-600" />{profile?.address}</p>
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                  <div className="bg-white rounded-lg p-6 shadow-lg w-96">
+                    <div className="flex justify-between items-center mb-4">
+                      <h2 className="text-xl font-semibold">Chỉnh sửa thông tin</h2>
+                      <button onClick={() => setIsEditing(false)} className="text-gray-500 hover:text-red-500">
+                        <FaTimes size={20} />
+                      </button>
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700">Tên:</label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={updatedData.name}
+                        onChange={handleChange}
+                        className="w-full border rounded p-2"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700">Số điện thoại:</label>
+                      <input
+                        type="text"
+                        name="phone"
+                        value={updatedData.phone}
+                        onChange={handleChange}
+                        className="w-full border rounded p-2"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700">Địa chỉ:</label>
+                      <input
+                        type="text"
+                        name="address"
+                        value={updatedData.address}
+                        onChange={handleChange}
+                        className="w-full border rounded p-2"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-gray-700">Ảnh đại diện:</label>
+                      <input type="file" accept="image/*" onChange={handleAvatarChange} className="w-full border p-2" />
+                    </div>
+                    <button
+                      onClick={handleSaveChanges}
+                      className="w-full bg-blue-600 text-white rounded-lg px-4 py-2"
+                    >
+                      Lưu thay đổi
+                    </button>
+                  </div>
                 </div>
+              )}
+              <div>
+                <p><FaPhone className="inline mr-2 text-gray-600" />{profile?.phone}</p>
+                <p><FaMapMarkerAlt className="inline mr-2 text-gray-600" />{profile?.address}</p>
+              </div>
             </div>
           </div>
 
@@ -239,7 +239,7 @@ const UserProfile = () => {
                     )
                   }
                 >
-                  Lịch sử xem
+                  Chế độ ăn và dị ứng
                 </Tab>
               </Tab.List>
 
@@ -254,15 +254,15 @@ const UserProfile = () => {
                       {currentFavoriteFoods.map((food) => (
                         <div key={food.id} className="bg-white rounded-lg shadow-md overflow-hidden">
                           <Link to={`/recipe/${food.id}`}>
-                          <img
-                            src={food.image}
-                            alt={food.name}
-                            className="w-full h-40 object-cover"
-                          />
-                          <div className="p-4">
-                            <h3 className="text-lg font-semibold text-gray-900">{food.name}</h3>
-                            <p className="mt-1 text-sm text-gray-500">{food.description}</p>
-                          </div>
+                            <img
+                              src={food.image}
+                              alt={food.name}
+                              className="w-full h-40 object-cover"
+                            />
+                            <div className="p-4">
+                              <h3 className="text-lg font-semibold text-gray-900">{food.name}</h3>
+                              <p className="mt-1 text-sm text-gray-500">{food.description}</p>
+                            </div>
                           </Link>
                         </div>
                       ))}
@@ -315,6 +315,22 @@ const UserProfile = () => {
                       </div>
                     ))}
                   </div>
+
+                  {/* Hiển thị thông tin chế độ ăn */}
+                  {dietaryLoading && <p>Loading dietary information...</p>}
+                  {dietaryError && <p className="text-red-500">Error: {dietaryError}</p>}
+                  {dietary && dietary.length > 0 ? (
+                    <div>
+                      <h2 className="text-xl font-semibold mb-4">Chế độ ăn của bạn:</h2>
+                      <ul>
+                        {dietary.map((diet) => (
+                          <li key={diet.dietary.id} className="mb-2">{diet.dietary.name}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <p className="text-gray-500">Bạn chưa chọn chế độ ăn nào.</p>
+                  )}
                 </Tab.Panel>
               </Tab.Panels>
             </Tab.Group>

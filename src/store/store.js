@@ -4,6 +4,7 @@ import userReducer from './userSlice';
 import foodReducer from './food';
 import registerReducer from './register';
 import favoriteReduce from './favorite';
+import dietaryReducer from './dietary';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     food: foodReducer,
     register: registerReducer,
     favorite: favoriteReduce,
+    dietary: dietaryReducer,
   },
 });
 

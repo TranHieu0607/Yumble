@@ -3,14 +3,12 @@ import Loginimage from '../../assets/login2.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/auth';
 import { useNavigate } from 'react-router-dom';
-import { registerUser, sendVerificationEmail, sendForgotPasswordEmail } from '../../store/register';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading: authLoading, error: authError } = useSelector((state) => state.auth);
-  const { loading: registerLoading, error: registerError, success: registerSuccess, message: registerMessage } = useSelector((state) => state.register);
   
   const [formData, setFormData] = useState({
     email: '',
@@ -51,34 +49,6 @@ const Login = () => {
       } catch (err) {
         console.error('Lỗi đăng nhập:', err);
         alert(err.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.');
-      }
-    } else if (formType === 'signup') {
-      try {
-        const result = await dispatch(registerUser({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        })).unwrap();
-
-        if (result.code === 1000) {
-          await dispatch(sendVerificationEmail(formData.email)).unwrap();
-          alert('Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.');
-          setFormType('login');
-        }
-      } catch (err) {
-        console.error('Lỗi đăng ký:', err);
-        alert(err.message || 'Đăng ký thất bại. Vui lòng thử lại.');
-      }
-    } else if (formType === 'forgotPassword') {
-      try {
-        const result = await dispatch(sendForgotPasswordEmail(formData.email)).unwrap();
-        if (result.code === 1000) {
-          alert('Email đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư của bạn.');
-          setFormType('login'); // Chuyển về form đăng nhập
-        }
-      } catch (err) {
-        console.error('Lỗi gửi email quên mật khẩu:', err);
-        alert(err.message || 'Gửi email quên mật khẩu thất bại. Vui lòng thử lại.');
       }
     }
   };
@@ -199,13 +169,10 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={authLoading || registerLoading}
+              disabled={authLoading}
               className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-gray-900 bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 shadow-md"
             >
-              {authLoading || registerLoading ? 'Đang xử lý...' : 
-               formType === 'login' ? 'Đăng nhập' : 
-               formType === 'signup' ? 'Đăng ký' : 
-               'Gửi email đặt lại mật khẩu'}
+              {authLoading ? 'Đang xử lý...' : 'Đăng nhập'}
             </button>
           </form>
 
@@ -226,15 +193,9 @@ const Login = () => {
           )}
 
           {/* Display Messages */}
-          {(authError || registerError) && (
+          {(authError) && (
             <div className="mt-4 text-red-400 text-sm text-center">
-              {authError?.message || registerError?.message || 'Đã có lỗi xảy ra'}
-            </div>
-          )}
-          
-          {registerSuccess && (
-            <div className="mt-4 text-green-400 text-sm text-center">
-              {registerMessage}
+              {authError?.message || 'Đã có lỗi xảy ra'}
             </div>
           )}
         </div>

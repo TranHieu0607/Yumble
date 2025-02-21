@@ -46,7 +46,7 @@ const router = createBrowserRouter([
         element: <Ai />,
       },
       {
-        path: '/profile', 
+        path: "/profile", 
         element: <UserProfile />,
       },
       {
@@ -65,9 +65,10 @@ const router = createBrowserRouter([
   },
 ]);
 
+
+
 // Kiểm tra quyền admin ngay trong main.jsx
 function RequireAdmin({ children }) {
-  // Lấy state từ Redux store
   const profile = store.getState().user.profile;
   const token = store.getState().auth.token;
 
