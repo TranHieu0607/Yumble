@@ -61,6 +61,9 @@ const Header = () => {
     const handleAdmin = () => {
         navigate('/admin')
     }
+    const handleFavoriteFood = () => {
+        navigate('/favoriteFood');
+    }
   
     return (
         <header className="bg-white shadow-sm w-full top-0 z-[100]">
@@ -81,6 +84,11 @@ const Header = () => {
                             onClick={handleRecipe}
                             className="text-gray-600 hover:text-blue-600" >
                             Công thức
+                        </button>
+                        <button
+                            onClick={handleFavoriteFood}
+                            className="text-gray-600 hover:text-blue-600" >
+                            Yêu thích
                         </button>
                         <button
                             onClick={handlePremium}

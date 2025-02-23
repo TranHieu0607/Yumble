@@ -10,6 +10,7 @@ import RecipeDetail from "./pages/Recipe/recipedetail.jsx";
 import Ai from "./pages/AI/ai.jsx";
 import AdminDashboard from "./pages/Admindashboard/adminDashboard.jsx";
 import UserProfile from './pages/Profile/user';
+import FavoriteFoodPage from "./pages/Favoritefood/favoritefood.jsx";
 import { Provider } from 'react-redux';
 import store from './store/store';
 
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/profile", 
         element: <UserProfile />,
+      },
+      {
+        path: "/favoriteFood", 
+        element: <FavoriteFoodPage />,
       },
       {
         path: "admin",

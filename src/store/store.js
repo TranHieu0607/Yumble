@@ -5,6 +5,7 @@ import foodReducer from './food';
 import registerReducer from './register';
 import favoriteReduce from './favorite';
 import dietaryReducer from './dietary';
+import allergyReducer from './allergy';
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     register: registerReducer,
     favorite: favoriteReduce,
     dietary: dietaryReducer,
+    allergy: allergyReducer,
   },
 });
 

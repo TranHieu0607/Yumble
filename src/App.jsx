@@ -3,6 +3,10 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { fetchFoods } from './store/food';
 import { fetchUserProfile } from './store/userSlice';
+import { fetchUserDietaries } from './store/dietary';
+import { fetchFavoriteFoods } from './store/favorite';
+import { fetchUserAllergies } from './store/allergy';
+
 import Header from './component/header';
 import Footer from './component/footer';
 
@@ -20,8 +24,12 @@ const App = ({ children }) => {
     const userId = localStorage.getItem('userId');
     if (userId) {
       dispatch(fetchUserProfile(userId));
+      dispatch(fetchUserDietaries(userId));
+      dispatch(fetchFavoriteFoods(userId));
+      dispatch(fetchUserAllergies(userId));
     }
   }, [dispatch]);
+
 
 
   return (
