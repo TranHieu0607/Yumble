@@ -2,21 +2,31 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFavoriteFoods, removeFoodFromFavorites } from "../../store/favorite";
 import logoImage from "../../assets/logoyumble.png";
+import { useNavigate } from "react-router-dom";
+
 
 const FavoriteFoodPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { favoriteFoods, loading, error } = useSelector((state) => state.favorite);
   const currentUser = useSelector((state) => state.auth.userId);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(4);
   const [searchTerm, setSearchTerm] = useState("");
+  
+  // Trạng thái phân trang cho món ăn yêu thích
+  const [currentPageFavorites, setCurrentPageFavorites] = useState(1);
+  const itemsPerPageFavorites = 4;
+
+  // Trạng thái phân trang cho bài đăng nổi bật
+  const [currentPagePosts, setCurrentPagePosts] = useState(1);
+  const itemsPerPagePosts = 3;
 
   useEffect(() => {
-    // Fetch favorite foods
     if (currentUser) {
       dispatch(fetchFavoriteFoods(currentUser));
     }
   }, [dispatch, currentUser]);
+
+  
 
   if (loading) return <div>Đang tải...</div>;
   if (error) return <div>Lỗi: {error.message || 'Có lỗi xảy ra'}</div>;
@@ -27,30 +37,35 @@ const FavoriteFoodPage = () => {
   );
 
   // Tính toán các món ăn cho trang hiện tại
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentFavoriteFoods = filteredFavoriteFoods.slice(indexOfFirstItem, indexOfLastItem);
+  const indexOfLastItemFavorites = currentPageFavorites * itemsPerPageFavorites;
+  const indexOfFirstItemFavorites = indexOfLastItemFavorites - itemsPerPageFavorites;
+  const currentFavoriteFoods = filteredFavoriteFoods.slice(indexOfFirstItemFavorites, indexOfLastItemFavorites);
 
-  // Tính tổng số trang
-  const totalPages = Math.ceil(filteredFavoriteFoods.length / itemsPerPage);
+  // Tính tổng số trang cho món ăn yêu thích
+  const totalPagesFavorites = Math.ceil(filteredFavoriteFoods.length / itemsPerPageFavorites);
 
-  // Hàm chuyển trang
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  // Tính toán các bài đăng nổi bật cho trang hiện tại
+  const indexOfLastItemPosts = currentPagePosts * itemsPerPagePosts;
+  const indexOfFirstItemPosts = indexOfLastItemPosts - itemsPerPagePosts;
+  const currentPosts = favoriteFoods.slice(indexOfFirstItemPosts, indexOfLastItemPosts);
+
+  // Tính tổng số trang cho bài đăng nổi bật
+  const totalPagesPosts = Math.ceil(favoriteFoods.length / itemsPerPagePosts);
 
   const handleRemoveFromFavorites = async (foodId) => {
     if (currentUser) {
       try {
         await dispatch(removeFoodFromFavorites({ userId: currentUser, foodId }));
-        // Trạng thái sẽ được cập nhật tự động nhờ vào reducer
       } catch (error) {
         alert("Có lỗi xảy ra khi xóa món ăn khỏi danh sách yêu thích.");
       }
     } else {
       alert("Bạn cần đăng nhập để xóa món ăn yêu thích.");
     }
+  };
+
+  const handleNavigateToDetail = (id) => {
+    navigate(`/recipe/${id}`);
   };
 
   return (
@@ -71,106 +86,119 @@ const FavoriteFoodPage = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-        <div className="relative w-full mb-5">
+          <div className="relative w-full mb-5">
             <div className="absolute inset-0 bg-[#313131] h-12"></div>
             <h2 className="relative text-2xl font-bold text-white px-4 py-2 inline-block w-max mx-auto">
               Món ăn yêu thích
             </h2>
           </div>
 
-          {currentFavoriteFoods.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
-              Bạn chưa có món ăn yêu thích nào.
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {currentFavoriteFoods.map((food) => (
-                <div key={food.id} className="group">
-                  <div className="relative overflow-hidden rounded-lg">
-                    <img
-                      src={food.image}
-                      alt={food.name}
-                      className="w-full h-56 object-cover transform group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <button
-                      onClick={() => handleRemoveFromFavorites(food.id)}
-                      className="absolute top-2 right-2 p-2 bg-white rounded-full shadow hover:bg-gray-200"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {currentPosts.map((food) => (
+              <div key={food.id} className="group">
+                <div className="relative overflow-hidden rounded-lg cursor-pointer" onClick={() => handleNavigateToDetail(food.id)}>
+                  <img
+                    src={food.image}
+                    alt={food.name}
+                    className="w-full h-56 object-cover transform group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // Ngăn chặn sự kiện click từ việc kích hoạt điều hướng
+                      handleRemoveFromFavorites(food.id);
+                    }}
+                    className="absolute top-2 right-2 p-2 bg-white rounded-full shadow hover:bg-gray-200"
+                  >
+                    <svg
+                      className={`w-6 h-6 text-red-500`}
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
                     >
-                      <svg
-                        className={`w-6 h-6 ${true ? 'text-red-500' : 'text-black'}`}
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                      </svg>
-                    </button>
-                  </div>
-                  <div className="mt-4">
-                    <h2 className="text-lg font-bold mb-2 group-hover:text-red-500 transition-colors">
-                      {food.name}
-                    </h2>
-                    <p className="mt-2 text-gray-600 text-sm line-clamp-2">
-                      {food.description}
-                    </p>
-                  </div>
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                  </button>
                 </div>
-              ))}
-            </div>
-          )}
-
-          {/* Chỉ hiển thị phân trang nếu có kết quả */}
-          {currentFavoriteFoods.length > 0 && (
-            <div className="flex justify-center items-center mt-8">
-              <div className="flex items-center space-x-2">
-                {/* Nút Previous với icon mũi tên */}
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className={`p-2 rounded-lg ${
-                    currentPage === 1
-                      ? 'text-gray-400 cursor-not-allowed'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-
-                {/* Số trang */}
-                <div className="flex items-center space-x-1">
-                  {Array.from({ length: totalPages }, (_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handlePageChange(index + 1)}
-                      className={`px-3 py-2 rounded-lg ${
-                        currentPage === index + 1
-                          ? 'bg-[#689F38] text-white'
-                          : 'text-gray-600 hover:bg-gray-100'
-                      }`}
-                    >
-                      {index + 1}
-                    </button>
-                  ))}
+                <div className="mt-4">
+                  <h2 className="text-lg font-bold mb-2 group-hover:text-red-500 transition-colors">
+                    {food.name}
+                  </h2>
+                  <p className="mt-2 text-gray-600 text-sm line-clamp-2">
+                    {food.description}
+                  </p>
                 </div>
+              </div>
+            ))}
+          </div>
 
-                {/* Nút Next với icon mũi tên */}
+          {/* Phân trang cho món ăn yêu thích */}
+          <div className="flex justify-center items-center mt-8">
+            <button
+              onClick={() => setCurrentPageFavorites(currentPageFavorites - 1)}
+              disabled={currentPageFavorites === 1}
+              className={`p-2 rounded-lg ${currentPageFavorites === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+            >
+              Previous
+            </button>
+            <span className="mx-2">{currentPageFavorites} / {totalPagesFavorites}</span>
+            <button
+              onClick={() => setCurrentPageFavorites(currentPageFavorites + 1)}
+              disabled={currentPageFavorites === totalPagesFavorites}
+              className={`p-2 rounded-lg ${currentPageFavorites === totalPagesFavorites ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+
+        {/* Bài đăng nổi bật section */}
+        <div className="lg:col-span-1">
+          <h2 className="text-2xl font-bold mb-4 justify-center border-b-2 border-green-500 pb-2">Món ăn yêu thích</h2>
+          <div className="space-y-4">
+            {currentPosts.map((food) => (
+              <div key={food.id} className="relative flex border rounded-lg p-4 shadow-md">
+                <img
+                  src={food.image}
+                  alt={food.name}
+                  className="w-1/3 h-32 object-cover rounded-lg mr-4"
+                />
+                <div className="flex-1">
+                  <h3 className="font-semibold text-lg">{food.name}</h3>
+                  <p className="text-gray-500">{food.description}</p>
+                </div>
                 <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className={`p-2 rounded-lg ${
-                    currentPage === totalPages
-                      ? 'text-gray-400 cursor-not-allowed'
-                      : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                  onClick={() => handleRemoveFromFavorites(food.id)}
+                  className="absolute top-2 right-2 p-2 bg-white rounded-full shadow hover:bg-gray-200"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg
+                    className="w-6 h-6 text-red-500"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                   </svg>
                 </button>
               </div>
-            </div>
-          )}
+            ))}
+          </div>
+
+          {/* Phân trang cho bài đăng nổi bật */}
+          <div className="flex justify-center items-center mt-8">
+            <button
+              onClick={() => setCurrentPagePosts(currentPagePosts - 1)}
+              disabled={currentPagePosts === 1}
+              className={`p-2 rounded-lg ${currentPagePosts === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+            >
+              Previous
+            </button>
+            <span className="mx-2">{currentPagePosts} / {totalPagesPosts}</span>
+            <button
+              onClick={() => setCurrentPagePosts(currentPagePosts + 1)}
+              disabled={currentPagePosts === totalPagesPosts}
+              className={`p-2 rounded-lg ${currentPagePosts === totalPagesPosts ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>

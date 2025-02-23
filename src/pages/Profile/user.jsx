@@ -87,6 +87,9 @@ const UserProfile = () => {
   const [isDeletingAllergies, setIsDeletingAllergies] = useState(false);
   const [selectedAllergies, setSelectedAllergies] = useState([]);
 
+  const [isDeletingDietary, setIsDeletingDietary] = useState(false);
+  const [selectedDietaryToDelete, setSelectedDietaryToDelete] = useState(null);
+
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
   }
@@ -103,7 +106,15 @@ const UserProfile = () => {
   // Hàm để xử lý việc gửi thông tin đã chỉnh sửa
   const handleEditProfile = () => {
     const userId = profile?.id; // Lấy userId từ profile
-    dispatch(updateUserProfile({ userId, updatedData })); // Gọi action để cập nhật profile
+    dispatch(updateUserProfile({ userId, updatedData })) // Gọi action để cập nhật profile
+        .then((result) => {
+            if (result.meta.requestStatus === 'fulfilled') {
+                dispatch(fetchUserProfile(userId)); // Gọi lại để lấy profile mới
+                // Cập nhật localStorage với thông tin mới
+                localStorage.setItem('userId', userId); // Nếu userId có thể thay đổi
+                localStorage.setItem('profile', JSON.stringify(result.payload)); // Lưu thông tin mới
+            }
+        });
     setIsEditing(false); // Đóng form sau khi gửi
   };
 
@@ -113,7 +124,6 @@ const UserProfile = () => {
       name: profile?.name || '',
       phone: profile?.phone || '',
       address: profile?.address || '',
-      avatar: profile?.avatar || '',
     });
     setIsEditing(true);
   };
@@ -250,6 +260,28 @@ const UserProfile = () => {
     setIsDeletingAllergies(false); // Đóng modal
   };
 
+  // Hàm để xử lý việc xóa chế độ ăn
+  const handleDeleteDietary = () => {
+    setIsDeletingDietary(true);
+  };
+
+  const confirmDeleteDietary = () => {
+    const userId = profile?.id;
+    if (selectedDietaries.length > 0) {
+      selectedDietaries.forEach(dietaryId => {
+        dispatch(deleteUserDietary({ userId, dietaryId }))
+          .then(() => {
+            dispatch(fetchUserDietaries(userId)); // Cập nhật lại danh sách chế độ ăn
+          })
+          .catch((error) => {
+            console.error('Error deleting dietary:', error);
+          });
+      });
+      setIsDeletingDietary(false); // Đóng modal
+      setSelectedDietaries([]); // Reset lại danh sách đã chọn
+    }
+  };
+
   console.log('Token:', localStorage.getItem('token'));
 
   return (
@@ -353,16 +385,7 @@ const UserProfile = () => {
 
           {/* Right Content - Tabs */}
           <div className="md:col-span-3">
-            <div className="flex space-x-1">
-              <button 
-                onClick={() => setActiveTab('dietaryAllergies')} 
-                className={`w-full rounded-lg py-2.5 text-sm font-medium leading-5 ${activeTab === 'dietaryAllergies' ? 'bg-blue-900/20' : ''}`}
-              >
-                Chế độ ăn và dị ứng
-              </button>
-            </div>
 
-            {activeTab === 'dietaryAllergies' && (
               <div className="mt-6 bg-white rounded-lg shadow-md p-6">
                 <h2 className="text-xl font-semibold mb-4">Chế độ ăn của bạn:</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
@@ -400,7 +423,6 @@ const UserProfile = () => {
                 </button>
                 </div>
               </div>
-            )}
           </div>
         </div>
 
@@ -543,6 +565,42 @@ const UserProfile = () => {
                 </button>
                 <button
                   onClick={() => setIsDeletingAllergies(false)} 
+                  className="mt-4 bg-gray-300 text-black rounded px-4 py-2 hover:bg-gray-400 transition w-1/2 ml-1"
+                >
+                  Đóng
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Modal xác nhận xóa chế độ ăn */}
+        {isDeletingDietary && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
+            <div className="bg-white rounded-lg p-8 shadow-lg w-96">
+              <h2 className="text-lg font-semibold mb-4 text-center text-red-600">Xóa chế độ ăn</h2>
+              <div className="grid grid-cols-1 gap-4 mb-4">
+                {dietary.map((diet) => (
+                  <div key={diet.dietary.id} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={selectedDietaries.includes(diet.dietary.id)}
+                      onChange={() => handleSelectDietary(diet.dietary.id)}
+                      className="mr-2"
+                    />
+                    <span>{diet.dietary.name}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-between">
+                <button 
+                  onClick={confirmDeleteDietary} 
+                  className="mt-4 bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600 transition w-1/2 mr-1"
+                >
+                  Xóa đã chọn
+                </button>
+                <button 
+                  onClick={() => setIsDeletingDietary(false)} 
                   className="mt-4 bg-gray-300 text-black rounded px-4 py-2 hover:bg-gray-400 transition w-1/2 ml-1"
                 >
                   Đóng
