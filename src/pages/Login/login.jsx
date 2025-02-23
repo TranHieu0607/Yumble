@@ -53,6 +53,10 @@ const Login = () => {
     }
   };
 
+  const handleHomeRedirect = () => {
+    navigate('/');
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-900 text-gray-100">
       {/* Left Section */}
@@ -173,6 +177,14 @@ const Login = () => {
               className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-gray-900 bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 shadow-md"
             >
               {authLoading ? 'Đang xử lý...' : 'Đăng nhập'}
+            </button>
+            <hr />
+            <button
+              type="button"
+              onClick={handleHomeRedirect}
+              className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-gray-900 bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 shadow-md"
+            >
+              Trở về trang chủ
             </button>
           </form>
 

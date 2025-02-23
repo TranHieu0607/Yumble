@@ -13,7 +13,7 @@ const UserProfile = () => {
   const { profile } = useSelector((state) => state.user);
   const { currentUser } = useSelector((state) => state.auth);
   const { dietary, loading: dietaryLoading, error: dietaryError } = useSelector((state) => state.dietary);
-  const { allergies = [] } = useSelector((state) => state.allergy) || {};
+  const allergies = useSelector((state) => state.allergy.allergies) || [];
   const premium = useSelector((state) => state.user.premium);
   const userId = profile?.id;
 
@@ -295,7 +295,7 @@ const UserProfile = () => {
           {/* Left Sidebar - User Info */}
           <div className="md:col-span-1">
             <div className="bg-white rounded-lg shadow-lg p-6">
-              <h2 className="text-lg font-semibold mb-4">Thông tin cá nhân</h2>
+              <h2 className="text-lg font-semibold mb-4 text-center">Thông tin cá nhân</h2>
               {isEditing && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                   <div className="bg-white rounded-lg p-6 shadow-lg w-96">
@@ -312,7 +312,7 @@ const UserProfile = () => {
                         name="name"
                         value={updatedData.name}
                         onChange={handleChange}
-                        className="w-full border rounded p-2"
+                        className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
                     <div className="mb-4">
@@ -322,7 +322,7 @@ const UserProfile = () => {
                         name="phone"
                         value={updatedData.phone}
                         onChange={handleChange}
-                        className="w-full border rounded p-2"
+                        className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
                     <div className="mb-4">
@@ -332,7 +332,7 @@ const UserProfile = () => {
                         name="address"
                         value={updatedData.address}
                         onChange={handleChange}
-                        className="w-full border rounded p-2"
+                        className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
                     <div className="mb-4">
@@ -341,16 +341,31 @@ const UserProfile = () => {
                     </div>
                     <button
                       onClick={handleSaveChanges}
-                      className="w-full bg-blue-600 text-white rounded-lg px-4 py-2"
+                      className="w-full bg-blue-600 text-white rounded-lg px-4 py-2 hover:bg-blue-700 transition duration-200"
                     >
                       Lưu thay đổi
                     </button>
                   </div>
                 </div>
               )}
-              <div>
-                <p><FaPhone className="inline mr-2 text-gray-600" />{profile?.phone}</p>
-                <p><FaMapMarkerAlt className="inline mr-2 text-gray-600" />{profile?.address}</p>
+              <div className="mt-4">
+                <p className="flex items-center text-gray-600 mb-2">
+                  <FaPhone className="mr-2" /> {profile?.phone}
+                </p>
+                <p className="flex items-center text-gray-600 mb-4">
+                  <FaMapMarkerAlt className="mr-2" /> {profile?.address}
+                </p>
+                <h2 className="text-lg font-semibold mb-4 text-center">Thông tin Premium:</h2>
+                {premium ? (
+                  <div className="">
+                    <p><strong>Tình trạng:</strong> {premium.premiumStatus}</p>
+                    <p><strong>Ngày bắt đầu:</strong> {new Date(premium.start).toLocaleDateString()}</p>
+                    <p><strong>Ngày kết thúc:</strong> {new Date(premium.end).toLocaleDateString()}</p>
+                    <p><strong>Số ngày còn lại:</strong> {premium.remaining} ngày</p>
+                  </div>
+                ) : (
+                  <p className="text-gray-500">Đang tải thông tin premium...</p>
+                )}
               </div>
             </div>
           </div>
@@ -468,19 +483,21 @@ const UserProfile = () => {
               <div>
                 <label className="block text-gray-700 font-semibold">Chọn dị ứng để thêm:</label>
                 <select
-                  value={selectedAllergy}
-                  onChange={(e) => setSelectedAllergy(e.target.value)}
-                  className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Chọn dị ứng</option>
-                  {Array.isArray(allergies) && allergies.length > 0 ? (
-                    allergies.map((allergy) => (
-                      <option key={allergy.id} value={allergy.id}>{allergy.name}</option>
-                    ))
-                  ) : (
-                    <option value="" disabled>Không có dị ứng nào.</option>
-                  )}
-                </select>
+  value={selectedAllergy}
+  onChange={(e) => setSelectedAllergy(e.target.value)}
+  className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+>
+  <option value="">Chọn dị ứng</option>
+  {allergies.length > 0 ? (
+    allergies.map((allergy) => (
+      <option key={allergy.id} value={allergy.id}>
+        {allergy.name}
+      </option>
+    ))
+  ) : (
+    <option value="" disabled>Không có dị ứng nào.</option>
+  )}
+</select>
               </div>
               <div className="flex justify-between mt-4">
                 <button 
@@ -576,21 +593,6 @@ const UserProfile = () => {
             </div>
           </div>
         )}
-
-        {/* Right Content - Premium Info */}
-        <div className="mt-6 bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold mb-4">Thông tin Premium:</h2>
-          {premium ? (
-            <div>
-              <p><strong>Tình trạng:</strong> {premium.premiumStatus}</p>
-              <p><strong>Ngày bắt đầu:</strong> {new Date(premium.start).toLocaleDateString()}</p>
-              <p><strong>Ngày kết thúc:</strong> {new Date(premium.end).toLocaleDateString()}</p>
-              <p><strong>Số ngày còn lại:</strong> {premium.remaining} ngày</p>
-            </div>
-          ) : (
-            <p className="text-gray-500">Đang tải thông tin premium...</p>
-          )}
-        </div>
       </div>
     </div>
   );

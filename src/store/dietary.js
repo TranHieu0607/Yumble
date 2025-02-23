@@ -76,6 +76,7 @@ export const fetchDietaries = createAsyncThunk(
     const response = await axios.get('https://yumble.io.vn/dietaries', {
       headers: {
         Accept: '*/*',
+        Authorization: localStorage.getItem('token'),
       },
     });
     return response.data; // Trả về dữ liệu dietary

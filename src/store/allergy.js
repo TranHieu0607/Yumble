@@ -76,7 +76,7 @@ export const fetchAllergies = createAsyncThunk(
     const response = await axios.get('https://yumble.io.vn/allergies', {
       headers: {
         Accept: '*/*',
-        Authorization: `Bearer ${token}`, // Thêm token vào header
+        Authorization: localStorage.getItem('token'), // Thêm token vào header
       },
     });
     return response.data.data; // Trả về dữ liệu allergies

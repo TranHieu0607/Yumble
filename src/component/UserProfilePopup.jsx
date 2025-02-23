@@ -18,7 +18,7 @@ const UserProfilePopup = ({ profile, onClose }) => {
     <div className="absolute right-0 mt-2 w-56 rounded-lg shadow-xl bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
       <div className="bg-orange-500 text-white px-5 py-4 flex items-center gap-3">
         <img 
-          src={profile?.avatar || 'https://via.placeholder.com/50'} 
+          src={profile?.avatar} 
           alt="Avatar" 
           className="w-12 h-12 rounded-full border-2 border-white object-cover"
         />

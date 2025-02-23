@@ -1,7 +1,16 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import premiumImage from '../../assets/premium.png';
+import { processPayment } from '../../store/payment'; // Import action từ payment.js
 
 const Premium = () => {
+  const dispatch = useDispatch();
+
+  const handlePayment = (isMonthPremium) => {
+    const userId = 'c084de8b-6c1c-4905-8b96-c2b428a67e55'; // Thay thế bằng user ID thực tế
+    dispatch(processPayment(userId, isMonthPremium)); // Gọi action để xử lý thanh toán
+  };
+
   return (
     <div className="h-screen bg-gradient-to-b from-amber-50 to-amber-100 flex flex-col items-center justify-center px-4 pt-8">
         {/* Premium Badge */}
@@ -45,7 +54,7 @@ const Premium = () => {
       {/* Pricing Cards */}
       <div className="flex flex-wrap justify-center gap-8">
         {/* Monthly Plan */}
-        <div className="relative w-72 cursor-pointer hover:scale-105 transition-transform duration-300">
+        <div className="relative w-72 cursor-pointer hover:scale-105 transition-transform duration-300" onClick={() => handlePayment(true)}>
           <div className="absolute inset-0 rounded-xl shadow-xl"></div>
           <div className="relative bg-black text-white p-8 rounded-xl shadow-lg">
             <h3 className="text-xl font-bold mb-4 text-center">Mỗi tháng</h3>
@@ -55,7 +64,7 @@ const Premium = () => {
         </div>
 
         {/* Yearly Plan */}
-        <div className="relative w-72 cursor-pointer hover:scale-105 transition-transform duration-300">
+        <div className="relative w-72 cursor-pointer hover:scale-105 transition-transform duration-300" onClick={() => handlePayment(false)}>
           <div className="absolute inset-0 rounded-xl shadow-xl"></div>
           <div className="relative bg-black text-white p-8 rounded-xl shadow-lg">
             <h3 className="text-xl font-bold mb-4 text-center">Mỗi năm</h3>

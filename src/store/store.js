@@ -6,6 +6,8 @@ import registerReducer from './register';
 import favoriteReduce from './favorite';
 import dietaryReducer from './dietary';
 import allergyReducer from './allergy';
+import paymentReducer from './payment';
+import aiReducer from './ai';
 
 const store = configureStore({
   reducer: {
@@ -16,6 +18,8 @@ const store = configureStore({
     favorite: favoriteReduce,
     dietary: dietaryReducer,
     allergy: allergyReducer,
+    payment: paymentReducer,
+    ai: aiReducer,
   },
 });
 

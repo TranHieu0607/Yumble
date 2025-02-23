@@ -13,14 +13,6 @@ export const login = createAsyncThunk(
       
       console.log('Login response:', response.data);
       
-      // Cấu trúc response mới:
-      // {
-      //   code: 1000,
-      //   message: "Đăng nhập thành công",
-      //   data: {
-      //     token: "xxx..."
-      //   }
-      // }
       
       const { code, data } = response.data;
       

@@ -97,7 +97,7 @@ export const fetchUserPremium = createAsyncThunk(
         `${import.meta.env.VITE_API_URL}/users/${userId}/premium`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: localStorage.getItem('token'),
             Accept: '*/*',
           },
         }

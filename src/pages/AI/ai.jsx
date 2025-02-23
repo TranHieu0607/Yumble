@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import recipeImage from "../../assets/recipe.png";
 import siuImage from "../../assets/siu.jpg"
+import { fetchAIResponse } from "../../store/ai";
+import { Link } from "react-router-dom";
 
 const Ai = () => {
+  const dispatch = useDispatch();
+  const aiResponse = useSelector((state) => state.ai.response);
+  const { profile } = useSelector((state) => state.user);
   const [chatHistory, setChatHistory] = useState([
     {
       id: "1",
@@ -37,6 +43,37 @@ const Ai = () => {
     }
   }, [currentChatId]);
 
+  useEffect(() => {
+    if (aiResponse) {
+      const botResponse = {
+        type: "bot",
+        content: aiResponse.message,
+        foods: aiResponse.foods,
+      };
+
+      const updatedMessages = [...messages, botResponse];
+      setMessages(updatedMessages);
+
+      if (!currentChatId) {
+        const newChat = {
+          id: Date.now().toString(),
+          title: inputMessage.slice(0, 30),
+          messages: updatedMessages,
+        };
+        setChatHistory((prev) => [newChat, ...prev]);
+        setCurrentChatId(newChat.id);
+      } else {
+        setChatHistory((prev) =>
+          prev.map((chat) =>
+            chat.id === currentChatId
+              ? { ...chat, messages: updatedMessages }
+              : chat
+          )
+        );
+      }
+    }
+  }, [aiResponse]);
+
   const createNewChat = () => {
     setCurrentChatId(null);
     setMessages([]);
@@ -58,40 +95,7 @@ const Ai = () => {
     setMessages(updatedMessages);
     setInputMessage("");
 
-    try {
-      const botResponse = {
-        type: "bot",
-        content: "Đây là phản hồi mẫu",
-        recipe: {
-          title: "Tên món ăn",
-          category: "Loại món ăn",
-          image: recipeImage,
-        },
-      };
-
-      const finalMessages = [...updatedMessages, botResponse];
-      setMessages(finalMessages);
-
-      if (!currentChatId) {
-        const newChat = {
-          id: Date.now().toString(),
-          title: inputMessage.slice(0, 30),
-          messages: finalMessages,
-        };
-        setChatHistory((prev) => [newChat, ...prev]);
-        setCurrentChatId(newChat.id);
-      } else {
-        setChatHistory((prev) =>
-          prev.map((chat) =>
-            chat.id === currentChatId
-              ? { ...chat, messages: finalMessages }
-              : chat
-          )
-        );
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    dispatch(fetchAIResponse(inputMessage));
   };
 
   const handleTextAreaChange = (e) => {
@@ -124,7 +128,7 @@ const Ai = () => {
 
   return (
     <div className="h-screen bg-gray-100 flex ">
-      <div className="w-64 bg-white shadow-lg overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+      <div className="w-64 bg-white shadow-lg overflow-y-auto  [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
         <div className="p-4 sticky top-0 bg-white z-10">
           <button
             onClick={createNewChat}
@@ -169,23 +173,33 @@ const Ai = () => {
                 }`}
               >
                 <p className="whitespace-pre-wrap break-words">{message.content}</p>
-                {message.recipe && (
-                  <div className="mt-2 border rounded-lg overflow-hidden">
-                    <img
-                      src={message.recipe.image}
-                      alt={message.recipe.title}
-                      className="w-full h-32 object-cover"
-                    />
-                    <div className="p-2">
-                      <h3 className="font-bold text-lg truncate">{message.recipe.title}</h3>
-                      <p className="text-sm text-gray-500 truncate">{message.recipe.category}</p>
-                    </div>
+                {message.foods && message.foods.length > 0 && (
+                  <div className="mt-2">
+                    {message.foods.map((food) => (
+                      <div key={food.id} className="border rounded-lg overflow-hidden mb-2">
+                        <Link to={`/recipe/${food.id}`}>
+                        <img
+                          src={food.image}
+                          alt={food.name}
+                          className="w-full h-32 object-cover"
+                        />
+                        <div className="p-2">
+                          <h3 className="font-bold text-lg truncate">{food.name}</h3>
+                          <p className="text-sm text-gray-500 truncate">{food.description}</p>
+                        </div>
+                        </Link>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
-              {message.type === "user" && (
-                <div className="w-8 h-8 bg-yellow-300 rounded-full flex items-center justify-center ml-2">
-                  🐤
+              {message.type === "user" && profile && (
+                <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center ml-2">
+                  <img
+                    src={profile.avatar}
+                    alt="User Avatar"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               )}
             </div>

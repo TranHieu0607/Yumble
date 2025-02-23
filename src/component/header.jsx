@@ -95,7 +95,6 @@ const Header = () => {
                             className="text-gray-600 hover:text-blue-600">
                             Premium
                         </button>
-                        <a href="#" className="text-gray-600 hover:text-blue-600">Phản hồi</a>
                         {profile && profile.role === 'ADMIN' && (
                             <button 
                                 onClick={() => navigate('/admin')}
