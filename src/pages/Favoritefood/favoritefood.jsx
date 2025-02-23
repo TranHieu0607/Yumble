@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFavoriteFoods, removeFoodFromFavorites } from "../../store/favorite";
+import { fetchFoodSuggestions } from "../../store/food";
+import { Link } from "react-router-dom";
 import logoImage from "../../assets/logoyumble.png";
 import { useNavigate } from "react-router-dom";
 
@@ -20,9 +22,18 @@ const FavoriteFoodPage = () => {
   const [currentPagePosts, setCurrentPagePosts] = useState(1);
   const itemsPerPagePosts = 3;
 
+  const { suggestions, loading: suggestionsLoading, error: suggestionsError } = useSelector((state) => state.food);
+
+  // Trạng thái phân trang cho gợi ý món ăn
+  const [currentPageSuggestions, setCurrentPageSuggestions] = useState(1);
+  const itemsPerPageSuggestions = 4; // Số món ăn hiển thị trên mỗi trang
+
   useEffect(() => {
     if (currentUser) {
       dispatch(fetchFavoriteFoods(currentUser));
+    }
+    if (currentUser) {
+      dispatch(fetchFoodSuggestions(currentUser));
     }
   }, [dispatch, currentUser]);
 
@@ -52,6 +63,25 @@ const FavoriteFoodPage = () => {
   // Tính tổng số trang cho bài đăng nổi bật
   const totalPagesPosts = Math.ceil(favoriteFoods.length / itemsPerPagePosts);
 
+  // Tính toán các món ăn cho trang hiện tại
+  const indexOfLastItemSuggestions = currentPageSuggestions * itemsPerPageSuggestions;
+  const indexOfFirstItemSuggestions = indexOfLastItemSuggestions - itemsPerPageSuggestions;
+  const currentSuggestions = suggestions.slice(indexOfFirstItemSuggestions, indexOfLastItemSuggestions);
+  const totalPagesSuggestions = Math.ceil(suggestions.length / itemsPerPageSuggestions);
+
+  // Lọc gợi ý món ăn theo search term
+  const filteredSuggestions = suggestions.filter(food => {
+    const foodNameMatch = food.name.toLowerCase().includes(searchTerm.toLowerCase().trim());
+    const allergyMatch = food.allergies && food.allergies.some(allergy => 
+      allergy.name.toLowerCase().includes(searchTerm.toLowerCase().trim())
+    );
+    const dietaryMatch = food.dietary && food.dietary.some(diet => 
+      diet.name.toLowerCase().includes(searchTerm.toLowerCase().trim())
+    );
+
+    return foodNameMatch || allergyMatch || dietaryMatch;
+  });
+
   const handleRemoveFromFavorites = async (foodId) => {
     if (currentUser) {
       try {
@@ -74,10 +104,11 @@ const FavoriteFoodPage = () => {
         <img src={logoImage} alt="Yumble Logo" className="h-full" />
       </div>
 
-      <div className="mb-4">
+      <div className="relative w-full mb-5">
+        <h2 className="text-2xl font-bold">Gợi ý món ăn</h2>
         <input
           type="text"
-          placeholder="Tìm kiếm món ăn yêu thích..."
+          placeholder="Tìm kiếm món ăn ..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full max-w-md border border-gray-300 rounded-lg px-4 py-2 mb-5"
@@ -89,61 +120,55 @@ const FavoriteFoodPage = () => {
           <div className="relative w-full mb-5">
             <div className="absolute inset-0 bg-[#313131] h-12"></div>
             <h2 className="relative text-2xl font-bold text-white px-4 py-2 inline-block w-max mx-auto">
-              Món ăn yêu thích
+              Gợi ý món ăn
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {currentPosts.map((food) => (
-              <div key={food.id} className="group">
-                <div className="relative overflow-hidden rounded-lg cursor-pointer" onClick={() => handleNavigateToDetail(food.id)}>
-                  <img
-                    src={food.image}
-                    alt={food.name}
-                    className="w-full h-56 object-cover transform group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation(); // Ngăn chặn sự kiện click từ việc kích hoạt điều hướng
-                      handleRemoveFromFavorites(food.id);
-                    }}
-                    className="absolute top-2 right-2 p-2 bg-white rounded-full shadow hover:bg-gray-200"
-                  >
-                    <svg
-                      className={`w-6 h-6 text-red-500`}
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                    </svg>
-                  </button>
-                </div>
-                <div className="mt-4">
-                  <h2 className="text-lg font-bold mb-2 group-hover:text-red-500 transition-colors">
-                    {food.name}
-                  </h2>
-                  <p className="mt-2 text-gray-600 text-sm line-clamp-2">
-                    {food.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+          {suggestionsLoading ? (
+            <div>Đang tải gợi ý món ăn...</div>
+          ) : suggestionsError ? (
+            <div className="text-red-500">{suggestionsError.message}</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {filteredSuggestions.slice(indexOfFirstItemSuggestions, indexOfLastItemSuggestions).map((food) => (
+                <div key={food.id} className="group">
+                  <div className="relative overflow-hidden rounded-lg cursor-pointer">
+                  <Link to={`/recipe/${food.id}`}>
+                    <img
+                      src={food.image}
+                      alt={food.name}
+                      className="w-full h-56 object-cover transform group-hover:scale-105 transition-transform duration-300"
+                    />
 
-          {/* Phân trang cho món ăn yêu thích */}
+                    <div className="mt-4">
+                      <h2 className="text-lg font-bold mb-2 group-hover:text-red-500 transition-colors">
+                        {food.name}
+                      </h2>
+                      <p className="mt-2 text-gray-600 text-sm line-clamp-2">
+                        {food.description}
+                      </p>
+                    </div>
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Phân trang cho gợi ý món ăn */}
           <div className="flex justify-center items-center mt-8">
             <button
-              onClick={() => setCurrentPageFavorites(currentPageFavorites - 1)}
-              disabled={currentPageFavorites === 1}
-              className={`p-2 rounded-lg ${currentPageFavorites === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+              onClick={() => setCurrentPageSuggestions(currentPageSuggestions - 1)}
+              disabled={currentPageSuggestions === 1}
+              className={`p-2 rounded-lg ${currentPageSuggestions === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               Previous
             </button>
-            <span className="mx-2">{currentPageFavorites} / {totalPagesFavorites}</span>
+            <span className="mx-2">{currentPageSuggestions} / {totalPagesSuggestions}</span>
             <button
-              onClick={() => setCurrentPageFavorites(currentPageFavorites + 1)}
-              disabled={currentPageFavorites === totalPagesFavorites}
-              className={`p-2 rounded-lg ${currentPageFavorites === totalPagesFavorites ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+              onClick={() => setCurrentPageSuggestions(currentPageSuggestions + 1)}
+              disabled={currentPageSuggestions === totalPagesSuggestions}
+              className={`p-2 rounded-lg ${currentPageSuggestions === totalPagesSuggestions ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               Next
             </button>
@@ -156,11 +181,13 @@ const FavoriteFoodPage = () => {
           <div className="space-y-4">
             {currentPosts.map((food) => (
               <div key={food.id} className="relative flex border rounded-lg p-4 shadow-md">
+                <Link to={`/recipe/${food.id}`}>
                 <img
                   src={food.image}
                   alt={food.name}
                   className="w-1/3 h-32 object-cover rounded-lg mr-4"
                 />
+                </Link>
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg">{food.name}</h3>
                   <p className="text-gray-500">{food.description}</p>

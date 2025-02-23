@@ -6,6 +6,7 @@ import { fetchUserProfile } from './store/userSlice';
 import { fetchUserDietaries } from './store/dietary';
 import { fetchFavoriteFoods } from './store/favorite';
 import { fetchUserAllergies } from './store/allergy';
+import { fetchFoodSuggestions } from './store/food';
 
 import Header from './component/header';
 import Footer from './component/footer';
@@ -27,6 +28,7 @@ const App = ({ children }) => {
       dispatch(fetchUserDietaries(userId));
       dispatch(fetchFavoriteFoods(userId));
       dispatch(fetchUserAllergies(userId));
+      dispatch(fetchFoodSuggestions(userId))
     }
   }, [dispatch]);
 

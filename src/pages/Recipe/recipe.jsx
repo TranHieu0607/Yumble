@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import logoImage from "../../assets/logoyumble.png";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFoods, addFoodToFavorites } from "../../store/food";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import { removeFoodFromFavorites } from '../../store/favorite';
 
 const RecipePage = () => {

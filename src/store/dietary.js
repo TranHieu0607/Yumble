@@ -23,6 +23,7 @@ export const fetchUserDietaries = createAsyncThunk(
   }
 );
 
+
 // Thunk để cập nhật chế độ ăn của người dùng
 export const updateUserDietary = createAsyncThunk(
   'dietary/updateUserDietary',
@@ -68,10 +69,23 @@ export const deleteUserDietary = createAsyncThunk(
   }
 );
 
+// Thunk để lấy danh sách dietary
+export const fetchDietaries = createAsyncThunk(
+  'dietary/fetchDietaries',
+  async () => {
+    const response = await axios.get('https://yumble.io.vn/dietaries', {
+      headers: {
+        Accept: '*/*',
+      },
+    });
+    return response.data; // Trả về dữ liệu dietary
+  }
+);
+
 const dietarySlice = createSlice({
   name: 'dietary',
   initialState: {
-    dietary: null,
+    dietary: [],
     loading: false,
     error: null,
   },
@@ -97,10 +111,22 @@ const dietarySlice = createSlice({
       })
       .addCase(updateUserDietary.fulfilled, (state, action) => {
         state.loading = false;
-        // Optionally update the dietary state if needed
         state.error = null;
       })
       .addCase(updateUserDietary.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(fetchDietaries.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchDietaries.fulfilled, (state, action) => {
+        state.loading = false;
+        state.dietary = action.payload;
+      })
+      .addCase(fetchDietaries.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

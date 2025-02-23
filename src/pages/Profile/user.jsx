@@ -1,56 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaPhone, FaMapMarkerAlt, FaHistory, FaEdit, FaTimes } from 'react-icons/fa';
-import { Tab } from '@headlessui/react';
-import { updateUserProfile, updateUserAvatar, fetchUserProfile } from '../../store/userSlice';
-import { Link } from "react-router-dom";
-import { fetchUserDietaries, updateUserDietary, deleteUserDietary } from '../../store/dietary';
-import { fetchUserAllergies, updateUserAllergy, deleteUserAllergy } from '../../store/allergy';
+import { updateUserProfile, updateUserAvatar, fetchUserProfile, fetchUserPremium } from '../../store/userSlice';
+import { fetchUserDietaries, updateUserDietary, deleteUserDietary, fetchDietaries } from '../../store/dietary';
+import { fetchUserAllergies, updateUserAllergy, deleteUserAllergy, fetchAllergies } from '../../store/allergy';
 
-const diets = [
-  { id: "06c6b116-8962-45ed-a984-3803951923ee", name: "string" },
-  { id: "15ccdb6a-ec1a-4609-865a-83f037bb83b3", name: "Keto" },
-  { id: "1cb575c3-eff6-4647-9dfe-c20b5b92b6ba", name: "Ít carb" },
-  { id: "1cba1df6-c5d4-4127-aa97-4db721cf445a", name: "Bán chay" },
-  { id: "26201f5a-7bae-47e1-bd57-9f4dd42f7146", name: "Cho người tiểu đường" },
-  { id: "3d5556f5-a364-413c-a3ea-6f3e253010fc", name: "Không gluten" },
-  { id: "3dc0270f-490d-4295-9d06-fd469c29925c", name: "Nhịn ăn gián đoạn" },
-  { id: "4271deb3-e1d6-423b-9651-eaf77c513da1", name: "Không gây dị ứng" },
-  { id: "42cf4a4d-d174-46c6-87a8-d863a4ee4808", name: "Ít tinh bột" },
-  { id: "5787c39a-935f-41d2-a9d2-0f614581e713", name: "Chay" },
-  { id: "64aea3fc-1a78-45aa-a87b-be0fe77a422a", name: "Thực vật" },
-  { id: "79fe3560-f19d-4d60-ad58-5f6595a29d0c", name: "Kiểu Địa Trung Hải" },
-  { id: "7f60d17f-20af-453f-8a35-227092336bb4", name: "Thuần chay" },
-  { id: "9f3a0c10-485c-4692-989e-78f225e35f20", name: "Truyền thống Việt" },
-  { id: "d52975d0-231a-4fb0-a137-8555675581b5", name: "Ít chất béo" },
-];
 
-const allergyList = [
-  { id: "006434b1-6c8d-492c-8e9b-be1d3c9c07be", name: "Chất bảo quản" },
-  { id: "1c57c5c3-d5b3-4125-a4a3-6f52daee0883", name: "Bắp" },
-  { id: "2a61fa50-849b-4c7e-ada6-9cd783656f6e", name: "Nước mắm" },
-  { id: "2a8be0b6-62c4-4c0d-a1f1-49e0d79280da", name: "Tôm" },
-  { id: "4bc5a20b-817c-4e38-8ee1-da13016c541d", name: "Đậu" },
-  { id: "4c9abc7f-8bfd-4a3d-b9ec-6bf4d48f4876", name: "Trứng" },
-  { id: "4f7f66b5-2bd8-4bbf-b11a-ce1eebe4687b", name: "Hải sản" },
-  { id: "55e9bcf8-d4df-40c8-83ad-0630c30c862a", name: "Phẩm màu thực phẩm" },
-  { id: "62909764-5fa7-4085-9a1c-564b9f96329d", name: "Trái cây" },
-  { id: "7361186b-0309-4c83-94a2-26b3a08edca1", name: "Mè" },
-  { id: "73c24960-d84d-40d0-be9a-b555dfea0e23", name: "Sữa ong chúa" },
-  { id: "756cc31f-d0bd-4bd4-9528-79ec2c518804", name: "Thảo mộc" },
-  { id: "7ce8b2f1-2fe3-4d36-85e7-6d5609599df5", name: "Sữa" },
-  { id: "83ae5b9e-b234-4383-aae1-3b70d03d7456", name: "Dừa" },
-  { id: "877b198d-0818-48bb-9502-401002ed8478", name: "Gluten" },
-  { id: "8db3b4ba-db04-465b-8943-6f8673f47305", name: "Cua" },
-  { id: "8ea08baa-c896-48ce-a941-2cefa730f966", name: "Hạt cây" },
-  { id: "a48bfdff-ef27-45c7-abdb-01e9b50b51d4", name: "Cá" },
-  { id: "b71d9823-23e0-41a6-8d6e-7b94e7de933d", name: "Đậu phộng" },
-  { id: "bfe739e8-7e2c-468a-8866-ec82c9510648", name: "Đậu nành" },
-  { id: "cf128c98-5763-48bb-b8e1-e5664310076e", name: "Mắm tôm" },
-  { id: "ed278179-788d-4cf2-99f2-f0b783227d3b", name: "Mắm ruốc" },
-  { id: "f5f8198f-532d-4bc9-be90-e475853f5f73", name: "Mắm cá" },
-  { id: "ffe46755-fb36-4f79-913b-8f1d1793d40a", name: "Thịt động vật" }
-];
+
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -58,6 +14,8 @@ const UserProfile = () => {
   const { currentUser } = useSelector((state) => state.auth);
   const { dietary, loading: dietaryLoading, error: dietaryError } = useSelector((state) => state.dietary);
   const { allergies = [] } = useSelector((state) => state.allergy) || {};
+  const premium = useSelector((state) => state.user.premium);
+  const userId = profile?.id;
 
   // State để quản lý chế độ chỉnh sửa và thông tin người dùng
   const [isEditing, setIsEditing] = useState(false);
@@ -169,6 +127,17 @@ const UserProfile = () => {
     };
     fetchOptions();
   }, [dispatch, profile?.id]);
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchUserPremium(userId)); // Gọi thunk để lấy thông tin premium
+    }
+    dispatch(fetchDietaries()); // Gọi thunk để lấy danh sách dietary
+    dispatch(fetchAllergies()); // Gọi thunk để lấy danh sách allergies
+  }, [dispatch, userId]);
+
+  // Console log allergies để kiểm tra
+  console.log('Allergies:', allergies);
 
   const handleDietaryUpdate = () => {
     const userId = profile?.id;
@@ -282,6 +251,9 @@ const UserProfile = () => {
     }
   };
 
+  // Kiểm tra kiểu dữ liệu của dietary
+  const dietaryList = Array.isArray(dietary) ? dietary : []; // Cung cấp giá trị mặc định là mảng rỗng
+
   console.log('Token:', localStorage.getItem('token'));
 
   return (
@@ -389,7 +361,7 @@ const UserProfile = () => {
               <div className="mt-6 bg-white rounded-lg shadow-md p-6">
                 <h2 className="text-xl font-semibold mb-4">Chế độ ăn của bạn:</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                  {dietary.map((diet) => (
+                  {dietaryList.map((diet) => (
                     <div key={diet.dietary.id} className="bg-blue-100 rounded-lg p-4 flex items-center justify-between hover:shadow-lg transition-shadow">
                       <span className="font-semibold text-lg">{diet.dietary.name}</span>
                     </div>
@@ -401,7 +373,7 @@ const UserProfile = () => {
                   <ul className="list-disc pl-5">
                     {allergies.map((allergy) => (
                       <li key={allergy.allergy?.id} className="text-gray-700 ">
-                        <strong>{allergy.allergy?.name || 'Không xác định'}</strong> (Mức độ: <span className="text-red-500">{allergy.severity}</span>)
+                        <strong>{allergy.allergy?.name || 'Không xác định'}</strong>
                       </li>
                     ))}
                   </ul>
@@ -433,7 +405,7 @@ const UserProfile = () => {
               <div>
                 <h3 className="text-md font-semibold mb-2">Chọn chế độ ăn để xóa:</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-                  {dietary.map((diet) => (
+                  {dietaryList.map((diet) => (
                     <div key={diet.dietary.id} className="bg-gray-100 rounded-lg p-4 flex items-center justify-between hover:bg-gray-200 transition">
                       <div className="flex items-center">
                         <input
@@ -455,9 +427,13 @@ const UserProfile = () => {
                     className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="">Chọn chế độ ăn</option>
-                    {diets.map((diet) => (
-                      <option key={diet.id} value={diet.id}>{diet.name}</option>
-                    ))}
+                    {dietaryList.length > 0 ? (
+                      dietaryList.map((diet) => (
+                        <option key={diet.id} value={diet.id}>{diet.name}</option>
+                      ))
+                    ) : (
+                      <option value="" disabled>Không có chế độ ăn nào.</option>
+                    )}
                   </select>
                 </div>
                 <div className="flex justify-between">
@@ -497,22 +473,13 @@ const UserProfile = () => {
                   className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Chọn dị ứng</option>
-                  {allergyList.map((allergy) => (
-                    <option key={allergy.id} value={allergy.id}>{allergy.name}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold">Chọn mức độ dị ứng:</label>
-                <select
-                  value={selectedSeverity}
-                  onChange={(e) => setSelectedSeverity(e.target.value)}
-                  className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Chọn mức độ</option>
-                  <option value="Mild">Nhẹ</option>
-                  <option value="Moderate">Vừa</option>
-                  <option value="Severe">Nặng</option>
+                  {Array.isArray(allergies) && allergies.length > 0 ? (
+                    allergies.map((allergy) => (
+                      <option key={allergy.id} value={allergy.id}>{allergy.name}</option>
+                    ))
+                  ) : (
+                    <option value="" disabled>Không có dị ứng nào.</option>
+                  )}
                 </select>
               </div>
               <div className="flex justify-between mt-4">
@@ -580,7 +547,7 @@ const UserProfile = () => {
             <div className="bg-white rounded-lg p-8 shadow-lg w-96">
               <h2 className="text-lg font-semibold mb-4 text-center text-red-600">Xóa chế độ ăn</h2>
               <div className="grid grid-cols-1 gap-4 mb-4">
-                {dietary.map((diet) => (
+                {dietaryList.map((diet) => (
                   <div key={diet.dietary.id} className="flex items-center">
                     <input
                       type="checkbox"
@@ -609,6 +576,21 @@ const UserProfile = () => {
             </div>
           </div>
         )}
+
+        {/* Right Content - Premium Info */}
+        <div className="mt-6 bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-xl font-semibold mb-4">Thông tin Premium:</h2>
+          {premium ? (
+            <div>
+              <p><strong>Tình trạng:</strong> {premium.premiumStatus}</p>
+              <p><strong>Ngày bắt đầu:</strong> {new Date(premium.start).toLocaleDateString()}</p>
+              <p><strong>Ngày kết thúc:</strong> {new Date(premium.end).toLocaleDateString()}</p>
+              <p><strong>Số ngày còn lại:</strong> {premium.remaining} ngày</p>
+            </div>
+          ) : (
+            <p className="text-gray-500">Đang tải thông tin premium...</p>
+          )}
+        </div>
       </div>
     </div>
   );

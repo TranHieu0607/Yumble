@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import logoImage from "../../assets/logoyumble.png";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchFoodById, fetchFoodStepsById, fetchFoodNutritionById, fetchFoodIngredientsById } from "../../store/food";
+import { fetchFoodById, fetchFoodStepsById, fetchFoodNutritionById, fetchFoodIngredientsById, fetchFoodDietaryById, fetchFoodAllergiesById } from "../../store/food";
 
 const RecipeDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { currentFood: recipe, loading, error } = useSelector((state) => state.food);
+  const { currentFood: recipe, loading, error, dietary = [], allergies = [] } = useSelector((state) => state.food);
   const [steps, setSteps] = useState([]);
   const [nutrition, setNutrition] = useState(null);
   const [ingredients, setIngredients] = useState([]);
@@ -34,6 +34,15 @@ const RecipeDetail = () => {
         })
         .then((ingredientsData) => {
           setIngredients(ingredientsData);
+        })
+        .then(() => {
+          return dispatch(fetchFoodDietaryById(id)).unwrap();
+        })
+        .then(() => {
+          return dispatch(fetchFoodAllergiesById(id)).unwrap();
+        })
+        .then(() => {
+          console.log(allergies);
         })
         .catch((err) => {
           console.error('Error fetching food:', err);
@@ -81,6 +90,34 @@ const RecipeDetail = () => {
           <p className="text-gray-700 leading-relaxed mb-6">
             {recipe.description}
           </p>
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-4">CHẾ ĐỘ ĂN:</h2>
+            {dietary.length > 0 ? (
+              <ul className="list-disc pl-5">
+                {dietary.map((item) => (
+                  <li key={item.dietary.id} className="mb-2">
+                    <span className="font-semibold">{item.dietary.name}</span>: {item.dietary.description}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-500">Không có thông tin chế độ ăn.</p>
+            )}
+          </div>
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-4">DỊ ỨNG:</h2>
+            {allergies && allergies.length > 0 ? (
+              <ul className="list-disc pl-5">
+                {allergies.map((item) => (
+                  <li key={item.allergy.id} className="mb-2">
+                    <span className="font-semibold">{item.allergy.name}</span>: {item.allergy.description}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-500">Không có thông tin dị ứng.</p>
+            )}
+          </div>
           <div className="mb-6">
             <h2 className="text-xl font-semibold mb-4">THÔNG TIN DINH DƯỠNG:</h2>
             {nutrition && (

@@ -87,10 +87,34 @@ export const updateUserAvatar = createAsyncThunk(
   }
 );
 
+// Thunk để lấy thông tin premium của người dùng
+export const fetchUserPremium = createAsyncThunk(
+  'user/fetchPremium',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/users/${userId}/premium`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: '*/*',
+          },
+        }
+      );
+      return response.data.data; // Trả về dữ liệu premium
+    } catch (error) {
+      console.error('Error fetching premium:', error); // Ghi log lỗi
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
     profile: null,
+    premium: null, // Thêm trạng thái premium
     loading: false,
     error: null,
   },
@@ -140,6 +164,18 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(updateUserAvatar.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchUserPremium.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserPremium.fulfilled, (state, action) => {
+        state.loading = false;
+        state.premium = action.payload; // Lưu trữ thông tin premium
+      })
+      .addCase(fetchUserPremium.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

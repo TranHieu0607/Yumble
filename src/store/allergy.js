@@ -68,6 +68,21 @@ export const deleteUserAllergy = createAsyncThunk(
   }
 );
 
+// Thunk để lấy danh sách allergies
+export const fetchAllergies = createAsyncThunk(
+  'allergy/fetchAllergies',
+  async () => {
+    const token = localStorage.getItem('token'); // Lấy token từ localStorage
+    const response = await axios.get('https://yumble.io.vn/allergies', {
+      headers: {
+        Accept: '*/*',
+        Authorization: `Bearer ${token}`, // Thêm token vào header
+      },
+    });
+    return response.data.data; // Trả về dữ liệu allergies
+  }
+);
+
 const allergySlice = createSlice({
   name: 'allergy',
   initialState: {
@@ -102,6 +117,18 @@ const allergySlice = createSlice({
         state.error = null;
       })
       .addCase(updateUserAllergy.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchAllergies.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllergies.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allergies = action.payload; // Lưu trữ dữ liệu allergies
+      })
+      .addCase(fetchAllergies.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
