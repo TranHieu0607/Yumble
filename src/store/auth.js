@@ -20,14 +20,28 @@ export const login = createAsyncThunk(
         throw new Error('Invalid response format');
       }
 
-      // Lưu token vào localStorage
+      // Xóa token cũ nếu có
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      
+      // Validate token trước khi lưu
+      if (!data.token || typeof data.token !== 'string') {
+        throw new Error('Token không hợp lệ');
+      }
+      
+      // Lưu token mới vào localStorage
       localStorage.setItem('token', `Bearer ${data.token}`);
       
       // Lấy userId từ token (parse JWT)
       const tokenPayload = JSON.parse(atob(data.token.split('.')[1]));
       const userId = tokenPayload.sub; // sub chứa userId trong JWT
       
+      if (!userId) {
+        throw new Error('Không thể xác định userId từ token');
+      }
+      
       localStorage.setItem('userId', userId);
+
       
       return {
         token: `Bearer ${data.token}`,
@@ -36,6 +50,27 @@ export const login = createAsyncThunk(
     } catch (error) {
       console.error('Login error:', error);
       return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+// Define the sendForgotPasswordEmail action
+export const sendForgotPasswordEmail = createAsyncThunk(
+  'auth/sendForgotPasswordEmail',
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/send-forgot-password-email/${email}`,
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || 'Gửi email quên mật khẩu thất bại');
     }
   }
 );

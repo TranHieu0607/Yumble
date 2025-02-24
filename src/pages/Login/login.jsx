@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Loginimage from '../../assets/login2.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/auth';
+import { sendForgotPasswordEmail, registerUser, sendVerificationEmail } from '../../store/register';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -49,6 +50,35 @@ const Login = () => {
       } catch (err) {
         console.error('Lỗi đăng nhập:', err);
         alert(err.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.');
+      }
+    } else if (formType === 'forgotPassword') {
+      try {
+        await dispatch(sendForgotPasswordEmail(formData.email)).unwrap();
+        alert('Email xác thực đã được gửi. Vui lòng kiểm tra hộp thư của bạn.');
+        setFormType('login'); // Switch back to login after sending email
+      } catch (err) {
+        console.error('Lỗi gửi email quên mật khẩu:', err);
+        alert(err.message || 'Gửi email thất bại. Vui lòng kiểm tra lại thông tin.');
+      }
+    } else if (formType === 'signup') {
+      try {
+        const result = await dispatch(registerUser({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        })).unwrap();
+        
+        console.log('Registration successful:', result);
+        alert('Đăng ký thành công!'); // Notify user of success
+
+        // Send verification email after successful registration
+        await dispatch(sendVerificationEmail(formData.email)).unwrap();
+        alert('Email xác thực đã được gửi. Vui lòng kiểm tra hộp thư của bạn.');
+
+        navigate('/'); // Redirect after successful registration
+      } catch (err) {
+        console.error('Lỗi đăng ký:', err);
+        alert(err.message || 'Đăng ký thất bại. Vui lòng kiểm tra lại thông tin.');
       }
     }
   };
@@ -176,7 +206,7 @@ const Login = () => {
               disabled={authLoading}
               className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-gray-900 bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 shadow-md"
             >
-              {authLoading ? 'Đang xử lý...' : 'Đăng nhập'}
+              {authLoading ? 'Đang xử lý...' : (formType === 'signup' ? 'Đăng ký' : 'Đăng nhập')}
             </button>
             <hr />
             <button
@@ -197,7 +227,6 @@ const Login = () => {
             </p>
           ) : (
             <p className="mt-6 text-sm text-center text-gray-300">
-              {formType === 'signup' ? 'Already have an account? ' : 'Remember your password? '}
               <button type="button" onClick={() => setFormType('login')} className="font-medium text-yellow-400 hover:text-yellow-300">
                 Sign In
               </button>

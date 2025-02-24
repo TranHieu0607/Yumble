@@ -7,9 +7,22 @@ const Premium = () => {
   const dispatch = useDispatch();
 
   const handlePayment = (isMonthPremium) => {
-    const userId = 'c084de8b-6c1c-4905-8b96-c2b428a67e55'; // Thay thế bằng user ID thực tế
-    dispatch(processPayment(userId, isMonthPremium)); // Gọi action để xử lý thanh toán
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    
+    if (!userId || !token) {
+      alert('Vui lòng đăng nhập để thực hiện thanh toán');
+      return;
+    }
+    
+    if (!token.startsWith('Bearer ')) {
+      alert('Token không hợp lệ, vui lòng đăng nhập lại');
+      return;
+    }
+    
+    dispatch(processPayment(userId, isMonthPremium));
   };
+
 
   return (
     <div className="h-screen bg-gradient-to-b from-amber-50 to-amber-100 flex flex-col items-center justify-center px-4 pt-8">
@@ -32,14 +45,6 @@ const Premium = () => {
             </svg>
           </div>
           <span className="text-gray-700 text-lg font-medium">Tìm kiếm đồ ăn và địa điểm ăn nhanh hơn bằng cách tích hợp AI</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-green-100 rounded-full">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <span className="text-gray-700 text-lg font-medium">Tôi bị ngu</span>
         </div>
         <div className="flex items-center gap-3">
           <div className="p-2 bg-green-100 rounded-full">

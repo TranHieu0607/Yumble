@@ -12,6 +12,7 @@ export const registerUser = createAsyncThunk(
         {
           headers: {
             'Content-Type': 'application/json',
+            'accept': '*/*',
           },
         }
       );
