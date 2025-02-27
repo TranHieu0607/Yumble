@@ -17,8 +17,8 @@ export const fetchUserDietaries = createAsyncThunk(
       );
       return response.data.data; // Trả về dữ liệu chế độ ăn
     } catch (error) {
-      console.error('Error fetching user dietaries:', error.response?.data);
-      return rejectWithValue(error.response?.data);
+      console.error('Error fetching user dietaries:', error.response?.data || error.message);
+      return rejectWithValue(error.response?.data || 'Failed to fetch user dietaries');
     }
   }
 );
