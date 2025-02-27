@@ -12,8 +12,6 @@ export const fetchUserProfile = createAsyncThunk(
         throw new Error('Token or userId not found');
       }
 
-      console.log('Fetching profile with:', { token, userId });
-
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/users/${userId}/profile`,
         {
@@ -23,11 +21,10 @@ export const fetchUserProfile = createAsyncThunk(
         }
       );
       
-      console.log('Profile response:', response.data);
       return response.data.data;
     } catch (error) {
       console.error('Profile fetch error:', error);
-      return rejectWithValue(error.response?.data);
+      return rejectWithValue(error.response?.data || 'Failed to fetch profile');
     }
   }
 );
