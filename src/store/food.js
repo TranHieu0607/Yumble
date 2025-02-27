@@ -11,7 +11,7 @@ export const fetchFoods = createAsyncThunk(
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/foods`
       );
-      return response.data.data;
+      return response.data.data; 
     } catch (error) {
       return rejectWithValue(error.response?.data);
     }
@@ -168,6 +168,21 @@ export const fetchFoodSuggestions = createAsyncThunk(
   }
 );
 
+// Thunk để lấy 6 món ăn đầu tiên
+export const fetchFirstSixFoods = createAsyncThunk(
+  'food/fetchFirstSixFoods',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/foods`
+      );
+      // Lấy 6 món ăn đầu tiên
+      return response.data.data.slice(0, 6); // Chỉ lấy 6 món đầu tiên
+    } catch (error) {
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
 
 const foodSlice = createSlice({
   name: 'food',

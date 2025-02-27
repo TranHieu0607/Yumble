@@ -40,7 +40,7 @@ const App = ({ children }) => {
       <main>
         {children}
       </main>
-      {!isHomePage && !isAiPage && !isAdminPage && <Footer />}
+      {!isAiPage && !isAdminPage && <Footer />}
     </div>
   );
 };
