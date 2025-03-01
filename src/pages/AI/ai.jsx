@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import recipeImage from "../../assets/recipe.png";
 import siuImage from "../../assets/siu.jpg"
 import { fetchAIResponse } from "../../store/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Ai = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const aiResponse = useSelector((state) => state.ai.response);
   const { profile } = useSelector((state) => state.user);
+  const token = useSelector((state) => state.auth.token);
   const [chatHistory, setChatHistory] = useState([
     {
       id: "1",
@@ -33,6 +35,12 @@ const Ai = () => {
   const [currentChatId, setCurrentChatId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    }
+  }, [token, navigate]);
 
   useEffect(() => {
     if (currentChatId) {

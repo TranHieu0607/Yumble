@@ -86,7 +86,12 @@ export const fetchDietaries = createAsyncThunk(
 const dietarySlice = createSlice({
   name: 'dietary',
   initialState: {
-    dietary: [],
+    dietary: {
+      data: [],
+      loading: false,
+      error: null
+    },
+    dietaryOptions: [],
     loading: false,
     error: null,
   },
@@ -99,8 +104,11 @@ const dietarySlice = createSlice({
       })
       .addCase(fetchUserDietaries.fulfilled, (state, action) => {
         state.loading = false;
-        state.dietary = action.payload;
-        state.error = null;
+        state.dietary = {
+          data: action.payload,
+          loading: false,
+          error: null
+        };
       })
       .addCase(fetchUserDietaries.rejected, (state, action) => {
         state.loading = false;
@@ -112,20 +120,42 @@ const dietarySlice = createSlice({
       })
       .addCase(updateUserDietary.fulfilled, (state, action) => {
         state.loading = false;
+        if (action.payload) {
+          state.dietary.data = [...(state.dietary.data || []), {
+            dietary: action.payload.dietary,
+            priority: action.payload.priority
+          }];
+        }
         state.error = null;
       })
       .addCase(updateUserDietary.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-
+      .addCase(deleteUserDietary.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteUserDietary.fulfilled, (state, action) => {
+        state.loading = false;
+        if (action.payload?.dietaryId) {
+          state.dietary.data = state.dietary.data.filter(
+            (item) => item.dietary.id !== action.payload.dietaryId
+          );
+        }
+        state.error = null;
+      })
+      .addCase(deleteUserDietary.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       .addCase(fetchDietaries.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchDietaries.fulfilled, (state, action) => {
         state.loading = false;
-        state.dietary = action.payload;
+        state.dietaryOptions = action.payload.data;
       })
       .addCase(fetchDietaries.rejected, (state, action) => {
         state.loading = false;

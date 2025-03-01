@@ -111,7 +111,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState: {
     profile: null,
-    premium: null, // Thêm trạng thái premium
+    premium: null, 
     loading: false,
     error: null,
   },

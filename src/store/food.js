@@ -9,7 +9,7 @@ export const fetchFoods = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/foods`
+        `${import.meta.env.VITE_API_URL}/foods?page=0&size=60`
       );
       return response.data.data; 
     } catch (error) {
