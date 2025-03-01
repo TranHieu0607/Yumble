@@ -113,27 +113,29 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className='flex flex-col items-center mb-5 md:mb-10' style={{ backgroundColor: '#DACEC2', padding: '40px md:80px' }}>
-        <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-8" style={{ color: '#293E31' }}>Đồ ăn Việt Nam</h2>
-        <div className='flex justify-between w-full max-w-7xl items-center px-4 md:px-0'>
-          <button onClick={prevProduct} className='text-xl md:text-2xl'>❮</button>
-          <div className='flex flex-col md:flex-row justify-between w-full max-w-7xl'>
+      <div className='flex flex-col items-center' style={{ backgroundColor: '#DACEC2', padding: '60px 20px 80px' }}>
+        <h2 className="text-2xl md:text-3xl font-bold mb-8 md:mb-12" style={{ color: '#293E31' }}>Đồ ăn Việt Nam</h2>
+        <div className='flex justify-between w-full max-w-7xl items-center px-4 md:px-8'>
+          <button onClick={prevProduct} className='text-xl md:text-2xl px-6 md:px-10 py-2 hover:scale-110 transition-transform duration-300'>❮</button>
+          <div className='flex flex-col md:flex-row justify-between w-full gap-8 md:gap-12 mx-6 md:mx-12'>
             {foods.slice(startIndex, startIndex + 3).map((product) => (
-              <div key={product.id} className='relative w-full md:w-1/3 text-center mx-0 md:mx-2 mb-4 md:mb-0 overflow-hidden group'>
+              <div key={product.id} className='relative w-full md:w-1/3 text-center overflow-hidden group rounded-lg shadow-md hover:shadow-xl transition-all duration-300'>
                 <Link to={`/recipe/${product.id}`}>
-                  <img 
-                    src={product.image} 
-                    alt={product.name} 
-                    className='w-full h-[200px] md:h-[300px] object-cover transition-transform duration-300 transform group-hover:scale-105' 
-                  />
-                  <div className='absolute bottom-0 left-0 right-0 bg-white bg-opacity-80 text-center p-2 opacity-100 md:opacity-0 transition-opacity duration-300 group-hover:opacity-100'>
-                    {product.name}
+                  <div className='aspect-[4/3] overflow-hidden'>
+                    <img 
+                      src={product.image} 
+                      alt={product.name} 
+                      className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-110' 
+                    />
+                  </div>
+                  <div className='absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 backdrop-blur-sm text-center p-3 opacity-100 md:opacity-0 transition-all duration-300 group-hover:opacity-100'>
+                    <p className='text-lg font-medium text-gray-800'>{product.name}</p>
                   </div>
                 </Link>
               </div>
             ))}
           </div>
-          <button onClick={nextProduct} className='text-xl md:text-2xl'>❯</button>
+          <button onClick={nextProduct} className='text-xl md:text-2xl px-6 md:px-10 py-2 hover:scale-110 transition-transform duration-300'>❯</button>
         </div>
       </div>
     </div>
