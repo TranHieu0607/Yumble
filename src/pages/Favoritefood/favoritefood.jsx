@@ -99,55 +99,54 @@ const FavoriteFoodPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="flex flex-col items-center mb-8">
-        <img src={logoImage} alt="Yumble Logo" className="h-full" />
+    <div className="max-w-7xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+      <div className="flex flex-col items-center mb-4 sm:mb-8">
+        <img src={logoImage} alt="Yumble Logo" className="h-12 sm:h-16 w-auto" />
       </div>
 
-      <div className="relative w-full mb-5">
-        <h2 className="text-2xl font-bold">Gợi ý món ăn</h2>
+      <div className="relative w-full mb-3 sm:mb-5">
+        <h2 className="text-xl sm:text-2xl font-bold">Gợi ý món ăn</h2>
         <input
           type="text"
           placeholder="Tìm kiếm món ăn ..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full max-w-md border border-gray-300 rounded-lg px-4 py-2 mb-5"
+          className="w-full max-w-md border border-gray-300 rounded-lg px-3 py-2 sm:px-4 sm:py-2 mb-3 sm:mb-5 text-sm sm:text-base"
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
         <div className="lg:col-span-2">
-          <div className="relative w-full mb-5">
-            <div className="absolute inset-0 bg-[#313131] h-12"></div>
-            <h2 className="relative text-2xl font-bold text-white px-4 py-2 inline-block w-max mx-auto">
+          <div className="relative w-full mb-3 sm:mb-5">
+            <div className="absolute inset-0 bg-[#313131] h-10 sm:h-12"></div>
+            <h2 className="relative text-xl sm:text-2xl font-bold text-white px-3 sm:px-4 py-1 sm:py-2 inline-block w-max mx-auto">
               Gợi ý món ăn
             </h2>
           </div>
 
           {suggestionsLoading ? (
-            <div>Đang tải gợi ý món ăn...</div>
+            <div className="text-center py-4">Đang tải gợi ý món ăn...</div>
           ) : suggestionsError ? (
-            <div className="text-red-500">{suggestionsError.message}</div>
+            <div className="text-red-500 text-center py-4">{suggestionsError.message}</div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
               {filteredSuggestions.slice(indexOfFirstItemSuggestions, indexOfLastItemSuggestions).map((food) => (
                 <div key={food.id} className="group">
                   <div className="relative overflow-hidden rounded-lg cursor-pointer">
-                  <Link to={`/recipe/${food.id}`}>
-                    <img
-                      src={food.image}
-                      alt={food.name}
-                      className="w-full h-56 object-cover transform group-hover:scale-105 transition-transform duration-300"
-                    />
-
-                    <div className="mt-4">
-                      <h2 className="text-lg font-bold mb-2 group-hover:text-red-500 transition-colors">
-                        {food.name}
-                      </h2>
-                      <p className="mt-2 text-gray-600 text-sm line-clamp-2">
-                        {food.description}
-                      </p>
-                    </div>
+                    <Link to={`/recipe/${food.id}`}>
+                      <img
+                        src={food.image}
+                        alt={food.name}
+                        className="w-full h-40 sm:h-56 object-cover transform group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="mt-3 sm:mt-4">
+                        <h2 className="text-base sm:text-lg font-bold mb-1 sm:mb-2 group-hover:text-red-500 transition-colors">
+                          {food.name}
+                        </h2>
+                        <p className="text-xs sm:text-sm text-gray-600 line-clamp-2">
+                          {food.description}
+                        </p>
+                      </div>
                     </Link>
                   </div>
                 </div>
@@ -156,19 +155,19 @@ const FavoriteFoodPage = () => {
           )}
 
           {/* Phân trang cho gợi ý món ăn */}
-          <div className="flex justify-center items-center mt-8">
+          <div className="flex justify-center items-center mt-6 sm:mt-8">
             <button
               onClick={() => setCurrentPageSuggestions(currentPageSuggestions - 1)}
               disabled={currentPageSuggestions === 1}
-              className={`p-2 rounded-lg ${currentPageSuggestions === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+              className={`p-1 sm:p-2 rounded-lg text-sm sm:text-base ${currentPageSuggestions === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               Previous
             </button>
-            <span className="mx-2">{currentPageSuggestions} / {totalPagesSuggestions}</span>
+            <span className="mx-2 text-sm sm:text-base">{currentPageSuggestions} / {totalPagesSuggestions}</span>
             <button
               onClick={() => setCurrentPageSuggestions(currentPageSuggestions + 1)}
               disabled={currentPageSuggestions === totalPagesSuggestions}
-              className={`p-2 rounded-lg ${currentPageSuggestions === totalPagesSuggestions ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+              className={`p-1 sm:p-2 rounded-lg text-sm sm:text-base ${currentPageSuggestions === totalPagesSuggestions ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               Next
             </button>
@@ -177,27 +176,33 @@ const FavoriteFoodPage = () => {
 
         {/* Bài đăng nổi bật section */}
         <div className="lg:col-span-1">
-          <h2 className="text-2xl font-bold mb-4 justify-center border-b-2 border-green-500 pb-2">Món ăn yêu thích</h2>
-          <div className="space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 justify-center border-b-2 border-green-500 pb-2">Món ăn yêu thích</h2>
+          <div className="space-y-3 sm:space-y-4">
             {currentPosts.map((food) => (
-              <div key={food.id} className="relative flex border rounded-lg p-4 shadow-md">
-                <Link to={`/recipe/${food.id}`}>
-                <img
-                  src={food.image}
-                  alt={food.name}
-                  className="w-1/3 h-32 object-cover rounded-lg mr-4"
-                />
+              <div key={food.id} className="group relative bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
+                <Link to={`/recipe/${food.id}`} className="flex p-2 sm:p-3">
+                  <div className="relative w-20 h-20 sm:w-32 sm:h-32 flex-shrink-0">
+                    <img
+                      src={food.image}
+                      alt={food.name}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
+                  <div className="flex-1 ml-3 sm:ml-4">
+                    <h3 className="font-semibold text-sm sm:text-base text-gray-800 group-hover:text-red-500 transition-colors duration-200">
+                      {food.name}
+                    </h3>
+                    <p className="mt-1 text-xs sm:text-sm text-gray-600 line-clamp-2">
+                      {food.description}
+                    </p>
+                  </div>
                 </Link>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg">{food.name}</h3>
-                  <p className="text-gray-500">{food.description}</p>
-                </div>
                 <button
                   onClick={() => handleRemoveFromFavorites(food.id)}
-                  className="absolute top-2 right-2 p-2 bg-white rounded-full shadow hover:bg-gray-200"
+                  className="absolute top-2 right-2 p-1.5 sm:p-2 bg-white rounded-full shadow-md hover:bg-red-50 transition-colors duration-200"
                 >
                   <svg
-                    className="w-6 h-6 text-red-500"
+                    className="w-4 h-4 sm:w-5 sm:h-5 text-red-500"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -209,19 +214,19 @@ const FavoriteFoodPage = () => {
           </div>
 
           {/* Phân trang cho bài đăng nổi bật */}
-          <div className="flex justify-center items-center mt-8">
+          <div className="flex justify-center items-center mt-6 sm:mt-8">
             <button
               onClick={() => setCurrentPagePosts(currentPagePosts - 1)}
               disabled={currentPagePosts === 1}
-              className={`p-2 rounded-lg ${currentPagePosts === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+              className={`p-1 sm:p-2 rounded-lg text-sm sm:text-base ${currentPagePosts === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               Previous
             </button>
-            <span className="mx-2">{currentPagePosts} / {totalPagesPosts}</span>
+            <span className="mx-2 text-sm sm:text-base">{currentPagePosts} / {totalPagesPosts}</span>
             <button
               onClick={() => setCurrentPagePosts(currentPagePosts + 1)}
               disabled={currentPagePosts === totalPagesPosts}
-              className={`p-2 rounded-lg ${currentPagePosts === totalPagesPosts ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
+              className={`p-1 sm:p-2 rounded-lg text-sm sm:text-base ${currentPagePosts === totalPagesPosts ? 'text-gray-400 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-100'}`}
             >
               Next
             </button>
