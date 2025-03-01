@@ -1,29 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFoods, addFoodToFavorites } from "../../store/food";
+import { addFoodToFavorites } from "../../store/food";
 import { removeFoodFromFavorites } from "../../store/favorite";
-
 
 const RecipePage = () => {
   const dispatch = useDispatch();
-  const { foods, loading, error } = useSelector((state) => state.food);
+  const { foods } = useSelector((state) => state.food);
   const currentUser = useSelector((state) => state.auth.userId);
   const favoriteFoods = useSelector((state) => state.favorite.favoriteFoods);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 8;
-
-  useEffect(() => {
-    dispatch(fetchFoods());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm]);
-
-  if (loading) return <div>Đang tải...</div>;
-  if (error) return <div>Lỗi: {error.message || "Có lỗi xảy ra"}</div>;
 
   const filteredFoods = foods?.filter((food) =>
     food.name.toLowerCase().includes(searchTerm.toLowerCase().trim())
@@ -64,15 +52,16 @@ const RecipePage = () => {
   const isFavorite = (foodId) => favoriteFoods.some((food) => food.id === foodId);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white">
-      {/* Background decorations */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+    <div className="relative min-h-screen bg-gradient-to-b from-white via-gray-50 to-white">
+      {/* Background decorations - Changed from fixed to absolute and contained within parent */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-32 -left-32 w-64 h-64 bg-red-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
         <div className="absolute -top-32 -right-32 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
         <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-pink-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-2 sm:px-4 py-4 sm:py-8">
+      {/* Added a wrapper div with padding-bottom to prevent content from touching footer */}
+      <div className="relative z-10 container mx-auto px-2 sm:px-4 py-4 sm:py-8 pb-16">
         {/* Header section with enhanced styling */}
         <div className="text-center mb-8 sm:mb-16">     
           <div className="mb-6 sm:mb-12">

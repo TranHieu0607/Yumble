@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import recipeImage from "../../assets/recipe.png";
 import siuImage from "../../assets/siu.jpg"
 import { fetchAIResponse } from "../../store/ai";
 import { Link, useNavigate } from "react-router-dom";
+import { FaPaperPlane, FaRobot } from 'react-icons/fa';
 
 const Ai = () => {
   const dispatch = useDispatch();
@@ -11,6 +12,8 @@ const Ai = () => {
   const aiResponse = useSelector((state) => state.ai.response);
   const { profile } = useSelector((state) => state.user);
   const token = useSelector((state) => state.auth.token);
+  const messagesEndRef = useRef(null);
+  
   const [chatHistory, setChatHistory] = useState([
     {
       id: "1",
@@ -35,6 +38,14 @@ const Ai = () => {
   const [currentChatId, setCurrentChatId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   useEffect(() => {
     if (!token) {
@@ -111,96 +122,136 @@ const Ai = () => {
     setInputMessage(e.target.value);
     
     textarea.style.height = 'inherit';
-    
     const computed = window.getComputedStyle(textarea);
-    
     const height = parseInt(computed.getPropertyValue('border-top-width'), 10)
                   + parseInt(computed.getPropertyValue('padding-top'), 10)
                   + textarea.scrollHeight
                   + parseInt(computed.getPropertyValue('padding-bottom'), 10)
                   + parseInt(computed.getPropertyValue('border-bottom-width'), 10);
     
-    textarea.style.height = `${height}px`;
+    textarea.style.height = `${Math.min(height, 120)}px`; // Limit max height
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      if (e.shiftKey) {
-        return;
-      } else {
-        e.preventDefault();
-        handleSendMessage();
-      }
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
     }
   };
 
   return (
-    <div className="h-screen bg-gray-50 flex">
-      <div className="flex-1 flex flex-col h-full shadow-lg rounded-lg overflow-hidden">
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
+    <div className="fixed inset-0 bg-gray-50">
+      <div className="h-full flex flex-col">
+        {/* Header */}
+        <div className="bg-white shadow-sm px-4 sm:px-6 lg:px-8 py-4">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">AI Assistant</h1>
+            <button
+              onClick={createNewChat}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200 text-sm sm:text-base"
             >
-              {message.type === "bot" && (
-                <img
-                  src={siuImage}
-                  alt="Bot Logo"
-                  className="w-10 h-10 rounded-full mr-2 flex-shrink-0 object-cover"
-                />
-              )}
-              <div
-                className={`p-3 rounded-lg shadow-md max-w-md transition-all duration-300 ${
-                  message.type === "user"
-                    ? "bg-blue-200 text-right"
-                    : "bg-white text-left border border-gray-300"
-                }`}
-              >
-                <p className="whitespace-pre-wrap break-words">{message.content}</p>
-                {message.foods && message.foods.length > 0 && (
-                  <div className="mt-2">
-                    {message.foods.map((food) => (
-                      <div key={food.id} className="border rounded-lg overflow-hidden mb-2">
-                        <Link to={`/recipe/${food.id}`}>
-                          <img
-                            src={food.image}
-                            alt={food.name}
-                            className="w-full h-32 object-cover"
-                          />
-                          <div className="p-2">
-                            <h3 className="font-bold text-lg truncate">{food.name}</h3>
-                            <p className="text-sm text-gray-500 truncate">{food.description}</p>
-                          </div>
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              {message.type === "user" && profile && (
-                <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center ml-2">
-                  <img
-                    src={profile.avatar}
-                    alt="User Avatar"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
-            </div>
-          ))}
+              Cuộc trò chuyện mới
+            </button>
+          </div>
         </div>
-        <div className="p-4 border-t bg-white sticky bottom-0">
-          <div className="flex items-center">
-            <textarea
-              value={inputMessage}
-              onChange={handleTextAreaChange}
-              onKeyDown={handleKeyDown}
-              placeholder="Hỏi bất kỳ điều gì"
-              rows="1"
-              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-hidden"
-              style={{ minHeight: '40px', maxHeight: '200px' }}
-            />
+
+        {/* Chat Container */}
+        <div className="flex-1 flex flex-col h-[calc(100vh-4rem)] bg-gray-50">
+          {/* Messages Area */}
+          <div className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="max-w-7xl mx-auto space-y-6">
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`flex ${message.type === "user" ? "justify-end" : "justify-start"} items-start`}
+                >
+                  {message.type === "bot" && (
+                    <div className="flex-shrink-0 mr-4">
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <FaRobot className="text-blue-500 text-lg sm:text-xl" />
+                      </div>
+                    </div>
+                  )}
+                  <div
+                    className={`max-w-[80%] sm:max-w-[70%] rounded-2xl px-4 py-3 ${
+                      message.type === "user"
+                        ? "bg-blue-500 text-white"
+                        : "bg-white shadow-sm"
+                    }`}
+                  >
+                    <p className="text-sm sm:text-base whitespace-pre-wrap break-words">
+                      {message.content}
+                    </p>
+                    {message.foods && message.foods.length > 0 && (
+                      <div className="mt-4 space-y-4">
+                        {message.foods.map((food) => (
+                          <Link
+                            key={food.id}
+                            to={`/recipe/${food.id}`}
+                            className="block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-200"
+                          >
+                            <div className="flex items-center">
+                              <img
+                                src={food.image}
+                                alt={food.name}
+                                className="w-24 h-24 sm:w-32 sm:h-32 object-cover"
+                              />
+                              <div className="p-3 flex-1">
+                                <h3 className="font-semibold text-gray-800 mb-1 line-clamp-1">
+                                  {food.name}
+                                </h3>
+                                <p className="text-sm text-gray-500 line-clamp-2">
+                                  {food.description}
+                                </p>
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  {message.type === "user" && profile && (
+                    <div className="flex-shrink-0 ml-4">
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden">
+                        <img
+                          src={profile.avatar}
+                          alt="User Avatar"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+          </div>
+
+          {/* Input Area */}
+          <div className="border-t bg-white py-4 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex items-end gap-4">
+                <textarea
+                  value={inputMessage}
+                  onChange={handleTextAreaChange}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Nhập tin nhắn của bạn..."
+                  className="flex-1 resize-none rounded-xl border-2 border-gray-200 p-3 focus:outline-none focus:border-blue-500 text-sm sm:text-base"
+                  style={{ minHeight: '44px', maxHeight: '120px' }}
+                />
+                <button
+                  onClick={handleSendMessage}
+                  disabled={!inputMessage.trim()}
+                  className={`p-3 rounded-xl ${
+                    inputMessage.trim()
+                      ? "bg-blue-500 hover:bg-blue-600"
+                      : "bg-gray-300 cursor-not-allowed"
+                  } transition-colors duration-200`}
+                >
+                  <FaPaperPlane className="text-white text-lg sm:text-xl" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

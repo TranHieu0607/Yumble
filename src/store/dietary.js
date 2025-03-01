@@ -121,10 +121,12 @@ const dietarySlice = createSlice({
       .addCase(updateUserDietary.fulfilled, (state, action) => {
         state.loading = false;
         if (action.payload) {
-          state.dietary.data = [...(state.dietary.data || []), {
+          // Add new dietary to the list
+          const newDietary = {
             dietary: action.payload.dietary,
             priority: action.payload.priority
-          }];
+          };
+          state.dietary.data = [...(state.dietary.data || []), newDietary];
         }
         state.error = null;
       })
@@ -138,11 +140,11 @@ const dietarySlice = createSlice({
       })
       .addCase(deleteUserDietary.fulfilled, (state, action) => {
         state.loading = false;
-        if (action.payload?.dietaryId) {
-          state.dietary.data = state.dietary.data.filter(
-            (item) => item.dietary.id !== action.payload.dietaryId
-          );
-        }
+        // Remove the dietary from the list immediately
+        const dietaryId = action.meta.arg.dietaryId;
+        state.dietary.data = state.dietary.data.filter(
+          (item) => item.dietary.id !== dietaryId
+        );
         state.error = null;
       })
       .addCase(deleteUserDietary.rejected, (state, action) => {

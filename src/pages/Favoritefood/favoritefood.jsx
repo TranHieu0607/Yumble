@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFavoriteFoods, removeFoodFromFavorites } from "../../store/favorite";
-import { fetchFoodSuggestions } from "../../store/food";
+import { removeFoodFromFavorites } from "../../store/favorite";
 import { Link } from "react-router-dom";
 import logoImage from "../../assets/logoyumble.png";
 import { useNavigate } from "react-router-dom";
 
-
 const FavoriteFoodPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { favoriteFoods, loading, error } = useSelector((state) => state.favorite);
+  const favorite = useSelector((state) => state.favorite);
   const currentUser = useSelector((state) => state.auth.userId);
   const [searchTerm, setSearchTerm] = useState("");
   
@@ -22,28 +20,34 @@ const FavoriteFoodPage = () => {
   const [currentPagePosts, setCurrentPagePosts] = useState(1);
   const itemsPerPagePosts = 3;
 
-  const { suggestions, loading: suggestionsLoading, error: suggestionsError } = useSelector((state) => state.food);
+  const { suggestions = [] } = useSelector((state) => state.food) || {};
 
   // Trạng thái phân trang cho gợi ý món ăn
   const [currentPageSuggestions, setCurrentPageSuggestions] = useState(1);
-  const itemsPerPageSuggestions = 4; // Số món ăn hiển thị trên mỗi trang
+  const itemsPerPageSuggestions = 4;
 
-  useEffect(() => {
-    if (currentUser) {
-      dispatch(fetchFavoriteFoods(currentUser));
-    }
-    if (currentUser) {
-      dispatch(fetchFoodSuggestions(currentUser));
-    }
-  }, [dispatch, currentUser]);
+  // Kiểm tra trạng thái loading và error
+  if (favorite.loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse text-lg">Đang tải dữ liệu...</div>
+      </div>
+    );
+  }
 
-  
+  if (favorite.error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-red-500">Lỗi: {favorite.error.message || 'Có lỗi xảy ra'}</div>
+      </div>
+    );
+  }
 
-  if (loading) return <div>Đang tải...</div>;
-  if (error) return <div>Lỗi: {error.message || 'Có lỗi xảy ra'}</div>;
+  // Đảm bảo favoriteFoods là một mảng
+  const favoriteFoodsList = favorite.favoriteFoods || [];
 
   // Lọc món ăn theo search term
-  const filteredFavoriteFoods = favoriteFoods.filter(food =>
+  const filteredFavoriteFoods = favoriteFoodsList.filter(food =>
     food.name.toLowerCase().includes(searchTerm.toLowerCase().trim())
   );
 
@@ -58,10 +62,10 @@ const FavoriteFoodPage = () => {
   // Tính toán các bài đăng nổi bật cho trang hiện tại
   const indexOfLastItemPosts = currentPagePosts * itemsPerPagePosts;
   const indexOfFirstItemPosts = indexOfLastItemPosts - itemsPerPagePosts;
-  const currentPosts = favoriteFoods.slice(indexOfFirstItemPosts, indexOfLastItemPosts);
+  const currentPosts = favoriteFoodsList.slice(indexOfFirstItemPosts, indexOfLastItemPosts);
 
   // Tính tổng số trang cho bài đăng nổi bật
-  const totalPagesPosts = Math.ceil(favoriteFoods.length / itemsPerPagePosts);
+  const totalPagesPosts = Math.ceil(favoriteFoodsList.length / itemsPerPagePosts);
 
   // Tính toán các món ăn cho trang hiện tại
   const indexOfLastItemSuggestions = currentPageSuggestions * itemsPerPageSuggestions;
@@ -83,14 +87,15 @@ const FavoriteFoodPage = () => {
   });
 
   const handleRemoveFromFavorites = async (foodId) => {
-    if (currentUser) {
-      try {
-        await dispatch(removeFoodFromFavorites({ userId: currentUser, foodId }));
-      } catch (error) {
-        alert("Có lỗi xảy ra khi xóa món ăn khỏi danh sách yêu thích.");
-      }
-    } else {
+    if (!currentUser) {
       alert("Bạn cần đăng nhập để xóa món ăn yêu thích.");
+      return;
+    }
+    
+    try {
+      await dispatch(removeFoodFromFavorites({ userId: currentUser, foodId }));
+    } catch (error) {
+      alert("Có lỗi xảy ra khi xóa món ăn khỏi danh sách yêu thích.");
     }
   };
 
@@ -124,10 +129,10 @@ const FavoriteFoodPage = () => {
             </h2>
           </div>
 
-          {suggestionsLoading ? (
+          {suggestions.loading ? (
             <div className="text-center py-4">Đang tải gợi ý món ăn...</div>
-          ) : suggestionsError ? (
-            <div className="text-red-500 text-center py-4">{suggestionsError.message}</div>
+          ) : suggestions.error ? (
+            <div className="text-red-500 text-center py-4">{suggestions.error.message}</div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
               {filteredSuggestions.slice(indexOfFirstItemSuggestions, indexOfLastItemSuggestions).map((food) => (

@@ -112,8 +112,14 @@ const allergySlice = createSlice({
       })
       .addCase(updateUserAllergy.fulfilled, (state, action) => {
         state.loading = false;
-        // Cập nhật danh sách dị ứng nếu cần
-        state.allergies.push(action.payload.allergy); // Thêm dị ứng mới vào danh sách
+        // Add new allergy to the list immediately
+        if (action.payload) {
+          const newAllergy = {
+            allergy: action.payload.allergy,
+            severity: action.meta.arg.severity
+          };
+          state.allergies = [...state.allergies, newAllergy];
+        }
         state.error = null;
       })
       .addCase(updateUserAllergy.rejected, (state, action) => {
@@ -131,6 +137,19 @@ const allergySlice = createSlice({
       .addCase(fetchAllergies.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(deleteUserAllergy.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteUserAllergy.fulfilled, (state, action) => {
+        state.loading = false;
+        // Remove the allergy from the list immediately
+        const allergyId = action.meta.arg.allergyId;
+        state.allergies = state.allergies.filter(
+          (item) => item.allergy.id !== allergyId
+        );
+        state.error = null;
       });
   },
 });
