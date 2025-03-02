@@ -14,6 +14,7 @@ const UserProfile = () => {
   const dietaries = useSelector((state) => state.dietary.dietary.data) || [];
   const dietaryOptions = useSelector((state) => state.dietary.dietaryOptions) || [];
   const allergies = useSelector((state) => state.allergy.allergies) || [];
+  const allergyOptions = useSelector((state) => state.allergy.allergyOptions) || [];
   const premium = useSelector((state) => state.user.premium);
   const userId = profile?.id;
 
@@ -48,7 +49,6 @@ const UserProfile = () => {
 
   const [isUpdatingAllergy, setIsUpdatingAllergy] = useState(false);
   const [selectedAllergy, setSelectedAllergy] = useState('');
-
   const [selectedSeverity, setSelectedSeverity] = useState('');
 
   const [isDeletingAllergies, setIsDeletingAllergies] = useState(false);
@@ -56,6 +56,8 @@ const UserProfile = () => {
 
   const [isDeletingDietary, setIsDeletingDietary] = useState(false);
   const [selectedDietaryToDelete, setSelectedDietaryToDelete] = useState(null);
+
+  const [selectedDietaryPriority, setSelectedDietaryPriority] = useState('');
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -162,6 +164,7 @@ const UserProfile = () => {
       dispatch(fetchUserDietaries(userId));
       dispatch(fetchUserAllergies(userId));
       dispatch(fetchUserPremium(userId));
+      dispatch(fetchAllergies());
     }
   }, [dispatch]);
 
@@ -190,11 +193,16 @@ const UserProfile = () => {
   const handleDietaryUpdate = async () => {
     try {
       const userId = profile?.id;
-      if (!userId || !selectedDietary) return;
+      if (!userId || !selectedDietary || !selectedDietaryPriority) return;
 
-      await dispatch(updateUserDietary({ userId, dietaryId: selectedDietary })).unwrap();
+      await dispatch(updateUserDietary({ 
+        userId, 
+        dietaryId: selectedDietary,
+        priority: selectedDietaryPriority 
+      })).unwrap();
       await dispatch(fetchUserDietaries(userId));
       setSelectedDietary('');
+      setSelectedDietaryPriority('');
       setIsUpdatingDietary(false);
     } catch (error) {
       console.error('Error updating dietary:', error);
@@ -226,18 +234,24 @@ const UserProfile = () => {
   };
 
   // Hàm để xử lý việc thêm dị ứng
-  const handleAllergyAdd = () => {
-    const userId = profile?.id;
-    if (selectedAllergy) {
-      dispatch(updateUserAllergy({ userId, allergyId: selectedAllergy, severity: selectedSeverity }))
-        .then(() => {
-          dispatch(fetchUserAllergies(userId)); // Cập nhật lại danh sách dị ứng
-          setSelectedAllergy(''); // Reset lại giá trị đã chọn
-          setIsUpdatingAllergy(false); // Đóng modal
-        })
-        .catch((error) => {
-          console.error('Error adding allergy:', error);
-        });
+  const handleAllergyAdd = async () => {
+    try {
+      if (!selectedAllergy || !selectedSeverity) return;
+
+      const result = await dispatch(updateUserAllergy({
+        userId: profile?.id,
+        allergyId: selectedAllergy,
+        severity: selectedSeverity
+      })).unwrap();
+
+      if (result) {
+        await dispatch(fetchUserAllergies(profile?.id));
+        setSelectedAllergy('');
+        setSelectedSeverity('');
+        setIsUpdatingAllergy(false);
+      }
+    } catch (error) {
+      console.error('Error adding allergy:', error);
     }
   };
 
@@ -347,9 +361,9 @@ const UserProfile = () => {
               </div>
             </div>
             {premium && (
-              <div className="bg-yellow-400 text-white px-4 py-1 rounded-full font-semibold flex items-center">
+              <div className={`${premium.premiumStatus === 'ACTIVE' ? 'bg-yellow-400' : 'bg-gray-400'} text-white px-4 py-1 rounded-full font-semibold flex items-center`}>
                 <span className="mr-1">⭐</span>
-                Premium Member
+                {premium.premiumStatus === 'ACTIVE' ? 'Premium Member' : 'Premium Inactive'}
               </div>
             )}
           </div>
@@ -453,11 +467,26 @@ const UserProfile = () => {
                     className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="">Chọn chế độ ăn</option>
-                    {dietaryOptions.map((option) => (
-                      <option key={option.id} value={option.id}>
-                        {option.name}
-                      </option>
+                    {dietaryOptions
+                      .filter(option => !dietaries.some(d => d.dietary.id === option.id))
+                      .map((option) => (
+                        <option key={option.id} value={option.id}>
+                          {option.name}
+                        </option>
                     ))}
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700 mb-2">Mức độ ưu tiên</label>
+                  <select
+                    value={selectedDietaryPriority}
+                    onChange={(e) => setSelectedDietaryPriority(e.target.value)}
+                    className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Chọn mức độ</option>
+                    <option value="nhẹ">Nhẹ</option>
+                    <option value="trung bình">Trung bình</option>
+                    <option value="nặng">Nặng</option>
                   </select>
                 </div>
                 <div className="flex justify-end gap-2">
@@ -470,7 +499,69 @@ const UserProfile = () => {
                   <button
                     onClick={handleDietaryUpdate}
                     className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                    disabled={!selectedDietary}
+                    disabled={!selectedDietary || !selectedDietaryPriority}
+                  >
+                    Thêm
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Modal thêm dị ứng */}
+          {isUpdatingAllergy && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white p-6 rounded-lg w-[500px]">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-semibold">Thêm dị ứng</h3>
+                  <button 
+                    onClick={() => setIsUpdatingAllergy(false)}
+                    className="text-gray-500 hover:text-gray-700"
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700 mb-2">Chọn dị ứng</label>
+                  <select
+                    value={selectedAllergy}
+                    onChange={(e) => setSelectedAllergy(e.target.value)}
+                    className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Chọn dị ứng</option>
+                    {allergyOptions
+                      .filter(option => !allergies.some(a => a.allergy.id === option.id))
+                      .map((option) => (
+                        <option key={option.id} value={option.id}>
+                          {option.name}
+                        </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700 mb-2">Mức độ dị ứng</label>
+                  <select
+                    value={selectedSeverity}
+                    onChange={(e) => setSelectedSeverity(e.target.value)}
+                    className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Chọn mức độ</option>
+                    <option value="nhẹ">Nhẹ</option>
+                    <option value="trung bình">Trung bình</option>
+                    <option value="nặng">Nặng</option>
+                  </select>
+                </div>
+                <div className="flex justify-end gap-2">
+                  <button
+                    onClick={() => setIsUpdatingAllergy(false)}
+                    className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                  >
+                    Hủy
+                  </button>
+                  <button
+                    onClick={handleAllergyAdd}
+                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                    disabled={!selectedAllergy || !selectedSeverity}
                   >
                     Thêm
                   </button>
@@ -508,20 +599,28 @@ const UserProfile = () => {
                     dietaries.map((item) => (
                       <div 
                         key={`dietary-${item?.dietary?.id || Math.random()}`} 
-                        className="flex items-center justify-between mb-2 p-2 bg-gray-50 rounded-lg"
+                        className="flex items-center justify-between mb-2 p-2 bg-gray-50 rounded-lg group"
                       >
-                        <span className="font-medium">{item?.dietary?.name || 'Không xác định'}</span>
-                        {item?.priority && (
-                          <span className={`text-sm px-2 py-1 rounded ${
-                            item.priority === 'nặng' 
-                              ? 'bg-red-100 text-red-800'
-                              : item.priority === 'trung bình'
-                              ? 'bg-yellow-100 text-yellow-800'
-                              : 'bg-green-100 text-green-800'
-                          }`}>
-                            {item.priority}
-                          </span>
-                        )}
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{item?.dietary?.name || 'Không xác định'}</span>
+                          {item?.priority && (
+                            <span className={`text-sm px-2 py-1 rounded ${
+                              item.priority === 'nặng' 
+                                ? 'bg-red-100 text-red-800'
+                                : item.priority === 'trung bình'
+                                ? 'bg-yellow-100 text-yellow-800'
+                                : 'bg-green-100 text-green-800'
+                            }`}>
+                              {item.priority}
+                            </span>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => handleDeleteDietary(item.dietary.id)}
+                          className="text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <FaTimes />
+                        </button>
                       </div>
                     ))
                   ) : (
@@ -536,18 +635,28 @@ const UserProfile = () => {
                     allergies.map((allergy) => (
                       <div 
                         key={`allergy-${allergy?.allergy?.id || Math.random()}`}
-                        className="flex items-center justify-between mb-2 p-2 bg-gray-50 rounded-lg"
+                        className="flex items-center justify-between mb-2 p-2 bg-gray-50 rounded-lg group"
                       >
-                        <span>{allergy?.allergy?.name || 'Không xác định'}</span>
-                        <span className={`text-sm px-2 py-1 rounded ${
-                          allergy?.severity === 'nặng' 
-                            ? 'bg-red-100 text-red-800'
-                            : allergy?.severity === 'trung bình'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-green-100 text-green-800'
-                        }`}>
-                          {allergy?.severity || 'Không xác định'}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{allergy?.allergy?.name || 'Không xác định'}</span>
+                          {allergy?.severity && (
+                            <span className={`text-sm px-2 py-1 rounded ${
+                              allergy.severity === 'nặng' 
+                                ? 'bg-red-100 text-red-800'
+                                : allergy.severity === 'trung bình'
+                                ? 'bg-yellow-100 text-yellow-800'
+                                : 'bg-green-100 text-green-800'
+                            }`}>
+                              {allergy.severity}
+                            </span>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => handleDeleteAllergy(allergy.allergy.id)}
+                          className="text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <FaTimes />
+                        </button>
                       </div>
                     ))
                   ) : (

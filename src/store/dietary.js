@@ -27,11 +27,11 @@ export const fetchUserDietaries = createAsyncThunk(
 // Thunk để cập nhật chế độ ăn của người dùng
 export const updateUserDietary = createAsyncThunk(
   'dietary/updateUserDietary',
-  async ({ userId, dietaryId }, { rejectWithValue }) => {
+  async ({ userId, dietaryId, priority }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/users/${userId}/dietaries`,
-        { dietaryId },
+        { dietaryId, priority },
         {
           headers: {
             Authorization: localStorage.getItem('token'),

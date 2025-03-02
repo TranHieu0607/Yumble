@@ -170,7 +170,7 @@ const userSlice = createSlice({
       })
       .addCase(fetchUserPremium.fulfilled, (state, action) => {
         state.loading = false;
-        state.premium = action.payload; // Lưu trữ thông tin premium
+        state.premium = action.payload; // Lưu toàn bộ thông tin premium bao gồm premiumStatus
       })
       .addCase(fetchUserPremium.rejected, (state, action) => {
         state.loading = false;

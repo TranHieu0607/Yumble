@@ -86,7 +86,8 @@ export const fetchAllergies = createAsyncThunk(
 const allergySlice = createSlice({
   name: 'allergy',
   initialState: {
-    allergies: [], // Đảm bảo allergies có giá trị mặc định là một mảng
+    allergies: [], // Dị ứng của người dùng
+    allergyOptions: [], // Danh sách các loại dị ứng có sẵn
     loading: false,
     error: null,
   },
@@ -132,7 +133,7 @@ const allergySlice = createSlice({
       })
       .addCase(fetchAllergies.fulfilled, (state, action) => {
         state.loading = false;
-        state.allergies = action.payload; // Lưu trữ dữ liệu allergies
+        state.allergyOptions = action.payload; // Lưu vào allergyOptions thay vì allergies
       })
       .addCase(fetchAllergies.rejected, (state, action) => {
         state.loading = false;
