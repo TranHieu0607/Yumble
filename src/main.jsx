@@ -1,5 +1,7 @@
+import React from 'react';
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet, Navigate, useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import App from "./App.jsx";
 import Login from "./pages/Login/login.jsx";
 import HomePage from "./pages/HomePage/home.jsx";
@@ -16,6 +18,35 @@ import store from './store/store';
 
 import './index.css'; 
 import LoginLayout from "./pages/Login/loginLayout.jsx";
+
+// Kiểm tra đăng nhập
+function RequireAuth({ children }) {
+  const token = useSelector(state => state.auth.token);
+  const navigate = useNavigate();
+
+  if (!token) {
+    alert("Bạn cần đăng nhập để xem trang này!");
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+}
+
+// Kiểm tra quyền admin ngay trong main.jsx
+function RequireAdmin({ children }) {
+  const token = useSelector(state => state.auth.token);
+  const profile = useSelector(state => state.user.profile);
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!profile || profile.role !== 'ADMIN') {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+}
 
 const router = createBrowserRouter([
   {
@@ -44,7 +75,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/ai",
-        element: <Ai />,
+        element: (
+          <RequireAuth>
+            <Ai />
+          </RequireAuth>
+        ),
       },
       {
         path: "/profile", 
@@ -52,7 +87,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/favoriteFood", 
-        element: <FavoriteFoodPage />,
+        element: (
+          <RequireAuth>
+            <FavoriteFoodPage />
+          </RequireAuth>
+        ),
       },
       {
         path: "admin",
@@ -69,24 +108,6 @@ const router = createBrowserRouter([
     element: <LoginLayout><Login /></LoginLayout>,
   },
 ]);
-
-
-
-// Kiểm tra quyền admin ngay trong main.jsx
-function RequireAdmin({ children }) {
-  const profile = store.getState().user.profile;
-  const token = store.getState().auth.token;
-
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (!profile || profile.role !== 'ADMIN') {
-    return <Navigate to="/" replace />;
-  }
-
-  return children;
-}
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>

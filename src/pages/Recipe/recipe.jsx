@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addFoodToFavorites } from "../../store/food";
-import { removeFoodFromFavorites } from "../../store/favorite";
+import { addFoodToFavorites, removeFoodFromFavorites } from "../../store/favorite";
 
 const RecipePage = () => {
   const dispatch = useDispatch();
   const { foods } = useSelector((state) => state.food);
+  const { favoriteFoods } = useSelector((state) => state.favorite);
   const currentUser = useSelector((state) => state.auth.userId);
-  const favoriteFoods = useSelector((state) => state.favorite.favoriteFoods);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [localFavorites, setLocalFavorites] = useState(favoriteFoods);
   const itemsPerPage = 8;
+
+  // Update local favorites when Redux state changes
+  useEffect(() => {
+    setLocalFavorites(favoriteFoods);
+  }, [favoriteFoods]);
 
   const filteredFoods = foods?.filter((food) =>
     food.name.toLowerCase().includes(searchTerm.toLowerCase().trim())
@@ -24,6 +29,7 @@ const RecipePage = () => {
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset về trang 1 khi search
   };
 
   const handlePageChange = (pageNumber) => {
@@ -33,45 +39,71 @@ const RecipePage = () => {
 
   const handleAddToFavorites = async (foodId) => {
     if (!currentUser) return alert("Bạn cần đăng nhập để thêm món ăn yêu thích.");
-    try {
-      await dispatch(addFoodToFavorites({ userId: currentUser, foodId })).unwrap();
-    } catch {
-      alert("Có lỗi xảy ra khi thêm món ăn vào danh sách yêu thích.");
+    
+    if (localFavorites.some(food => food.id === foodId)) {
+      alert("Món ăn đã có trong danh sách yêu thích của bạn!");
+      return;
+    }
+
+    const foodToAdd = foods.find(food => food.id === foodId);
+    if (foodToAdd) {
+      try {
+        const result = await dispatch(addFoodToFavorites({ userId: currentUser, foodId })).unwrap();
+        setLocalFavorites(prev => [...prev, foodToAdd]);
+      } catch (error) {
+        if (error?.code === 1119) {
+          setLocalFavorites(prev => [...prev, foodToAdd]);
+          return;
+        }
+        alert("Có lỗi xảy ra khi thêm món ăn vào danh sách yêu thích.");
+      }
     }
   };
 
   const handleRemoveFromFavorites = async (foodId) => {
     if (!currentUser) return alert("Bạn cần đăng nhập để xóa món ăn yêu thích.");
     try {
-      await dispatch(removeFoodFromFavorites({ userId: currentUser, foodId }));
-    } catch {
+      await dispatch(removeFoodFromFavorites({ userId: currentUser, foodId })).unwrap();
+      setLocalFavorites(prev => prev.filter(food => food.id !== foodId));
+    } catch (error) {
       alert("Có lỗi xảy ra khi xóa món ăn khỏi danh sách yêu thích.");
     }
   };
 
-  const isFavorite = (foodId) => favoriteFoods.some((food) => food.id === foodId);
+  const isFavorite = (foodId) => localFavorites.some((food) => food.id === foodId);
+
+  // Nếu không có dữ liệu foods
+  if (!foods?.length) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <p className="text-gray-600 text-lg">Không có công thức nào</p>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-white via-gray-50 to-white">
-      {/* Background decorations - Changed from fixed to absolute and contained within parent */}
+      {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-32 -left-32 w-64 h-64 bg-red-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div className="absolute -top-32 -right-32 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-pink-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+        <div className="absolute -top-32 -left-32 w-64 h-64 bg-red-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float"></div>
+        <div className="absolute -top-32 -right-32 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float [animation-delay:1s]"></div>
+        <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-pink-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float [animation-delay:2s]"></div>
       </div>
 
-      {/* Added a wrapper div with padding-bottom to prevent content from touching footer */}
+      {/* Content wrapper */}
       <div className="relative z-10 container mx-auto px-2 sm:px-4 py-4 sm:py-8 pb-16">
-        {/* Header section with enhanced styling */}
-        <div className="text-center mb-8 sm:mb-16">     
+        {/* Header section */}
+        <div className="text-center mb-8 sm:mb-16 animate-fade-up">     
           <div className="mb-6 sm:mb-12">
-            <h2 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2 sm:mb-4">Công Thức Nấu Ăn</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg px-4">
+            <h2 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2 sm:mb-4 animate-scale-up">
+              Công Thức Nấu Ăn
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg px-4 animate-fade-up [animation-delay:200ms]">
               Khám phá những công thức nấu ăn tuyệt vời từ khắp mọi miền đất nước
             </p>
           </div>
 
-          <div className="relative max-w-xl mx-auto px-4 sm:px-0">
+          <div className="relative max-w-xl mx-auto px-4 sm:px-0 animate-bounce-in [animation-delay:400ms]">
             <input
               type="text"
               placeholder="Tìm kiếm công thức..."
@@ -87,19 +119,25 @@ const RecipePage = () => {
           </div>
         </div>
 
+        {/* Recipe Grid */}
         {currentFoods.length === 0 ? (
-          <div className="text-center py-8 sm:py-16">
-            <div className="text-gray-500 text-lg sm:text-xl">Không tìm thấy công thức nào phù hợp</div>
-            <p className="text-gray-400 mt-2">Hãy thử tìm kiếm với từ khóa khác</p>
+          <div className="text-center py-8 sm:py-16 animate-bounce-in">
+            <div className="text-gray-500 text-lg sm:text-xl">
+              {searchTerm ? "Không tìm thấy công thức nào phù hợp" : "Chưa có công thức nào"}
+            </div>
+            {searchTerm && (
+              <p className="text-gray-400 mt-2">Hãy thử tìm kiếm với từ khóa khác</p>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {currentFoods.map((food, index) => (
               <div 
                 key={food.id} 
-                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-in-out transform hover:-translate-y-2"
+                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 ease-in-out transform hover:-translate-y-2 animate-fade-scale"
                 style={{
-                  animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
+                  animationDelay: `${index * 150}ms`,
+                  animationFillMode: 'both'
                 }}
               >
                 <div className="relative overflow-hidden rounded-t-2xl aspect-[4/3]">
@@ -116,12 +154,12 @@ const RecipePage = () => {
                   </Link>
                   <button
                     onClick={() => isFavorite(food.id) ? handleRemoveFromFavorites(food.id) : handleAddToFavorites(food.id)}
-                    className="absolute top-3 right-3 z-30 p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-300 transform hover:scale-110 active:scale-95"
+                    className="absolute top-3 right-3 z-30 p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-300 transform hover:scale-110 active:scale-95 hover:animate-bounce-soft"
                   >
                     <svg
                       className={`w-5 h-5 ${
                         isFavorite(food.id) 
-                          ? "text-red-500 transform scale-110" 
+                          ? "text-red-500 transform scale-110 animate-bounce-soft" 
                           : "text-gray-600"
                       } transition-all duration-300`}
                       fill="currentColor"
@@ -146,16 +184,16 @@ const RecipePage = () => {
           </div>
         )}
 
-        {/* Enhanced pagination */}
+        {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 sm:gap-3 mt-8 sm:mt-12 mb-4 sm:mb-8">
+          <div className="flex justify-center items-center gap-2 sm:gap-3 mt-8 sm:mt-12 mb-4 sm:mb-8 animate-fade-up [animation-delay:600ms]">
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
               className={`px-4 sm:px-6 py-2 sm:py-2.5 text-sm sm:text-base rounded-full transition-all duration-300 ${
                 currentPage === 1
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-gray-700 hover:bg-red-500 hover:text-white shadow-sm hover:shadow-md'
+                  : 'bg-white text-gray-700 hover:bg-red-500 hover:text-white shadow-sm hover:shadow-md hover:animate-bounce-soft'
               }`}
             >
               Trước
@@ -165,14 +203,14 @@ const RecipePage = () => {
               {currentPage > 1 && (
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
-                  className="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm hover:shadow-md"
+                  className="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:animate-bounce-soft"
                 >
                   {currentPage - 1}
                 </button>
               )}
 
               <button
-                className="px-4 py-2 rounded-full bg-red-500 text-white shadow-md"
+                className="px-4 py-2 rounded-full bg-red-500 text-white shadow-md animate-float"
               >
                 {currentPage}
               </button>
@@ -180,7 +218,7 @@ const RecipePage = () => {
               {currentPage < totalPages && (
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
-                  className="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm hover:shadow-md"
+                  className="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:animate-bounce-soft"
                 >
                   {currentPage + 1}
                 </button>
@@ -193,7 +231,7 @@ const RecipePage = () => {
               className={`px-6 py-2.5 rounded-full transition-all duration-300 ${
                 currentPage === totalPages
                   ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-gray-700 hover:bg-red-500 hover:text-white shadow-sm hover:shadow-md'
+                  : 'bg-white text-gray-700 hover:bg-red-500 hover:text-white shadow-sm hover:shadow-md hover:animate-bounce-soft'
               }`}
             >
               Sau

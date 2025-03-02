@@ -90,34 +90,34 @@ const Login = () => {
   return (
     <div className="flex min-h-screen bg-gray-900 text-gray-100">
       {/* Left Section */}
-      <div className="w-full md:w-1/3 flex flex-col justify-center p-10 bg-gray-800 shadow-lg brightness-110">
-        <div className="max-w-md mx-auto">
+      <div className="w-full md:w-1/3 flex flex-col justify-center p-4 sm:p-6 md:p-10 bg-gray-800 shadow-lg brightness-110">
+        <div className="w-full max-w-md mx-auto space-y-4 sm:space-y-6">
           {formType === 'login' && (
             <>
-              <h1 className="text-4xl font-extrabold text-yellow-400 mb-4">Welcome Back</h1>
-              <p className="text-base text-gray-300 mb-8">
-                Sign in with your email address and password to continue.
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-yellow-300 mb-2 sm:mb-4">Chào mừng trở lại</h1>
+              <p className="text-sm sm:text-base text-gray-300 mb-4 sm:mb-6 md:mb-8">
+                Đăng nhập bằng địa chỉ email và mật khẩu của bạn để tiếp tục.
               </p>
             </>
           )}
           {formType === 'forgotPassword' && (
             <>
-              <h1 className="text-4xl font-extrabold text-yellow-400 mb-4">Reset Password</h1>
-              <p className="text-base text-gray-300 mb-8">Enter your email to reset your password.</p>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-yellow-300 mb-2 sm:mb-4">Đặt lại mật khẩu</h1>
+              <p className="text-sm sm:text-base text-gray-300 mb-4 sm:mb-6 md:mb-8">Nhập email của bạn để đặt lại mật khẩu.</p>
             </>
           )}
           {formType === 'signup' && (
             <>
-              <h1 className="text-4xl font-extrabold text-yellow-400 mb-4">Create Account</h1>
-              <p className="text-base text-gray-300 mb-8">Sign up to get started.</p>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-yellow-300 mb-2 sm:mb-4">Tạo tài khoản</h1>
+              <p className="text-sm sm:text-base text-gray-300 mb-4 sm:mb-6 md:mb-8">Đăng ký để bắt đầu.</p>
             </>
           )}
           
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             {/* Name Input (Only for Signup) */}
             {formType === 'signup' && (
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-200">
+                <label htmlFor="name" className="block text-xs sm:text-sm font-medium text-gray-200 mb-1 sm:mb-2">
                   Họ và tên
                 </label>
                 <input
@@ -127,7 +127,7 @@ const Login = () => {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="mt-2 block w-full px-4 py-3 border border-gray-600 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-sm bg-gray-700 text-gray-200"
+                  className="mt-1 block w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-600 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 text-xs sm:text-sm bg-gray-700 text-gray-200"
                   placeholder="Nhập họ và tên"
                 />
               </div>
@@ -135,8 +135,8 @@ const Login = () => {
 
             {/* Email Input */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-200">
-                Email Address
+              <label htmlFor="email" className="block text-xs sm:text-sm font-medium text-gray-200 mb-1 sm:mb-2">
+                Địa chỉ Email
               </label>
               <input
                 id="email"
@@ -145,18 +145,18 @@ const Login = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="mt-2 block w-full px-4 py-3 border border-gray-600 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-sm bg-gray-700 text-gray-200"
-                placeholder="johndoe@example.com"
+                className="mt-1 block w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-600 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 text-xs sm:text-sm bg-gray-700 text-gray-200"
+                placeholder="nguyenvana@example.com"
               />
             </div>
 
             {/* Password Input với Toggle Icon */}
             {(formType === 'login' || formType === 'signup') && (
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-200">
-                  Password
+                <label htmlFor="password" className="block text-xs sm:text-sm font-medium text-gray-200 mb-1 sm:mb-2">
+                  Mật khẩu
                 </label>
-                <div className="relative mt-2">
+                <div className="relative mt-1">
                   <input
                     id="password"
                     name="password"
@@ -164,15 +164,15 @@ const Login = () => {
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    className="block w-full px-4 py-3 border border-gray-600 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-sm bg-gray-700 text-gray-200 pr-12"
-                    placeholder="Enter your password"
+                    className="block w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-600 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 text-xs sm:text-sm bg-gray-700 text-gray-200 pr-10 sm:pr-12"
+                    placeholder="Nhập mật khẩu của bạn"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-200"
+                    className="absolute inset-y-0 right-0 flex items-center px-2 sm:px-3 text-gray-400 hover:text-gray-200"
                   >
-                    {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                    {showPassword ? <FaEyeSlash size={16} className="sm:w-5 sm:h-5" /> : <FaEye size={16} className="sm:w-5 sm:h-5" />}
                   </button>
                 </div>
               </div>
@@ -180,7 +180,7 @@ const Login = () => {
 
             {/* Remember Me (Only for Login) */}
             {formType === 'login' && (
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
                 <div className="flex items-center">
                   <input
                     id="remember-me"
@@ -188,14 +188,14 @@ const Login = () => {
                     type="checkbox"
                     checked={formData.rememberMe}
                     onChange={handleChange}
-                    className="h-4 w-4 text-yellow-400 focus:ring-yellow-400 border-gray-500 rounded"
+                    className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-300 focus:ring-yellow-300 border-gray-500 rounded"
                   />
-                  <label htmlFor="remember-me" className="ml-2 text-sm text-gray-300">
-                    Remember me
+                  <label htmlFor="remember-me" className="ml-2 text-xs sm:text-sm text-gray-300">
+                    Ghi nhớ đăng nhập
                   </label>
                 </div>
-                <button type="button" onClick={() => setFormType('forgotPassword')} className="text-sm text-yellow-400 hover:text-yellow-300">
-                  Forgot Password?
+                <button type="button" onClick={() => setFormType('forgotPassword')} className="text-xs sm:text-sm text-yellow-300 hover:text-yellow-200">
+                  Quên mật khẩu?
                 </button>
               </div>
             )}
@@ -204,38 +204,38 @@ const Login = () => {
             <button
               type="submit"
               disabled={authLoading}
-              className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-gray-900 bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 shadow-md"
+              className="w-full flex justify-center py-2 sm:py-3 px-3 sm:px-4 border border-transparent text-xs sm:text-sm font-medium rounded-lg text-gray-900 bg-yellow-300 hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300 shadow-md mt-4 sm:mt-6"
             >
               {authLoading ? 'Đang xử lý...' : (formType === 'signup' ? 'Đăng ký' : 'Đăng nhập')}
             </button>
-            <hr />
+            <hr className="my-4 sm:my-6 border-gray-600" />
             <button
               type="button"
               onClick={handleHomeRedirect}
-              className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-gray-900 bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-400 shadow-md"
+              className="w-full flex justify-center py-2 sm:py-3 px-3 sm:px-4 border border-transparent text-xs sm:text-sm font-medium rounded-lg text-gray-900 bg-yellow-300 hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300 shadow-md"
             >
               Trở về trang chủ
             </button>
           </form>
 
           {formType === 'login' ? (
-            <p className="mt-6 text-sm text-center text-gray-300">
-              Don't have an account?{' '}
-              <button type="button" onClick={() => setFormType('signup')} className="font-medium text-yellow-400 hover:text-yellow-300">
-                Sign Up
+            <p className="mt-4 sm:mt-6 text-xs sm:text-sm text-center text-gray-300">
+              Bạn chưa có tài khoản?{' '}
+              <button type="button" onClick={() => setFormType('signup')} className="font-medium text-yellow-300 hover:text-yellow-200">
+                Đăng ký
               </button>
             </p>
           ) : (
-            <p className="mt-6 text-sm text-center text-gray-300">
-              <button type="button" onClick={() => setFormType('login')} className="font-medium text-yellow-400 hover:text-yellow-300">
-                Sign In
+            <p className="mt-4 sm:mt-6 text-xs sm:text-sm text-center text-gray-300">
+              <button type="button" onClick={() => setFormType('login')} className="font-medium text-yellow-300 hover:text-yellow-200">
+                Đăng nhập
               </button>
             </p>
           )}
 
           {/* Display Messages */}
           {(authError) && (
-            <div className="mt-4 text-red-400 text-sm text-center">
+            <div className="mt-4 text-red-400 text-xs sm:text-sm text-center">
               {authError?.message || 'Đã có lỗi xảy ra'}
             </div>
           )}
@@ -244,14 +244,14 @@ const Login = () => {
 
       {/* Right Section */}
       <div
-        className="hidden md:block md:w-2/3 bg-cover bg-center brightness-110"
+        className="hidden md:block md:w-2/3 bg-cover bg-center brightness-110 relative"
         style={{
           backgroundImage: `url(${Loginimage})`,
           backgroundPosition: 'center',
           backgroundSize: 'cover',
         }}
       >
-        <div className="h-full w-full bg-black bg-opacity-50"></div>
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
       </div>
     </div>
   );
