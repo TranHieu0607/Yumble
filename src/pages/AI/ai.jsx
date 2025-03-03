@@ -5,6 +5,7 @@ import siuImage from "../../assets/siu.jpg"
 import { fetchAIResponse } from "../../store/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { FaPaperPlane, FaRobot } from 'react-icons/fa';
+import { fetchUserPremium } from '../../store/userSlice';
 
 const Ai = () => {
   const dispatch = useDispatch();
@@ -50,8 +51,24 @@ const Ai = () => {
   useEffect(() => {
     if (!token) {
       navigate('/login');
+    } else {
+      const checkPremiumStatus = async () => {
+        const userId = localStorage.getItem('userId');
+        try {
+          const premiumData = await dispatch(fetchUserPremium(userId)).unwrap();
+          if (!premiumData || new Date(premiumData.premiumExpiry) <= new Date()) {
+            alert('Bạn cần có gói premium để truy cập vào trang này.');
+            navigate('/premium');
+          }
+        } catch (error) {
+          console.error('Error fetching premium status:', error);
+          alert('Đã xảy ra lỗi khi kiểm tra trạng thái premium. Vui lòng thử lại sau.');
+        }
+      };
+
+      checkPremiumStatus();
     }
-  }, [token, navigate]);
+  }, [token, navigate, dispatch]);
 
   useEffect(() => {
     if (currentChatId) {

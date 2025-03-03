@@ -36,18 +36,6 @@ const Footer = () => {
                   Công Thức
                 </Link>
               </li>
-              <li>
-                <Link to="/favorite" className="text-sm sm:text-base hover:text-red-400 transition-colors duration-200 flex items-center">
-                  <span className="w-1.5 h-1.5 bg-red-400 rounded-full mr-2"></span>
-                  Yêu Thích
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="text-sm sm:text-base hover:text-red-400 transition-colors duration-200 flex items-center">
-                  <span className="w-1.5 h-1.5 bg-red-400 rounded-full mr-2"></span>
-                  Về Chúng Tôi
-                </Link>
-              </li>
             </ul>
           </div>
 

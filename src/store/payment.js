@@ -63,6 +63,16 @@ export const processPayment = (userId, isMonthPremium) => async (dispatch) => {
     }
     
     const token = localStorage.getItem('token');
+    
+    // Kiểm tra xem tài khoản đã đăng ký premium chưa
+    const { isPremium, premiumExpiry } = await checkIfUserIsPremium(userId, token);
+    const currentDate = new Date();
+
+    // Chỉ cho phép đăng ký lại nếu tài khoản đã hết hạn
+    if (isPremium && new Date(premiumExpiry) > currentDate) {
+      throw new Error('Tài khoản đã đăng ký gói premium, không thể đăng ký lại');
+    }
+
     const data = await createPaymentLink(userId, isMonthPremium, token);
 
     if (data.code === 1000) {
@@ -75,6 +85,22 @@ export const processPayment = (userId, isMonthPremium) => async (dispatch) => {
   } catch (error) {
     dispatch(paymentFail(error.message));
   }
+};
+
+// Hàm kiểm tra xem người dùng đã đăng ký premium chưa
+const checkIfUserIsPremium = async (userId, token) => {
+  const response = await fetch(`https://yumble.io.vn/api/check-premium/${userId}`, {
+    method: 'GET',
+    headers: {
+      Authorization: token,
+    },
+  });
+  const data = await response.json();
+  // Giả sử API trả về trường này
+  return {
+    isPremium: data.isPremium,
+    premiumExpiry: data.premiumExpiry, // Ngày hết hạn
+  };
 };
 
 export default paymentSlice.reducer;

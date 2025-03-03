@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import premiumImage from '../../assets/premium.png';
 import { processPayment } from '../../store/payment'; // Import action từ payment.js
+import { fetchUserPremium } from '../../store/userSlice'; // Import fetchUserPremium từ userSlice.js
 
 const Premium = () => {
+  const [isPremium, setIsPremium] = useState(false);
   const dispatch = useDispatch();
 
-  const handlePayment = (isMonthPremium) => {
+  useEffect(() => {
+    const checkPremiumStatus = async () => {
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        const premiumData = await dispatch(fetchUserPremium(userId)).unwrap();
+        if (premiumData && new Date(premiumData.premiumExpiry) > new Date()) {
+          setIsPremium(true); // Cập nhật trạng thái nếu đã có gói premium
+        }
+      }
+    };
+
+    checkPremiumStatus();
+  }, [dispatch]);
+
+  const handlePayment = async (isMonthPremium) => {
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
     
@@ -19,7 +35,13 @@ const Premium = () => {
       alert('Token không hợp lệ, vui lòng đăng nhập lại');
       return;
     }
-    
+
+    // Nếu đã có gói premium, không cho phép thanh toán
+    if (isPremium) {
+      alert('Tài khoản của bạn đã có gói premium còn hiệu lực. Bạn không thể đăng ký lại.');
+      return;
+    }
+
     dispatch(processPayment(userId, isMonthPremium));
   };
 
@@ -69,8 +91,14 @@ const Premium = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 max-w-4xl w-full">
             {/* Monthly Plan */}
             <div 
-              className="group relative cursor-pointer transform hover:scale-105 transition-all duration-300"
-              onClick={() => handlePayment(true)}
+              className={`group relative cursor-pointer transform hover:scale-105 transition-all duration-300 ${isPremium ? 'opacity-50 cursor-not-allowed' : ''}`}
+              onClick={() => {
+                if (!isPremium) {
+                  handlePayment(true);
+                } else {
+                  alert('Tài khoản của bạn đã có gói premium còn hiệu lực. Bạn không thể đăng ký lại.');
+                }
+              }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-amber-500 rounded-xl opacity-75 blur-lg group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className="relative bg-black text-white p-6 sm:p-8 rounded-xl shadow-lg">
@@ -85,8 +113,14 @@ const Premium = () => {
 
             {/* Yearly Plan */}
             <div 
-              className="group relative cursor-pointer transform hover:scale-105 transition-all duration-300"
-              onClick={() => handlePayment(false)}
+              className={`group relative cursor-pointer transform hover:scale-105 transition-all duration-300 ${isPremium ? 'opacity-50 cursor-not-allowed' : ''}`}
+              onClick={() => {
+                if (!isPremium) {
+                  handlePayment(false);
+                } else {
+                  alert('Tài khoản của bạn đã có gói premium còn hiệu lực. Bạn không thể đăng ký lại.');
+                }
+              }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-xl opacity-75 blur-lg group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className="relative bg-black text-white p-6 sm:p-8 rounded-xl shadow-lg">
