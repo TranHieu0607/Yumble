@@ -14,34 +14,18 @@ const RecipeDetail = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchFoodById(id))
-        .unwrap()
-        .then(() => {
-          return dispatch(fetchFoodStepsById(id)).unwrap();
-        })
-        .then((stepsData) => {
+      Promise.all([
+        dispatch(fetchFoodById(id)).unwrap(),
+        dispatch(fetchFoodStepsById(id)).unwrap(),
+        dispatch(fetchFoodNutritionById(id)).unwrap(),
+        dispatch(fetchFoodIngredientsById(id)).unwrap(),
+        dispatch(fetchFoodDietaryById(id)).unwrap(),
+        dispatch(fetchFoodAllergiesById(id)).unwrap()
+      ])
+        .then(([foodData, stepsData, nutritionData, ingredientsData]) => {
           setSteps(stepsData);
-        })
-        .then(() => {
-          return dispatch(fetchFoodNutritionById(id)).unwrap();
-        })
-        .then((nutritionData) => {
           setNutrition(nutritionData);
-        })
-        .then(() => {
-          return dispatch(fetchFoodIngredientsById(id)).unwrap();
-        })
-        .then((ingredientsData) => {
           setIngredients(ingredientsData);
-        })
-        .then(() => {
-          return dispatch(fetchFoodDietaryById(id)).unwrap();
-        })
-        .then(() => {
-          return dispatch(fetchFoodAllergiesById(id)).unwrap();
-        })
-        .then(() => {
-          console.log(allergies);
         })
         .catch((err) => {
           console.error('Error fetching food:', err);

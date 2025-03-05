@@ -6,6 +6,7 @@ import { fetchUserDietaries, updateUserDietary, deleteUserDietary, fetchDietarie
 import { fetchUserAllergies, updateUserAllergy, deleteUserAllergy, fetchAllergies } from '../../store/allergy';
 import axios from 'axios';
 import backgroundImage from '@/assets/bg2.png';
+import { fetchFoodSuggestions } from '../../store/food';
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -200,6 +201,9 @@ const UserProfile = () => {
         dietaryId: selectedDietary,
         priority: selectedDietaryPriority 
       })).unwrap();
+      
+      // Dispatch action để cập nhật gợi ý món ăn
+      dispatch(fetchFoodSuggestions(userId)); // Cập nhật gợi ý món ăn
       await dispatch(fetchUserDietaries(userId));
       setSelectedDietary('');
       setSelectedDietaryPriority('');

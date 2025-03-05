@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFoodFromFavorites } from "../../store/favorite";
 import { Link } from "react-router-dom";
 import logoImage from "../../assets/logoyumble.png";
 import { useNavigate } from "react-router-dom";
+import { fetchFoodSuggestions } from "../../store/food";
 
 const FavoriteFoodPage = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,11 @@ const FavoriteFoodPage = () => {
   // Trạng thái phân trang cho gợi ý món ăn
   const [currentPageSuggestions, setCurrentPageSuggestions] = useState(1);
   const itemsPerPageSuggestions = 4;
+
+  useEffect(() => {
+    // Fetch lại gợi ý món ăn khi dietary hoặc allergy thay đổi
+    dispatch(fetchFoodSuggestions(currentUser)); // Gọi lại API để lấy gợi ý mới
+  }, [favorite.dietary, favorite.allergy]); // Lắng nghe các thay đổi
 
   // Kiểm tra trạng thái loading và error
   if (favorite.loading) {
