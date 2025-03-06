@@ -24,6 +24,11 @@ function RequireAuth({ children }) {
   const token = useSelector(state => state.auth.token);
   const navigate = useNavigate();
 
+  // Kiểm tra token ngay khi component được render
+  if (token === undefined) {
+    return null; // Hoặc có thể hiển thị một loading spinner
+  }
+
   if (!token) {
     alert("Bạn cần đăng nhập để xem trang này!");
     return <Navigate to="/login" replace />;

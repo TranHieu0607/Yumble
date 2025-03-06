@@ -338,11 +338,11 @@ const UserProfile = () => {
       backgroundRepeat: 'no-repeat',
     }}>
       <div className="max-w-[1200px] mx-auto px-4 py-8">
-        <div className="bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-md">
+        <div className="bg-white/90 backdrop-blur-sm p-4 md:p-8 rounded-2xl shadow-md">
           {/* Profile Header */}
-          <div className="flex justify-between items-start mb-8">
-            <div className="flex items-center gap-4">
-              <div className="relative w-[200px] h-[200px] rounded-full overflow-hidden group shadow-lg">
+          <div className="flex flex-col md:flex-row justify-between items-start mb-4">
+            <div className="flex flex-col md:flex-row items-center gap-2">
+              <div className="relative w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-full overflow-hidden group shadow-lg">
                 <img
                   key={avatarPreview}
                   src={avatarPreview || profile?.avatar || "/default-avatar.jpg"}
@@ -356,16 +356,16 @@ const UserProfile = () => {
                     accept="image/*"
                     onChange={handleAvatarChange}
                   />
-                  <FaEdit className="text-white text-2xl" />
+                  <FaEdit className="text-white text-xl" />
                 </label>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold">{profile?.name}</h1>
+              <div className="text-center md:text-left">
+                <h1 className="text-xl md:text-2xl font-bold">{profile?.name}</h1>
                 <p className="text-gray-600">{profile?.email}</p>
               </div>
             </div>
             {premium && (
-              <div className={`${premium.premiumStatus === 'ACTIVE' ? 'bg-yellow-400' : 'bg-gray-400'} text-white px-4 py-1 rounded-full font-semibold flex items-center`}>
+              <div className={`${premium.premiumStatus === 'ACTIVE' ? 'bg-yellow-400' : 'bg-gray-400'} text-white px-4 py-1 rounded-full font-semibold flex items-center mt-4 md:mt-0`}>
                 <span className="mr-1">⭐</span>
                 {premium.premiumStatus === 'ACTIVE' ? 'Premium Member' : 'Premium Inactive'}
               </div>
@@ -401,7 +401,7 @@ const UserProfile = () => {
                 </div>
               )}
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-gray-600 mb-2">Họ và tên</label>
                 {isEditing ? (
@@ -453,7 +453,7 @@ const UserProfile = () => {
           {/* Modal thêm chế độ ăn */}
           {isUpdatingDietary && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white p-6 rounded-lg w-[500px]">
+              <div className="bg-white p-6 rounded-lg w-[90%] md:w-[500px]">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-lg font-semibold">Thêm chế độ ăn</h3>
                   <button 
@@ -515,7 +515,7 @@ const UserProfile = () => {
           {/* Modal thêm dị ứng */}
           {isUpdatingAllergy && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white p-6 rounded-lg w-[500px]">
+              <div className="bg-white p-6 rounded-lg w-[90%] md:w-[500px]">
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-lg font-semibold">Thêm dị ứng</h3>
                   <button 
@@ -595,7 +595,7 @@ const UserProfile = () => {
                 </button>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h3 className="font-medium text-gray-600 mb-2">Chế độ ăn</h3>
                 <div className="">

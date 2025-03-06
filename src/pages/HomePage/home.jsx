@@ -9,7 +9,6 @@ const HomePage = () => {
   const dispatch = useDispatch()
   const foods = useSelector((state) => state.food.foods || [])
   
-
   useEffect(() => {
     dispatch(fetchFirstSixFoods())
   }, [dispatch])
@@ -28,29 +27,26 @@ const HomePage = () => {
 
   return (
     <div className="relative">
-      <div className='relative flex flex-col h-[512px] md:h-[712px] items-center justify-center bg-cover bg-center overflow-hidden' style={{ backgroundImage: `url(${backgroundImage})` }}>
-        <div className='absolute inset-0 bg-black opacity-30'>
-        </div>
-        <img src={overlayImage} alt="Overlay" className='w-2/3 md:w-1/3 mb-10 md:mb-20' />
+      <div className="relative flex flex-col h-[512px] md:h-[712px] items-center justify-center bg-cover bg-center overflow-hidden" style={{ backgroundImage: `url(${backgroundImage})` }}>
+        <div className="absolute inset-0 bg-black opacity-30"></div>
+        <img src={overlayImage} alt="Overlay" className="w-2/3 md:w-1/3 mb-10 md:mb-20" />
         <div className="absolute bottom-10 left-5 md:left-20 z-[1] text-left text-white max-w-7xl">
-          <p className="text-4xl md:text-7xl font-bold leading-tight">
+          <p className="text-3xl md:text-5xl font-bold leading-tight text-center">
             Yumble biến việc ăn uống của bạn trở nên thú vị hơn!
           </p>
         </div>
       </div>
-      <div className='flex flex-col md:flex-row items-center justify-between' style={{ backgroundColor: '#FCF9F4', padding: '20px md:40px' }}>
-        <div className='w-full md:w-1/2 p-5 md:p-10 mt-5 md:mt-20'>
-          <h1 className='text-3xl md:text-5xl font-bold mb-4' style={{ color: '#293E31' }}>Hương Vị Từ Làng Quê</h1>
-          <hr style={{ maxWidth: '650px', border: 'none', borderTop: '2px solid #293E31', margin: '20px 0' }} />
-          <div style={{ maxWidth: '600px' }}>
-            <p className='text-base md:text-lg mb-5 md:mb-10' style={{ color: '#293E31', lineHeight: '2' }}>
+      <div className="flex flex-col md:flex-row items-center justify-between bg-[#FCF9F4] p-5 md:p-10">
+        <div className="w-full md:w-1/2 p-5 md:p-10 mt-5 md:mt-20">
+          <h1 className="text-3xl md:text-5xl font-bold mb-4 text-[#293E31] text-center md:text-left">Hương Vị Từ Làng Quê</h1>
+          <hr className="max-w-[650px] border-none border-t-2 border-[#293E31] my-5 mx-auto" />
+          <p className="text-base md:text-lg mb-5 md:mb-10 text-[#293E31] leading-8 text-center md:text-left">
             Thưởng thức những món ăn đậm chất nông thôn, được chế biến từ nguyên liệu tươi ngon, tự nhiên. Chúng tôi mang đến những hương vị mộc mạc nhưng đầy quyến rũ, giúp bạn tận hưởng sự tinh túy của nền ẩm thực truyền thống. Hãy để Yumble đưa bạn về với những bữa cơm quê hương chân thật và ấm áp.
-            </p>
-          </div>
+          </p>
         </div>
-        <div className='w-full md:w-1/2 flex justify-center'>
-          <div className='w-full max-w-[300px] md:max-w-[500px]'>
-            <svg preserveAspectRatio="xMidYMid meet" viewBox="9.075 50.459 179.85 112.853" height="500" width="500" xmlns="http://www.w3.org/2000/svg" data-type="color" role="img" aria-label="Farm Illustration">
+        <div className="w-full md:w-1/2 flex justify-center">
+          <div className="w-full max-w-[300px] md:max-w-[500px]">
+            <svg preserveAspectRatio="xMidYMid meet" viewBox="9.075 50.459 179.85 112.853" height="300" width="300" xmlns="http://www.w3.org/2000/svg" data-type="color" role="img" aria-label="Farm Illustration">
               <g>
                   <path d="M188.5 126.874H9.5a.425.425 0 1 1 0-.85h179a.425.425 0 1 1 0 .85z" fill="#FE6340"></path>
                   <path d="M66.629 134.523H24.472a.425.425 0 1 1 0-.85H66.63a.425.425 0 1 1-.001.85z" fill="#FE6340"></path>
@@ -105,37 +101,37 @@ const HomePage = () => {
                   <path d="M108.031 150.082a.425.425 0 0 1-.425-.425c0-1.126-.922-2.043-2.055-2.043s-2.055.917-2.055 2.043a.425.425 0 0 1-.85 0c0-1.595 1.303-2.893 2.904-2.893s2.904 1.298 2.904 2.893a.422.422 0 0 1-.423.425z" fill="#FE6340"></path>
                   <path d="M118.27 150.082a.425.425 0 0 1-.425-.425 2.052 2.052 0 0 0-2.055-2.043 2.052 2.052 0 0 0-2.055 2.043a.425.425 0 0 1-.85 0 2.902 2.902 0 0 1 2.905-2.893 2.901 2.901 0 0 1 2.904 2.893c0 .235-.19.425-.424.425z" fill="#FE6340"></path>
                   <path d="M128.508 150.082a.425.425 0 0 1-.425-.425 2.052 2.052 0 0 0-2.055-2.043 2.052 2.052 0 0 0-2.055 2.043a.425.425 0 0 1-.85 0 2.902 2.902 0 0 1 2.905-2.893 2.901 2.901 0 0 1 2.904 2.893.423.423 0 0 1-.424.425z" fill="#FE6340"></path>
-                  <path d="M138.747 150.082a.425.425 0 0 1-.425-.425 2.052 2.052 0 0 0-2.055-2.043 2.052 2.052 0 0 0-2.055 2.043a.425.425 0 0 1-.85 0 2.902 2.902 0 0 1 2.905-2.893 2.901 2.901 0 0 1 2.904 2.893.424.424 0 0 1-.424.425z" fill="#FE6340"></path>
-                  <path d="M148.986 150.082a.425.425 0 0 1-.425-.425 2.052 2.052 0 0 0-2.055-2.043 2.052 2.052 0 0 0-2.055 2.043a.425.425 0 0 1-.85 0 2.902 2.902 0 0 1 2.905-2.893 2.901 2.901 0 0 1 2.904 2.893.424.424 0 0 1-.424.425z" fill="#FE6340"></path>
+                  <path d="M138.747 150.082a.425.425 0 0 1-.425-.425 2.052 2.052 0 0 0-2.055-2.043 2.052 2.052 0 0 0-2.055 2.043.425.425 0 0 1-.85 0 2.902 2.902 0 0 1 2.905-2.893 2.901 2.901 0 0 1 2.904 2.893.424.424 0 0 1-.424.425z" fill="#FE6340"></path>
+                  <path d="M148.986 150.082a.425.425 0 0 1-.425-.425 2.052 2.052 0 0 0-2.055-2.043 2.052 2.052 0 0 0-2.055 2.043.425.425 0 0 1-.85 0 2.902 2.902 0 0 1 2.905-2.893 2.901 2.901 0 0 1 2.904 2.893.424.424 0 0 1-.424.425z" fill="#FE6340"></path>
                   <path d="M159.225 150.082a.425.425 0 0 1-.425-.425 2.052 2.052 0 0 0-2.055-2.043 2.052 2.052 0 0 0-2.055 2.043a.425.425 0 0 1-.85 0 2.902 2.902 0 0 1 2.905-2.893 2.901 2.901 0 0 1 2.904 2.893c0 .235-.19.425-.424.425z" fill="#FE6340"></path>
               </g>
           </svg>
           </div>
         </div>
       </div>
-      <div className='flex flex-col items-center' style={{ backgroundColor: '#DACEC2', padding: '60px 20px 80px' }}>
-        <h2 className="text-2xl md:text-3xl font-bold mb-8 md:mb-12" style={{ color: '#293E31' }}>Đồ ăn Việt Nam</h2>
-        <div className='flex justify-between w-full max-w-7xl items-center px-4 md:px-8'>
-          <button onClick={prevProduct} className='text-xl md:text-2xl px-6 md:px-10 py-2 hover:scale-110 transition-transform duration-300'>❮</button>
-          <div className='flex flex-col md:flex-row justify-between w-full gap-8 md:gap-12 mx-6 md:mx-12'>
+      <div className="flex flex-col items-center bg-[#DACEC2] p-10">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8 md:mb-12 text-[#293E31] text-center">Đồ ăn Việt Nam</h2>
+        <div className="flex flex-col md:flex-row justify-between w-full max-w-7xl items-center px-4 md:px-8">
+          <button onClick={prevProduct} className="text-xl md:text-2xl px-6 md:px-10 py-2 hover:scale-110 transition-transform duration-300">❮</button>
+          <div className="flex flex-col md:flex-row justify-between w-full gap-8 md:gap-12 mx-6 md:mx-12">
             {foods.slice(startIndex, startIndex + 3).map((product) => (
-              <div key={product.id} className='relative w-full md:w-1/3 text-center overflow-hidden group rounded-lg shadow-md hover:shadow-xl transition-all duration-300'>
+              <div key={product.id} className="relative w-full md:w-1/3 text-center overflow-hidden group rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
                 <Link to={`/recipe/${product.id}`}>
-                  <div className='aspect-[4/3] overflow-hidden'>
+                  <div className="aspect-[4/3] overflow-hidden">
                     <img 
                       src={product.image} 
                       alt={product.name} 
-                      className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-110' 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
                     />
                   </div>
-                  <div className='absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 backdrop-blur-sm text-center p-3 opacity-100 md:opacity-0 transition-all duration-300 group-hover:opacity-100'>
-                    <p className='text-lg font-medium text-gray-800'>{product.name}</p>
+                  <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 backdrop-blur-sm text-center p-3 opacity-100 md:opacity-0 transition-all duration-300 group-hover:opacity-100">
+                    <p className="text-lg font-medium text-gray-800">{product.name}</p>
                   </div>
                 </Link>
               </div>
             ))}
           </div>
-          <button onClick={nextProduct} className='text-xl md:text-2xl px-6 md:px-10 py-2 hover:scale-110 transition-transform duration-300'>❯</button>
+          <button onClick={nextProduct} className="text-xl md:text-2xl px-6 md:px-10 py-2 hover:scale-110 transition-transform duration-300">❯</button>
         </div>
       </div>
     </div>
