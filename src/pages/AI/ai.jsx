@@ -54,9 +54,17 @@ const Ai = () => {
     } else {
       const checkPremiumStatus = async () => {
         const userId = localStorage.getItem('userId');
+        console.log('User ID:', userId);
+        if (!userId) {
+          alert('Không tìm thấy userId trong localStorage.');
+          return;
+        }
         try {
           const premiumData = await dispatch(fetchUserPremium(userId)).unwrap();
-          if (!premiumData || new Date(premiumData.premiumExpiry) <= new Date()) {
+          console.log('Premium Data:', premiumData);
+          
+          // Kiểm tra trạng thái premium
+          if (!premiumData || premiumData.premiumStatus === 'INACTIVE' || new Date(premiumData.premiumExpiry) <= new Date()) {
             alert('Bạn cần có gói premium để truy cập vào trang này.');
             navigate('/premium');
           }
@@ -121,6 +129,12 @@ const Ai = () => {
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
+
+    if (!profile || !profile.isPremium) {
+      alert('Bạn cần có gói premium để gửi tin nhắn.');
+      navigate('/premium');
+      return;
+    }
 
     const newUserMessage = {
       type: "user",
