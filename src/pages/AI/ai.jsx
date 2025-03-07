@@ -130,11 +130,6 @@ const Ai = () => {
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
 
-    if (!profile || !profile.isPremium) {
-      alert('Bạn cần có gói premium để gửi tin nhắn.');
-      navigate('/premium');
-      return;
-    }
 
     const newUserMessage = {
       type: "user",
