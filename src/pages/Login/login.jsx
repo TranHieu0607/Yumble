@@ -61,6 +61,12 @@ const Login = () => {
         alert(err.message || 'Gửi email thất bại. Vui lòng kiểm tra lại thông tin.');
       }
     } else if (formType === 'signup') {
+      // Kiểm tra mật khẩu
+      const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordPattern.test(formData.password)) {
+        alert('Mật khẩu phải có ít nhất 8 ký tự, bao gồm 1 chữ cái viết hoa, 1 chữ số và 1 ký tự đặc biệt.');
+        return;
+      }
       try {
         const result = await dispatch(registerUser({
           name: formData.name,
