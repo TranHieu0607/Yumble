@@ -31,7 +31,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/recipes" className="text-sm sm:text-base hover:text-red-400 transition-colors duration-200 flex items-center">
+                <Link to="/recipe" className="text-sm sm:text-base hover:text-red-400 transition-colors duration-200 flex items-center">
                   <span className="w-1.5 h-1.5 bg-red-400 rounded-full mr-2"></span>
                   Công Thức
                 </Link>

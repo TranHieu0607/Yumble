@@ -15,6 +15,8 @@ import UserProfile from './pages/Profile/user';
 import FavoriteFoodPage from "./pages/Favoritefood/favoritefood.jsx";
 import { Provider } from 'react-redux';
 import store from './store/store';
+import Blog from './pages/Blog/blog.jsx';
+import BlogDetail from './pages/Blog/blogDetail.jsx';
 
 import './index.css'; 
 import LoginLayout from "./pages/Login/loginLayout.jsx";
@@ -73,6 +75,14 @@ const router = createBrowserRouter([
       {
         path: "recipe",
         element: <Recipe />,
+      },
+      {
+        path: "blog",
+        element: <Blog />,
+      },
+      {
+        path: "blog/:id",
+        element: <BlogDetail />,
       },
       {
         path: "recipe/:id",

@@ -66,6 +66,9 @@ const Header = () => {
     const handleFavoriteFood = () => {
         navigate('/favoriteFood');
     }
+    const handleBlog = () => {
+        navigate('/blog');
+    }
   
     return (
         <header className="bg-white shadow-sm w-full top-0 z-[100] sticky">
@@ -119,6 +122,11 @@ const Header = () => {
                                 onClick={handleFavoriteFood}
                                 className="text-gray-600 hover:text-red-500 font-medium transition-colors duration-200 text-sm lg:text-base whitespace-nowrap px-2" >
                                 Yêu thích
+                            </button>
+                            <button
+                                onClick={handleBlog}
+                                className="text-gray-600 hover:text-red-500 font-medium transition-colors duration-200 text-sm lg:text-base whitespace-nowrap px-2" >
+                                Blog
                             </button>
                             <button
                                 onClick={handlePremium}
