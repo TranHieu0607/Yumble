@@ -57,7 +57,7 @@ const Login = () => {
       try {
         await dispatch(sendForgotPasswordEmail(formData.email)).unwrap();
         toast.success('Email xác thực đã được gửi. Vui lòng kiểm tra hộp thư của bạn.');
-        setFormType('login'); // Switch back to login after sending email
+        setFormType('login'); 
       } catch (err) {
         console.error('Lỗi gửi email quên mật khẩu:', err);
         toast.error(err.message || 'Gửi email thất bại. Vui lòng kiểm tra lại thông tin.');

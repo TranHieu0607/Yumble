@@ -176,7 +176,7 @@ const BlogDetail = () => {
       <div className="flex justify-between items-center mt-8">
         <button
           onClick={() => navigate(-1)}
-          className="px-6 py-3 bg-gradient-to-r from-green-400 to-green-600 text-white font-bold rounded-full shadow-lg hover:from-green-500 hover:to-green-700 transition duration-300 transform hover:scale-105"
+          className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-green-400 to-green-600 text-white font-bold rounded-full shadow-lg hover:from-green-500 hover:to-green-700 transition duration-300 transform hover:scale-105 mr-2"
         >
           ← Quay lại Blog
         </button>
@@ -184,9 +184,9 @@ const BlogDetail = () => {
           href="https://www.facebook.com/profile.php?id=61573046339972"
           target="_blank"
           rel="noopener noreferrer"
-          className="px-6 py-3 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-bold rounded-full shadow-lg hover:from-blue-500 hover:to-blue-700 transition duration-300 transform hover:scale-105"
+          className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-bold rounded-full shadow-lg hover:from-blue-500 hover:to-blue-700 transition duration-300 transform hover:scale-105 ml-2"
         >
-          Liên hệ tại Facebook
+          Tìm hiểu Facebook
         </a>
       </div>
     </div>

@@ -211,6 +211,12 @@ const Header = () => {
                                 Yêu thích
                             </button>
                             <button
+                                onClick={() => { handleBlog(); setIsMenuOpen(false); }}
+                                className="text-gray-600 hover:text-red-500 font-medium transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-red-50"
+                            >
+                                Blog
+                            </button>
+                            <button
                                 onClick={() => { handlePremium(); setIsMenuOpen(false); }}
                                 className="text-gray-600 hover:text-red-500 font-medium transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-red-50"
                             >
