@@ -8,7 +8,6 @@ const Blog = () => {
   const posts = [
     { id: 1, title: 'Thực Đơn Eat Clean Giảm Cân - Món Healthy Đơn Giản với Yumble', image: blog1, description: 'Bạn đang tìm kiếm thực đơn eat clean để giảm cân hiệu quả? 🍽️ Những món healthy đơn giản không chỉ giúp duy trì vóc dáng mà còn tăng cường sức khỏe. Cùng Yumble khám phá những gợi ý thực đơn eat clean dễ làm, giàu dinh dưỡng và phù hợp với mọi chế độ ăn! 🌱' },
     { id: 2, title: 'Gợi Ý Món Ăn Hôm Nay - Hôm Nay Ăn Gì Ngon Với Yumble?', image: blog2, description: 'Bạn đang băn khoăn "hôm nay ăn gì?" hay tìm kiếm gợi ý món ăn hôm nay để vừa ngon miệng vừa lành mạnh? Đừng lo, Yumble sẽ giúp bạn giải quyết câu hỏi "hôm nay ăn gì ngon" một cách dễ dàng! Từ những thực đơn đơn giản, giàu dinh dưỡng đến các bữa ăn nhanh gọn với Meal Kit, cùng khám phá những ý tưởng tuyệt vời để làm phong phú bữa ăn mỗi ngày của bạn!' },
-    { id: 3, title: 'Meal Kit Yumble - Giải pháp nấu ăn nhanh gọn, lành mạnh', image: blog3, description: 'Quick and healthy meal solutions.' },
   ];
 
   return (
