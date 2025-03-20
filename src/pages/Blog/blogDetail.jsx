@@ -172,6 +172,12 @@ const BlogDetail = () => {
       ) : (
         <p>Blog không tồn tại.</p>
       )}
+<h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 mb-2">
+  <strong>👉 ĐẶT MEAL KIT NGAY</strong> 
+  <a href="https://www.facebook.com/profile.php?id=61573046339972" className="text-blue-800 hover:underline ml-2">
+    để tận hưởng bữa ăn lành mạnh mà không mất nhiều thời gian!
+  </a>
+</h2>
 
       <div className="flex justify-between items-center mt-8">
         <button
@@ -180,14 +186,6 @@ const BlogDetail = () => {
         >
           ← Quay lại Blog
         </button>
-        <a
-          href="https://www.facebook.com/profile.php?id=61573046339972"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-bold rounded-full shadow-lg hover:from-blue-500 hover:to-blue-700 transition duration-300 transform hover:scale-105 ml-2"
-        >
-          Tìm hiểu Facebook
-        </a>
       </div>
     </div>
   );
