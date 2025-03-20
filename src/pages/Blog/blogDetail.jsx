@@ -172,7 +172,7 @@ const BlogDetail = () => {
       ) : (
         <p>Blog không tồn tại.</p>
       )}
-<h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 mb-2">
+<h2 className="text-2xl sm:text-2xl md:text-2xl font-semibold text-gray-800 mb-2">
   <strong>👉 ĐẶT MEAL KIT NGAY</strong> 
   <a href="https://www.facebook.com/profile.php?id=61573046339972" className="text-blue-800 hover:underline ml-2">
     để tận hưởng bữa ăn lành mạnh mà không mất nhiều thời gian!
