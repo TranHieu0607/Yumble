@@ -11,6 +11,15 @@ import blog8 from '../../assets/blog2.3.png';
 import blog9 from '../../assets/blog2.4.png';
 import blog10 from '../../assets/blog2.5.png';
 import blog11 from '../../assets/blog2.6.png';
+import blog12 from '../../assets/blog3.png';
+import blog13 from '../../assets/blog3.1.png';
+import blog14 from '../../assets/blog3.2.png';
+import blog15 from '../../assets/blog3.3.png';
+import blog16 from '../../assets/blog4.png';
+import blog17 from '../../assets/blog4.1.png';
+import blog18 from '../../assets/blog4.2.png';
+import blog19 from '../../assets/blog4.3.png';
+
 
 import { section } from "framer-motion/client";
 
@@ -142,7 +151,155 @@ const posts = [
     {
       image: blog11,
     },
-  ]}
+  ]},
+  { id: 3, title: "Tổng Hợp Những Món Ngon Từ Thịt Gà Dễ Làm Tại Nhà", sections: [
+    {
+      title: "1. Gà Chiên Giòn – Món Gà Dễ Làm Ai Cũng Thích",
+      content: (
+        <>
+          <p className="mb-2">Gà chiên giòn là món ăn được nhiều người yêu thích, đặc biệt là trẻ em.</p>
+          <img src={blog12} alt="" className="w-full h-auto object-cover rounded-xl mb-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li>500g cánh gà hoặc đùi gà</li>
+            <li>200g bột chiên giòn</li>
+            <li>1 quả trứng gà</li>
+            <li>Gia vị: Muối, tiêu, bột tỏi</li>
+          </ul>
+          <p>🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li>Ướp gà với muối, tiêu, bột tỏi trong 30 phút.</li>
+            <li>Nhúng gà vào trứng rồi lăn qua bột chiên giòn.</li>
+            <li>Chiên ngập dầu ở lửa vừa đến khi vàng giòn.</li>
+          </ol>
+          <p>📝 <em>Mẹo nhỏ: Để gà giòn lâu, hãy chiên hai lần: lần đầu với lửa nhỏ, lần hai với lửa lớn.</em></p>
+        </>
+      ),
+    },
+    {
+      title: "2. Gà Nướng Mật Ong – Hương Vị Đậm Đà, Thơm Ngon",
+      content: (
+        <>
+          <p className="mb-3">Món gà nướng mật ong mang đến vị ngọt nhẹ, thơm lừng và rất dễ làm.</p>
+          <img src={blog13} alt="" className="w-full h-auto object-cover rounded-xl mb-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li>500g cánh gà hoặc đùi gà</li>
+            <li>2 thìa mật ong</li>
+            <li>1 thìa nước tương</li>
+            <li>Gia vị: Tỏi băm, tiêu, ớt bột</li>
+          </ul>
+          <p>🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li>Trộn mật ong, nước tương, tỏi băm và gia vị, ướp gà ít nhất 1 tiếng.</li>
+            <li>Nướng gà ở 180°C trong 25 phút.</li>
+            <li>Phết thêm mật ong và nướng thêm 5 phút để gà có màu đẹp.</li>
+          </ol>
+          <p>🔥 <em>Tip: Dùng nồi chiên không dầu giúp gà nướng nhanh và tiết kiệm dầu mỡ.</em></p>
+        </>
+      ),
+    },
+    {
+      title: "3. Cách Chế Biến Ức Gà Healthy – Đơn Giản Nhưng Ngon Miệng",
+      content: (
+        <>
+          <h3 className="text-xl font-bold mb-3">🥗 Salad Ức Gà – Món Ăn Thanh Đạm, Bổ Dưỡng</h3>
+          <img src={blog14} alt="" className="w-full h-auto object-cover rounded-xl mb-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li className="mb-2">100g ức gà, 1 quả trứng</li>
+            <li className="mb-2">1 bát rau xanh (xà lách, dưa leo, cà chua)</li>
+            <li className="mb-2">1 thìa dầu oliu, nước cốt chanh</li>
+          </ul>
+          <p className="mb-2">🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li className="mb-2">Luộc ức gà, để nguội rồi xé sợi.</li>
+            <li className="mb-2">Trộn ức gà với rau và nước sốt.</li>
+          </ol>
+          <p>🥗 <em>Gợi ý: Có thể thay thế nước sốt bằng sữa chua Hy Lạp để tăng độ béo ngậy.</em></p>
+          <h3 className="text-xl font-bold mb-3">Ức Gà Áp Chảo – Đơn Giản Mà Ngon</h3>
+          <img src={blog15} alt="" className="w-full h-auto object-cover rounded-xl mb-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li className="mb-2">150g ức gà</li>
+            <li className="mb-2">1 thìa dầu oliu</li>
+            <li className="mb-2">Gia vị: Muối, tiêu, tỏi băm</li>
+          </ul>
+          <p>🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li className="mb-2">Ướp ức gà với gia vị trong 15 phút.</li>
+            <li className="mb-2">Áp chảo ức gà với dầu oliu khoảng 3-4 phút mỗi mặt.</li>
+          </ol>
+          <p>💡<em>Mẹo: Không nên lật gà quá nhiều để giữ độ mềm và ngọt thịt.</em></p>
+        </>
+      ),
+    },
+    {
+      title: "4. Lợi Ích Của Thịt Gà Đối Với Sức Khỏe",
+      content: (
+        <>
+          <p>✅ Cung cấp nguồn protein chất lượng cao, giúp tăng cường cơ bắp.</p>
+          <p>✅ Hỗ trợ giảm cân hiệu quả khi chế biến đúng cách.</p>
+          <p>✅ Tốt cho tim mạch nhờ ít chất béo bão hòa hơn các loại thịt đỏ.</p>
+          <p>✅ Chứa nhiều vitamin B6, giúp tăng cường trao đổi chất.</p>
+        </>
+      ),
+    },
+    {
+      title: "5. Yumble – Trợ Thủ Đắc Lực Cho Những Ai Yêu Thích Món Gà",
+      content: (
+        <>
+          <p>Bạn bận rộn nhưng vẫn muốn tự tay chuẩn bị món ngon từ thịt gà? 🤔 Hãy để Yumble giúp bạn!</p>
+          <ul>
+            <li>🔹 <strong>Gợi ý công thức món ăn:</strong> Chỉ cần nhập sở thích, Yumble sẽ đưa ra các công thức phù hợp nhất cho bạn!</li>
+            <li>🔹 <strong>Meal Kit tiện lợi:</strong> Nhận nguyên liệu tươi sạch, sơ chế sẵn, kèm hướng dẫn nấu ăn chi tiết.</li>
+            <li>🔹 <strong>Chế độ ăn uống cá nhân hóa:</strong> Bạn muốn ăn eat clean hay tăng cơ? Yumble giúp bạn lên thực đơn dễ dàng!</li>
+          </ul>
+        </>
+      ),
+    }
+  ]},
+  { id: 4, title: "Món Ngon Từ Cá Hồi: Những Món Ăn Độc Đáo Từ Cá Hồi Cho Bữa Ăn Ngon Miệng", sections: [
+    {
+      title: "1. Cá Hồi Áp Chảo: Món Ăn Đơn Giản Nhưng Ngon Tuyệt",
+      content: (
+        <>
+          <p>Cá hồi áp chảo là một món ăn đơn giản nhưng vô cùng hấp dẫn và dễ chế biến. Lớp da cá hồi giòn tan kết hợp với thịt cá mềm mại bên trong tạo nên một sự hòa quyện hoàn hảo. Để làm món cá hồi áp chảo, bạn cần chuẩn bị một miếng cá hồi tươi ngon, một chút dầu ăn, gia vị như muối, tiêu và tỏi băm để tăng thêm hương vị. Sau khi làm nóng chảo, bạn chỉ cần áp chảo cá hồi ở nhiệt độ vừa phải đến khi lớp da cá chuyển màu vàng giòn, sau đó lật mặt còn lại để cá chín đều.</p>
+          <img src={blog16} alt="" className="w-full h-auto object-cover rounded-xl mb-4" />
+          <p>Món cá hồi áp chảo này có thể ăn kèm với các món rau sống hoặc cơm trắng để làm bữa ăn thêm phần hấp dẫn và bổ dưỡng.</p>
+        </>
+      ),
+    },
+    {
+      title: "2. Cách Làm Sushi Cá Hồi: Tạo Ra Món Sushi Tươi Ngon",
+      content: (
+        <>
+          <p className="mb-2">Sushi cá hồi là món ăn không thể thiếu trong thực đơn của những tín đồ yêu thích ẩm thực Nhật Bản. Để làm sushi cá hồi, bạn cần chuẩn bị các nguyên liệu như gạo sushi, lá rong biển, giấm, đường, muối và tất nhiên là cá hồi tươi ngon. Việc quan trọng nhất trong món sushi cá hồi chính là chọn cá hồi chất lượng, đảm bảo tươi ngon để đảm bảo hương vị hoàn hảo.</p>
+          <img src={blog17} alt="" className="w-full h-auto object-cover rounded-xl mb-4 mt-2" />
+          <h4 className="mb-2">Hướng Dẫn Cách Làm Sushi Cá Hồi</h4>
+          <p className="mb-2"><strong>Nấu Gạo Sushi:</strong> Trước tiên, bạn cần vo gạo cho sạch và nấu theo tỷ lệ gạo: nước là 1:1. Sau khi gạo chín, trộn với giấm sushi (giấm, đường, muối) cho gạo có độ dẻo và hương vị đặc trưng.</p>
+          <p className="mb-2"><strong>Chuẩn Bị Cá Hồi:</strong> Lọc lấy phần thịt cá hồi tươi, thái thành những lát mỏng vừa ăn. Để làm sushi cá hồi, bạn nên chọn những miếng cá hồi có màu sắc tươi tắn và không có xương.</p>
+          <p className="mb-2"><strong>Cuốn Sushi:</strong> Trải lá rong biển lên mặt phẳng, sau đó cho một lớp gạo sushi lên trên, để lại một khoảng trống ở cạnh trên của lá rong biển. Đặt lát cá hồi lên gạo, rồi cuộn nhẹ tay cho đến khi miếng sushi hoàn chỉnh.</p>
+          <p className="mb-2"><strong>Cắt Sushi:</strong> Dùng dao sắc, cắt miếng sushi thành từng miếng nhỏ vừa ăn.</p>
+          <img src={blog18} alt="" className="w-full h-auto object-cover rounded-xl mb-4" />
+          <p className="mb-2">Món sushi cá hồi này có thể dùng kèm với một ít wasabi và nước tương để tăng thêm hương vị. Sushi cá hồi là một món ăn không chỉ ngon mà còn cực kỳ giàu dinh dưỡng, rất phù hợp cho những ai yêu thích ẩm thực nhẹ nhàng nhưng đầy đủ chất.</p>
+        </>
+      ),
+    },
+    {
+      title: "3. Những Món Ngon Khác Từ Cá Hồi",
+      content: (
+        <>
+          <p>Ngoài cá hồi áp chảo và sushi cá hồi, bạn cũng có thể thử các món ngon khác từ cá hồi như:</p>
+          <ul>
+            <li><strong>Cá Hồi Nướng:</strong> Thịt cá hồi được nướng cùng với gia vị nhẹ nhàng như chanh, tỏi, và thảo mộc tạo nên món ăn thơm ngon và dễ chế biến.</li>
+            <li><strong>Súp Cá Hồi:</strong> Một bát súp cá hồi nóng hổi với nước dùng đậm đà, kết hợp với các loại rau củ tươi ngon sẽ là lựa chọn tuyệt vời cho những ngày lạnh.</li>
+            <img src={blog19} alt="" className="w-full h-auto object-cover rounded-xl mb-4" />
+          </ul>
+        </>
+      ),
+    },
+  ]},
 ];
 
 const BlogDetail = () => {

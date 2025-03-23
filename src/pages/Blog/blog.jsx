@@ -2,12 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import blog1 from '../../assets/blog1.png';
 import blog2 from '../../assets/blog2.6.png';
-import blog3 from '../../assets/blog1.2.png';
+import blog3 from '../../assets/blog3.png';
+import blog4 from '../../assets/blog4.png';
 
 const Blog = () => {
   const posts = [
     { id: 1, title: 'Thực Đơn Eat Clean Giảm Cân - Món Healthy Đơn Giản với Yumble', image: blog1, description: 'Bạn đang tìm kiếm thực đơn eat clean để giảm cân hiệu quả? 🍽️ Những món healthy đơn giản không chỉ giúp duy trì vóc dáng mà còn tăng cường sức khỏe. Cùng Yumble khám phá những gợi ý thực đơn eat clean dễ làm, giàu dinh dưỡng và phù hợp với mọi chế độ ăn! 🌱' },
     { id: 2, title: 'Gợi Ý Món Ăn Hôm Nay - Hôm Nay Ăn Gì Ngon Với Yumble?', image: blog2, description: 'Bạn đang băn khoăn "hôm nay ăn gì?" hay tìm kiếm gợi ý món ăn hôm nay để vừa ngon miệng vừa lành mạnh? Đừng lo, Yumble sẽ giúp bạn giải quyết câu hỏi "hôm nay ăn gì ngon" một cách dễ dàng! Từ những thực đơn đơn giản, giàu dinh dưỡng đến các bữa ăn nhanh gọn với Meal Kit, cùng khám phá những ý tưởng tuyệt vời để làm phong phú bữa ăn mỗi ngày của bạn!' },
+    { id: 3, title: 'Tổng Hợp Những Món Ngon Từ Thịt Gà Dễ Làm Tại Nhà', image: blog3, description: 'Khám phá ngay các món ngon từ thịt gà dễ làm với cách chế biến đơn giản. Đặc biệt, hướng dẫn chi tiết cách chế biến ức gà giúp bạn có bữa ăn ngon miệng và bổ dưỡng!' },
+    { id: 4, title: 'Món Ngon Từ Cá Hồi: Những Món Ăn Độc Đáo Từ Cá Hồi Cho Bữa Ăn Ngon Miệng', image: blog4, description: 'Cá hồi là một trong những loại cá được yêu thích nhất trên thế giới nhờ vào hương vị thơm ngon và giá trị dinh dưỡng cao. Với omega-3, vitamin D và protein, cá hồi không chỉ tốt cho sức khỏe mà còn là nguyên liệu tuyệt vời cho nhiều món ăn hấp dẫn. Dưới đây là một số món ngon từ cá hồi mà bạn có thể thử làm ngay tại nhà, đặc biệt là trong ứng dụng Yumble.' },
   ];
 
   return (
