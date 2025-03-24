@@ -19,6 +19,9 @@ import blog16 from '../../assets/blog4.png';
 import blog17 from '../../assets/blog4.1.png';
 import blog18 from '../../assets/blog4.2.png';
 import blog19 from '../../assets/blog4.3.png';
+import blog20 from '../../assets/blog5.png';
+import blog21 from '../../assets/blog5.1.png';
+import blog22 from '../../assets/blog5.2.png';
 
 
 import { section } from "framer-motion/client";
@@ -296,6 +299,138 @@ const posts = [
             <li><strong>Súp Cá Hồi:</strong> Một bát súp cá hồi nóng hổi với nước dùng đậm đà, kết hợp với các loại rau củ tươi ngon sẽ là lựa chọn tuyệt vời cho những ngày lạnh.</li>
             <img src={blog19} alt="" className="w-full h-auto object-cover rounded-xl mb-4" />
           </ul>
+        </>
+      ),
+    },
+  ]},
+  { id: 5, title: "15 thực phẩm giúp tăng cân nhanh hiệu quả nhất 2025", sections: [
+    {
+      title: "1. Sinh tố protein tự làm",
+      content: (
+        <>
+          <p>Làm sao để tăng cân nhanh? Uống sinh tố protein tự làm có thể được xem như một cách tăng cân nhanh chóng và bổ dưỡng. Bằng cách này cũng cho phép bạn kiểm soát hoàn toàn hương vị và hàm lượng chất dinh dưỡng. Chẳng hạn, bạn có thể chuẩn bị cho mình một ly sinh tố chuối socola: 1 quả chuối, 1 muỗng whey protein socola và 15ml đậu phộng hoặc các loại hạt khác...</p>
+          <p className="mt-4">Các công thức sinh tố này có thể cung cấp cho cơ thể khoảng 400–600 calo, cùng với một lượng lớn protein và các vitamin và khoáng chất quan trọng khác.</p>
+        </>
+      ),
+    },
+    {
+      title: "2. Sữa",
+      content: (
+        <>
+          <p>Sữa đã được sử dụng như một thực phẩm giúp tăng cân hoặc xây dựng cơ bắp. Sữa cung cấp sự cân bằng tốt giữa protein, carbs và chất béo và là nguồn cung cấp canxi dồi dào, cũng như các vitamin và khoáng chất khác.</p>
+          <p className="mt-4">Đối với những người đang cố gắng tăng thêm cơ bắp, protein sữa sẽ cung cấp cả casein và whey protein. Hơn nữa, sữa có thể giúp bạn thêm cơ bắp khi kết hợp với cử tạ. Ngoài ra, sữa, hoặc whey và casein kết hợp, có thể dẫn đến tăng khối lượng lớn hơn các nguồn protein khác.</p>
+        </>
+      ),
+    },
+    {
+      title: "3. Cơm",
+      content: (
+        <>
+          <p>158 gam gạo trắng nấu chín cung cấp 204 calo, 44 ​​gram carbs và rất ít chất béo. Cơm cũng khá giàu calo, có nghĩa là bạn có thể dễ dàng hấp thụ một lượng lớn carbs và calo từ một khẩu phần ăn, giúp bạn ăn nhiều thức ăn hơn.</p>
+          <p className="mt-4">Có nhiều cách để biến món cơm trở nên ngon miệng hơn. Cách dễ nhất tăng cường protein khi bổ sung thêm một số thành phần sau khi đã nấu chín cơm: bơ và pho mát Parmesan; bông cải xanh và pho mát; trứng; hạt mè nướng, đậu phộng hoặc hạt điều...</p>
+        </>
+      ),
+    },
+    {
+      title: "4. Các loại hạt và bơ hạt",
+      content: (
+        <>
+          <p>Các loại hạt và bơ hạt - lựa chọn hoàn hảo nếu bạn đang muốn tăng cân. 1⁄4 cốc hạnh nhân chứa 170 calo, 6 gam protein, 4 gam chất xơ và 15 gam chất béo lành mạnh. Vì các thành phần dinh dưỡng của các loại hạt rất giàu calo, chỉ cần hai nắm mỗi ngày trong bữa ăn hoặc như một bữa ăn nhẹ có thể nhanh chóng bổ sung hàng trăm calo.</p>
+          <img src={blog20} alt="" className="w-full h-auto object-cover rounded-xl mt-4" />
+        </>
+      ),
+    },
+    {
+      title: "5. Các loại thịt đỏ",
+      content: (
+        <>
+          <p>Các loại thịt đỏ có lẽ được xem như một trong những thực phẩm xây dựng cơ bắp tốt nhất đồng thời cũng được xem như thực phẩm tăng cân. Chẳng hạn, 170 gram bít tết chứa khoảng 5 gram leucine. Leucine, axit amin quan trọng mà cơ thể bạn cần để kích thích tổng hợp protein cơ và thêm mô cơ mới. Ngoài ra, thịt đỏ cũng chứa 456 calo và gần 49 gam protein, thịt đỏ cung cấp creatine tự nhiên tốt nhất trong chế độ ăn, có thể bổ sung một số hợp chất giúp xây dựng cơ bắp tốt nhất.</p>
+          <p className="mt-4">Cả thịt nạc và mỡ đều là nguồn cung cấp protein khá phong phú, tuy nhiên thịt mỡ cung cấp nhiều calo hơn, có thể giúp bạn tăng cân.
+          </p>
+        </>
+      ),
+    },
+    {
+      title: "6. Khoai tây và tinh bột",
+      content: (
+        <>
+          <p>Khoai tây và các loại thực phẩm giàu tinh bột khác được xem như nguồn thực phẩm cung cấp calo tốt cho những người muốn tăng cân. Tuy nhiên, bạn nên lựa chọn một trong những nguồn tinh bột lành mạnh sau: quinoa; yến mạch; ngô; kiều mạch; khoai tây và khoai lang; bí đao; rau củ mùa đông; đậu và các loại đậu</p>
+          <p className="mt-4">Khoai tây và các loại khoai củ khác không chỉ bổ sung carbs và calo để giúp bạn tăng cân mà còn làm tăng lượng dự trữ glycogen trong cơ bắp của bạn. Glycogen, nguồn nhiên liệu chủ yếu cho hầu hết các hoạt động và thể thao.</p>
+          <p className="mt-4">Nhiều nguồn carb trong số những thực phẩm kể trên cũng cung cấp các chất dinh dưỡng và chất xơ quan trọng, cũng như tinh bột kháng, có thể giúp nuôi dưỡng vi khuẩn đường ruột của bạn.</p>
+        </>
+      ),
+    },
+    {
+      title: "7. Cá hồi và cá nhiều dầu",
+      content: (
+        <>
+          <p>Giống như thịt đỏ, cá hồi và cá có dầu cũng thuộc nguồn cung cấp protein tuyệt vời và chất béo lành mạnh quan trọng. Trong số tất cả các chất dinh dưỡng mà cá hồi và cá có dầu cung cấp, axit béo omega-3, một trong những chất quan trọng nhất và được biết đến nhiều nhất. Axit béo này mang lại nhiều lợi ích cho sức khỏe của bạn và giúp chống lại bệnh tật.</p>
+          <p className="mt-4">170 gram cá hồi sockeye hoang dã đã được loại bỏ xương cung cấp khoảng 250 calo và 12 gram chất béo lành mạnh cùng với 37 gam protein chất lượng cao sẽ giúp bạn xây dựng cơ bắp hoặc tăng cân hiệu quả hơn.</p>
+        </>
+      ),
+    },
+    {
+      title: "8. Thực phẩm bổ sung protein",
+      content: (
+        <>
+          <p>Uống bổ sung protein được xem như chiến lược phổ biến giúp tăng cân cho các vận động viên và người tập thể hình muốn tăng cân. Thực phẩm bổ sung protein khá phong phú bao gồm whey, đậu nành, trứng và protein đậu.</p>
+          <p className="mt-4">Một số người nghĩ whey protein không lành mạnh hoặc không tự nhiên, nhưng whey protein được làm từ sữa và đã được chứng minh là giúp cải thiện các tình trạng của sức khỏe đồng thời giảm nguy cơ bệnh tật. Nếu bạn cũng đang luyện tập thì bổ sung protein có thể còn quan trọng hơn, vì nhu cầu protein hàng ngày của bạn tăng lên.</p>
+          <p className="mt-4">Whey protein chứa tất cả các axit amin cần thiết cho cơ thể và có tác dụng để kích thích sự phát triển của cơ bắp.</p>
+          <img src={blog21} alt="" className="w-full h-auto object-cover rounded-xl mt-4" />
+
+        </>
+      ),
+    },
+    {
+      title: "9. Trái cây sấy khô",
+      content: (
+        <>
+          <p>Ăn gì tăng cân nhanh? Trái cây sấy khô có hàm lượng calo cao cũng cung cấp chất chống oxy hóa và vi chất dinh dưỡng. Bạn có thể sử dụng được nhiều loại trái cây sấy khô khác nhau, và tất cả chúng đều có hàm lượng đường tự nhiên cao, giúp tăng cân nhanh.</p>
+          <p className="mt-4">Trong khi nhiều người nghĩ rằng trái cây sẽ mất hầu hết các chất dinh dưỡng khi sấy khô, nhưng thực tế trái cây sấy khô chứa nhiều chất xơ và các vitamin và khoáng chất của trái cây sấy khô vẫn còn nguyên vẹn.</p>
+        </>
+      ),
+    },
+    {
+      title: "10. Bánh mì ngũ cốc nguyên hạt",
+      content: "Bánh mì ngũ cốc nguyên hạt nguồn cung cấp carb tốt khác để giúp bạn tăng cân. Bạn có thể thực hiện một số bữa ăn rất đơn giản, đồng thời cung cấp nhiều calo và cân bằng bằng cách kết hợp bánh mì với các nguồn thực phẩm giàu protein như: Trứng, thịt và pho mát.",
+    },
+    {
+      title: "11. Bơ",
+      content: (
+        <>
+          <p>Bơ chứa nhiều chất béo lành mạnh. Hơn nữa, bơ khá giàu calo và do đó là một thực phẩm tuyệt vời để giúp bạn tăng cân.</p>
+          <p className="mt-4">Một quả bơ lớn cung cấp thành phần dinh dưỡng khoảng 322 calo, 29 gam chất béo và 14 gam chất xơ. Thêm vào đó, thành phần dinh dưỡng của bơ cũng chứa nhiều vitamin, khoáng chất và các hợp chất thực vật có lợi khác nhau.</p>
+        </>
+      ),
+    },
+    {
+      title: "12. Ngũ cốc tốt cho sức khỏe",
+      content: "Ngũ cốc lành mạnh có thể cung cấp carbs, calo và chất dinh dưỡng tuyệt vời cho cơ thể. Trong khi bạn nên tránh ngũ cốc đã qua chế biến, nhiều đường, thì các dạng ngũ cốc lành mạnh hơn, chẳng hạn như: Bột yến mạch nấu với sữa nguyên chất, nguồn carb tuyệt vời để thêm vào chế độ ăn của bạn. Một cốc bột yến mạch nấu chín có thể cung cấp cho cơ thể khoảng 130 calo.",
+    },
+    {
+      title: "13. Thanh ngũ cốc",
+      content: (
+        <>
+          <p>Thanh ngũ cốc trung bình cung cấp cho cơ thể từ 150–200 calo. Thanh ngũ cốc cũng được xem như một lựa chọn tốt trước hoặc sau một buổi tập vì chúng có xu hướng chứa hỗn hợp các loại carbs tiêu hóa chậm và tiêu hóa nhanh.</p>
+          <p className="mt-4">Thanh ngũ cốc được sử dụng như một bữa ăn nhẹ hoặc bữa ăn khi di chuyển, hãy thử kết hợp một thanh ngũ cốc với các nguồn protein khác, chẳng hạn như sữa chua Hy Lạp hay trứng luộc hay thịt nguội hay sữa lắc protein.</p>
+        </>
+      ),
+    },
+    {
+      title: "14. Sô cô la đen",
+      content: (
+        <>
+          <p>Sô cô la đen có chất lượng cao sẽ cung cấp rất nhiều chất chống oxy hóa cho cơ thể đồng thời mang lại nhiều lợi ích cho sức khỏe. Sôcôla đen với ít nhất 70% cacao (loại hạt làm ra sôcôla) được cho là giúp điều chỉnh hormone căng thẳng và lượng đường trong máu. Sô cô la cũng có thể giúp giảm nguy cơ mắc bệnh tim, một số bệnh ung thư, viêm nhiễm, căng thẳng và bệnh tiểu đường loại 2.</p>
+        </>
+      ),
+    },
+    {
+      title: "15. Phô mai",
+      content: (
+        <>
+          <p>Phô mai chứa nhiều calo và chất béo. 28 gam phô mai có 110 calo và 7 gram protein.</p>
+          <p className="mt-4">Phô mai có nhiều loại khác nhau, có thể là ở dạng kem, mềm, hoặc cứng. Nhiều loại pho mai chứa nhiều cholesterol và chất béo bão hòa nên tốt nhất tiêu thụ những loại phô mai này ở mức vừa phải.</p>
+          <img src={blog22} alt="" className="w-full h-auto object-cover rounded-xl mt-4" />
         </>
       ),
     },
