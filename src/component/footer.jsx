@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaFacebook, FaInstagram, FaEnvelope, FaPhone, FaMapMarkerAlt, FaHeart } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaEnvelope, FaPhone, FaMapMarkerAlt,  FaTiktok } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -76,7 +76,7 @@ const Footer = () => {
                 <span>Facebook</span>
               </a>
               <a 
-                href="#" 
+                href="https://www.instagram.com/yumble.vn?igsh=eDUzNnA2anpybGtw&utm_source=qr&fbclid=IwZXh0bgNhZW0CMTEAAR0vKWI-8EASOMPGbCWXKlFaYGoh82IiLtxcyys116-cRepXgGFBTiW6fsg_aem_SGekIFRPcYnA6G4ryaLHOg" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center text-sm sm:text-base hover:text-pink-400 transition-colors duration-200 group"
@@ -85,11 +85,13 @@ const Footer = () => {
                 <span>Instagram</span>
               </a>
               <a 
-                href="mailto:contact@yumble.com" 
-                className="flex items-center text-sm sm:text-base hover:text-red-400 transition-colors duration-200 group"
+                href="https://www.tiktok.com/@yumblevn?_t=ZS-8uwMAVL1by4&_r=1&fbclid=IwZXh0bgNhZW0CMTEAAR11x34du9BOtaw8_xhFrvkXCVMPNf8FXbb0iBTeKOqv9ofcNLwTrAEZc2E_aem_kk3SM1mAvCMlQfXsal1Dcg" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center text-sm sm:text-base hover:text-[#00f2ea] transition-colors duration-200 group"
               >
-                <FaEnvelope className="mr-3 text-xl group-hover:text-red-400 transition-colors duration-200" />
-                <span>Email</span>
+                <FaTiktok className="mr-3 text-xl group-hover:text-[#00f2ea] transition-colors duration-200" />
+                <span>TikTok</span>
               </a>
             </div>
           </div>
@@ -109,9 +111,7 @@ const Footer = () => {
             <span>Thiết kế và phát triển bởi</span>
             <span className="text-white hover:text-red-400 transition-colors duration-200">Trần Minh Hiếu</span>
             <span>với</span>
-            <FaHeart className="mx-1 text-red-400 animate-pulse" />
-            <span>từ</span>
-            <span className="text-white hover:text-red-400 transition-colors duration-200">Nguyễn Minh Thiên</span>
+            <span className="text-white hover:text-red-400 transition-colors duration-200">Trần Nguyễn Minh Thiên</span>
           </p>
         </div>
       </div>

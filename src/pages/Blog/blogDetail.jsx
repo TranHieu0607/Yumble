@@ -24,7 +24,7 @@ import blog21 from '../../assets/blog5.1.png';
 import blog22 from '../../assets/blog5.2.png';
 
 
-import { section } from "framer-motion/client";
+
 
 const posts = [
   { id: 1, title: "Thực Đơn Eat Clean Giảm Cân - Món Healthy Đơn Giản với Yumble", sections: [
@@ -466,7 +466,12 @@ const BlogDetail = () => {
       )}
 <h2 className="text-2xl sm:text-2xl md:text-2xl font-semibold text-gray-800 mb-2">
   <strong>👉 ĐẶT MEAL KIT NGAY</strong> 
-  <a href="https://www.facebook.com/profile.php?id=61573046339972" className="text-blue-800 hover:underline ml-2">
+  <a 
+    href="https://www.facebook.com/profile.php?id=61573046339972" 
+    className="text-blue-800 hover:underline ml-2"
+    target="_blank" 
+    rel="noopener noreferrer"
+  >
     để tận hưởng bữa ăn lành mạnh mà không mất nhiều thời gian!
   </a>
 </h2>
