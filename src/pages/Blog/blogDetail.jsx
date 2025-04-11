@@ -22,7 +22,16 @@ import blog19 from '../../assets/blog4.3.png';
 import blog20 from '../../assets/blog5.png';
 import blog21 from '../../assets/blog5.1.png';
 import blog22 from '../../assets/blog5.2.png';
-
+import blog23 from '../../assets/blog6.png';
+import blog24 from '../../assets/blog6.1.png';
+import blog25 from '../../assets/blog6.2.png';
+import blog26 from '../../assets/blog6.3.png';
+import blog27 from '../../assets/blog6.4.png';
+import blog28 from '../../assets/blog7.png';
+import blog29 from '../../assets/blog7.1.png';
+import blog30 from '../../assets/blog7.2.png';
+import blog31 from '../../assets/blog7.3.png';
+import blog32 from '../../assets/blog7.4.png';
 
 
 
@@ -435,6 +444,235 @@ const posts = [
       ),
     },
   ]},
+  { id: 6, title: "Tổng Hợp Các Món Salad Dễ Làm Tại Nhà – Vừa Ngon Lại Tốt Cho Sức Khỏe", sections: [
+    {
+      title: "1. Salad Ức Gà Thanh Đạm – Món Ăn Healthy Chuẩn Gym 💪",
+      content: (
+        <>
+          <img src={blog23} alt="" className="w-full h-auto object-cover rounded-xl mt-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li>100g ức gà</li>
+            <li>1 bát rau xà lách</li>
+            <li>Cà chua bi, dưa leo</li>
+            <li>1 thìa dầu oliu, nước cốt chanh hoặc sữa chua Hy Lạp</li>
+          </ul>
+          <p>🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li>Luộc hoặc áp chảo ức gà, để nguội rồi xé sợi.</li>
+            <li>Trộn đều rau, cà chua, dưa leo, thịt gà và nước sốt.</li>
+          </ol>
+          <p>✅ <strong>Lợi ích:</strong> Giàu protein, ít calo, phù hợp cho người tập luyện hoặc đang giảm cân.</p>
+        </>
+      ),
+    },
+    {
+      title: "2. Salad Trứng – Nhanh Gọn Cho Buổi Sáng Bận Rộn 🍳",
+      content: (
+        <>
+          <img src={blog24} alt="" className="w-full h-auto object-cover rounded-xl mt-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li>2 quả trứng gà luộc</li>
+            <li>Rau xà lách, dưa leo, hành tây</li>
+            <li>Mayonnaise hoặc sữa chua không đường</li>
+          </ul>
+          <p>🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li>Cắt lát trứng, rau và trộn cùng nước sốt.</li>
+            <li>Có thể thêm 1 lát bánh mì đen hoặc hạt chia để tăng no lâu.</li>
+          </ol>
+          <p>✅ <strong>Lợi ích:</strong> Bổ sung chất béo tốt và protein cho ngày mới năng lượng.</p>
+        </>
+      ),
+    },
+    {
+      title: "3. Salad Trái Cây – Món Ăn Vặt Không Lo Tăng Cân 🍎🍌",
+      content: (
+        <>
+          <img src={blog25} alt="" className="w-full h-auto object-cover rounded-xl mt-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li>Táo, chuối, dưa hấu, kiwi (hoặc bất kỳ loại trái cây bạn thích)</li>
+            <li>1 thìa mật ong, 1 ít chanh tươi</li>
+          </ul>
+          <p>🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li>Cắt nhỏ các loại trái cây, trộn đều với mật ong và nước chanh.</li>
+          </ol>
+          <p>✅ <strong>Lợi ích:</strong> Cung cấp vitamin, chất xơ và giúp da sáng khỏe tự nhiên.</p>
+        </>
+      ),
+    },
+    {
+      title: "4. Salad Tôm – Vừa Sang Chảnh Vừa Dễ Làm 🍤",
+      content: (
+        <>
+          <img src={blog26} alt="" className="w-full h-auto object-cover rounded-xl mt-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li>Tôm luộc bóc vỏ</li>
+            <li>Xà lách, cà chua, bơ</li>
+            <li>Dầu mè, nước tương, tỏi băm</li>
+          </ul>
+          <p>🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li>Trộn tôm với rau củ và nước sốt đã pha.</li>
+            <li>Có thể thêm mè rang hoặc hạt điều để tăng vị giòn.</li>
+          </ol>
+          <p>✅ <strong>Lợi ích:</strong> Cung cấp omega-3, giàu dinh dưỡng và ít chất béo xấu.</p>
+        </>
+      ),
+    },
+    {
+      title: "5. Salad Đậu Hũ – Món Chay Dễ Làm, Thanh Mát 🌱",
+      content: (
+        <>
+          <img src={blog27} alt="" className="w-full h-auto object-cover rounded-xl mt-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li>Đậu hũ non</li>
+            <li>Rong biển khô, dưa leo, cà rốt</li>
+            <li>Nước tương, dầu mè, mè rang</li>
+          </ul>
+          <p>🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li>Cắt đậu hũ thành khối nhỏ, trộn cùng các nguyên liệu còn lại.</li>
+            <li>Ướp lạnh trong 15 phút trước khi ăn để tăng hương vị.</li>
+          </ol>
+          <p>✅ <strong>Lợi ích:</strong> Phù hợp cho người ăn chay, tốt cho tiêu hóa và làn da.</p>
+        </>
+      ),
+    },
+    {
+      title: "🌟 Yumble – Cá Nhân Hóa Bữa Sáng Việt Theo Gu Riêng Của Bạn!",
+      content: (
+        <>
+          <p>Bạn yêu món Việt nhưng không biết ăn gì mỗi sáng?</p>
+          <p>👉 Để Yumble gợi ý:</p>
+          <ul>
+            <li>🔹 Gợi ý món ăn Việt theo lịch trình và ngân sách.</li>
+            <li>🔹 Cung cấp công thức nấu ăn và nguyên liệu combo tiện lợi.</li>
+            <li>🔹 Tối ưu thời gian chuẩn bị mà vẫn giữ đúng hương vị truyền thống.</li>
+          </ul>
+          <p>📲 Tải ngay Yumble – ứng dụng lập kế hoạch bữa ăn thông minh cho người Việt hiện đại!</p>
+        </>
+      ),
+    },
+  ]},
+  { id: 7, title: "Top 5 Món Ăn Sáng Việt Nam Nhanh Gọn, Đầy Đủ Dinh Dưỡng", sections: [
+    {
+      title: "1. Xôi Mặn – Bữa Sáng No Lâu Chuẩn Vị Việt",
+      content: (
+        <>
+          <img src={blog28} alt="" className="w-full h-auto object-cover rounded-xl mt-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li>Gạo nếp</li>
+            <li>Chà bông, lạp xưởng, trứng cút, đậu phộng</li>
+            <li>Hành phi</li>
+          </ul>
+          <p>🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li>Hấp xôi chín mềm, trộn cùng các topping.</li>
+            <li>Có thể chuẩn bị sẵn từ tối, sáng hôm sau hấp lại vài phút là ăn ngay.</li>
+          </ol>
+          <p>✅ <strong>Dinh dưỡng:</strong> Giàu tinh bột, protein và chất béo – giữ no lâu, thích hợp cho ngày bận rộn.</p>
+        </>
+      ),
+    },
+    {
+      title: "2. Bánh Mì Thịt Nguội – Siêu Tốc, Đậm Đà",
+      content: (
+        <>
+          <img src={blog29} alt="" className="w-full h-auto object-cover rounded-xl mt-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li>Bánh mì</li>
+            <li>Thịt nguội, pate, dưa leo, rau thơm</li>
+            <li>Nước tương, tương ớt</li>
+          </ul>
+          <p>🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li>Cắt đôi bánh mì, cho nhân vào, ép nhẹ là có ngay bữa sáng tiện lợi.</li>
+          </ol>
+          <p>✅ <strong>Dinh dưỡng:</strong> Đủ đạm – xơ – tinh bột, dễ mang đi làm hoặc ăn nhanh tại nhà.</p>
+        </>
+      ),
+    },
+    {
+      title: "3. Cháo Trứng – Ấm Nóng Dễ Tiêu Hóa",
+      content: (
+        <>
+          <img src={blog30} alt="" className="w-full h-auto object-cover rounded-xl mt-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li>1 bát cháo trắng</li>
+            <li>1 quả trứng gà</li>
+            <li>Hành lá, tiêu, nước mắm</li>
+          </ul>
+          <p>🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li>Khi cháo sôi, đập trứng vào khuấy đều, nêm nếm vừa ăn.</li>
+          </ol>
+          <p>✅ <strong>Dinh dưỡng:</strong> Dễ tiêu, nhiều đạm – rất phù hợp cho người lớn tuổi hoặc trẻ nhỏ.</p>
+        </>
+      ),
+    },
+    {
+      title: "4. Bún Thịt Nướng – Mát, Lành Mạnh, Đủ Chất",
+      content: (
+        <>
+          <img src={blog31} alt="" className="w-full h-auto object-cover rounded-xl mt-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li>Bún tươi</li>
+            <li>Thịt nướng sẵn (ướp từ tối)</li>
+            <li>Rau sống, nước mắm chua ngọt</li>
+          </ul>
+          <p>🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li>Sáng chỉ cần nướng thịt lại nhanh, trụng bún, dọn ra là ăn ngay.</li>
+          </ol>
+          <p>✅ <strong>Dinh dưỡng:</strong> Cân bằng chất xơ – protein – tinh bột.</p>
+        </>
+      ),
+    },
+    {
+      title: "5. Cơm Tấm – Món Sáng Quốc Dân Của Người Sài Gòn",
+      content: (
+        <>
+          <img src={blog32} alt="" className="w-full h-auto object-cover rounded-xl mt-4" />
+          <p>🥢 <strong>Nguyên liệu:</strong></p>
+          <ul>
+            <li>Cơm tấm, sườn nướng, trứng ốp la</li>
+            <li>Dưa leo, đồ chua, nước mắm</li>
+          </ul>
+          <p>🔥 <strong>Cách làm:</strong></p>
+          <ol>
+            <li>Sườn có thể ướp sẵn, nướng nhanh buổi sáng.</li>
+            <li>Cơm tấm dùng nồi cơm hoặc hấp lại từ hôm trước.</li>
+          </ol>
+          <p>✅ <strong>Dinh dưỡng:</strong> Rất giàu năng lượng – phù hợp cho người vận động nhiều trong ngày.</p>
+        </>
+      ),
+    },
+    {
+      title: "🌟 Yumble – Cá Nhân Hóa Bữa Sáng Việt Theo Gu Riêng Của Bạn!",
+      content: (
+        <>
+          <p>Bạn yêu món Việt nhưng không biết ăn gì mỗi sáng?</p>
+          <p>👉 Để Yumble gợi ý:</p>
+          <ul>
+            <li>🔹 Gợi ý món ăn Việt theo lịch trình và ngân sách.</li>
+            <li>🔹 Cung cấp công thức nấu ăn và nguyên liệu combo tiện lợi.</li>
+            <li>🔹 Tối ưu thời gian chuẩn bị mà vẫn giữ đúng hương vị truyền thống.</li>
+          </ul>
+          <p>📲 Tải ngay Yumble – ứng dụng lập kế hoạch bữa ăn thông minh cho người Việt hiện đại!</p>
+        </>
+      ),
+    },
+  ]},
 ];
 
 const BlogDetail = () => {
@@ -489,3 +727,4 @@ const BlogDetail = () => {
 };
 
 export default BlogDetail;
+

@@ -5,6 +5,8 @@ import blog2 from '../../assets/blog2.6.png';
 import blog3 from '../../assets/blog3.png';
 import blog4 from '../../assets/blog4.png';
 import blog5 from '../../assets/blog5.png';
+import blog6 from '../../assets/blog6.2.png';
+import blog7 from '../../assets/blog7.2.png';
 
 const Blog = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,6 +18,8 @@ const Blog = () => {
     { id: 3, title: 'Tổng Hợp Những Món Ngon Từ Thịt Gà Dễ Làm Tại Nhà', image: blog3, description: 'Khám phá ngay các món ngon từ thịt gà dễ làm với cách chế biến đơn giản. Đặc biệt, hướng dẫn chi tiết cách chế biến ức gà giúp bạn có bữa ăn ngon miệng và bổ dưỡng!' },
     { id: 4, title: 'Món Ngon Từ Cá Hồi: Những Món Ăn Độc Đáo Từ Cá Hồi Cho Bữa Ăn Ngon Miệng', image: blog4, description: 'Cá hồi là một trong những loại cá được yêu thích nhất trên thế giới nhờ vào hương vị thơm ngon và giá trị dinh dưỡng cao. Với omega-3, vitamin D và protein, cá hồi không chỉ tốt cho sức khỏe mà còn là nguyên liệu tuyệt vời cho nhiều món ăn hấp dẫn. Dưới đây là một số món ngon từ cá hồi mà bạn có thể thử làm ngay tại nhà, đặc biệt là trong ứng dụng Yumble.' },
     { id: 5, title: '15 thực phẩm giúp tăng cân nhanh hiệu quả nhất 2025', image: blog5, description: 'Đối với một số người, tăng cân hoặc tăng thêm cơ bắp có thể sẽ gặp một số khó khăn như giảm cân. Tuy nhiên để đạt được mục tiêu, bạn chỉ cần thêm một số loại thực phẩm vào chế độ ăn thì có thể làm cho nỗ lực tăng cân của đạt được hiệu quả tốt hơn. Bài viết sẽ giới thiệu một số loại thực phẩm tốt nhất giúp bạn tăng cân hoặc thêm cơ bắp một cách lành mạnh.' },
+    { id: 6, title: 'Tổng Hợp Các Món Salad Dễ Làm Tại Nhà – Vừa Ngon Lại Tốt Cho Sức Khỏe 🥗', image: blog6, description: 'Bạn đang tìm kiếm những món ăn nhẹ nhàng, thanh đạm nhưng vẫn đủ dinh dưỡng và đẹp mắt? Salad chính là lựa chọn lý tưởng! Với nguyên liệu dễ tìm và cách làm cực kỳ đơn giản, bạn hoàn toàn có thể chế biến ngay tại nhà.' },
+    { id: 7, title: '🍲 Top 5 Món Ăn Sáng Việt Nam Nhanh Gọn, Đầy Đủ Dinh Dưỡng', image: blog7, description: 'Nếu bạn yêu thích những hương vị truyền thống nhưng vẫn cần sự nhanh chóng và tiện lợi vào buổi sáng, thì các món ăn sáng Việt dưới đây là lựa chọn lý tưởng: ngon – đủ chất – dễ làm ngay tại nhà.' },
   ];
 
   const totalPages = Math.ceil(posts.length / postsPerPage);
