@@ -47,7 +47,7 @@ const Footer = () => {
             <div className="space-y-3">
               <p className="flex items-center text-sm sm:text-base group">
                 <FaPhone className="mr-3 text-red-400 group-hover:text-red-300 transition-colors duration-200" />
-                <span className="group-hover:text-red-400 transition-colors duration-200">+84 123 456 789</span>
+                <span className="group-hover:text-red-400 transition-colors duration-200">+84 867 632 610</span>
               </p>
               <p className="flex items-center text-sm sm:text-base group">
                 <FaEnvelope className="mr-3 text-red-400 group-hover:text-red-300 transition-colors duration-200" />
@@ -105,7 +105,7 @@ const Footer = () => {
         {/* Copyright Section */}
         <div className="text-center space-y-3 sm:space-y-4">
           <p className="text-xs sm:text-sm text-gray-400">
-            &copy; 2024 Yumble. Đã đăng ký bản quyền.
+            &copy; 2025 Yumble. Đã đăng ký bản quyền.
           </p>
           <p className="text-xs sm:text-sm text-gray-400 flex items-center justify-center flex-wrap gap-1">
             <span>Thiết kế và phát triển bởi</span>

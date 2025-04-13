@@ -4,6 +4,7 @@ import overlayImage from '../../assets/logoyumble.png'
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchFirstSixFoods } from '../../store/food'
+import discount from '../../assets/discount.png'
 
 const HomePage = () => {
   const dispatch = useDispatch()
@@ -108,6 +109,9 @@ const HomePage = () => {
           </svg>
           </div>
         </div>
+      </div>
+      <div>
+        <img src={discount} alt="Discount" className="w-full h-[500px] object-cover" />
       </div>
       <div className="flex flex-col items-center bg-[#DACEC2] p-10">
         <h2 className="text-2xl md:text-3xl font-bold mb-8 md:mb-12 text-[#293E31] text-center">Đồ ăn Việt Nam</h2>
