@@ -110,9 +110,14 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div>
-        <img src={discount} alt="Discount" className="w-full h-[500px] object-cover" />
+      <div >
+        <img
+          src={discount}
+          alt="Discount"
+          className="w-full h-[180px] sm:h-[250px] md:h-[350px] lg:h-[450px] shadow-lg hover:shadow-xl transition-all duration-300"
+        />
       </div>
+
       <div className="flex flex-col items-center bg-[#DACEC2] p-10">
         <h2 className="text-2xl md:text-3xl font-bold mb-8 md:mb-12 text-[#293E31] text-center">Đồ ăn Việt Nam</h2>
         <div className="flex flex-col md:flex-row justify-between w-full max-w-7xl items-center px-4 md:px-8">
